@@ -6,7 +6,7 @@
 #    By: lade-kon <lade-kon@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2024/10/11 15:53:12 by lade-kon      #+#    #+#                  #
-#    Updated: 2024/10/11 16:19:31 by lade-kon      ########   odam.nl          #
+#    Updated: 2024/10/11 16:57:52 by lade-kon      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,13 +17,17 @@ CC				:=	cc
 #CFLAGS are the compiler flags: show all warnings and include debug info
 CFLAGS			:=	-Wall -Werror -Wextra -g #-fsanitize=address
 
-INCLS_PHILO		:=	philo/incl
+INCLS_PHILO		:=	incl
 INCLUDES		:=	-I $(INCLS_PHILO)
 
-SRC_DIR			:=	philo/src
+SRC_DIR			:=	src
 
 SRC_FILES		:=	main.c \
-					
+					error_msg.c \
+					init_data.c \
+					ft_atoi.c
+
+
 SRC				:=	$(addprefix $(SRC_DIR)/, $(SRC_FILES))
 
 OBJ_DIR			:=	obj
@@ -34,7 +38,7 @@ OBJ				:=	$(addprefix $(OBJ_DIR)/, $(OBJ_FILES))
 all: $(NAME)
 
 $(NAME): $(OBJ_DIR) $(OBJ) 
-	$(CC) $(CFLAGS) $(OBJ) $(INCLUDES)  -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJ) $(INCLUDES) -o $(NAME)
 
 $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)

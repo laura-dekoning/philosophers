@@ -1,20 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
+/*   structs.h                                          :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2024/10/11 16:15:26 by lade-kon      #+#    #+#                 */
-/*   Updated: 2024/10/11 16:52:30 by lade-kon      ########   odam.nl         */
+/*   Created: 2024/10/11 16:22:56 by lade-kon      #+#    #+#                 */
+/*   Updated: 2024/10/11 16:41:14 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#ifndef STRUCTS_H
+# define STRUCTS_H
 
-int	main(int argc, char **argv)
+# include <pthread.h>
+# include <stdbool.h>
+# include <inttypes.h>
+
+typedef	struct s_data
 {
-	if (argc != 5 && argc != 6)
-		error_msg(ARGS);
-	init_data(argc, argv);
-}
+	int	philo_count;
+	int	time_die;
+	int	time_eat;
+	int	time_sleep;
+	int	eat_count;
+
+}	t_data;
+
+
+#endif
