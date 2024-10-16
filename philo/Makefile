@@ -6,7 +6,7 @@
 #    By: lade-kon <lade-kon@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2024/10/11 15:53:12 by lade-kon      #+#    #+#                  #
-#    Updated: 2024/10/11 16:57:52 by lade-kon      ########   odam.nl          #
+#    Updated: 2024/10/16 18:40:56 by lade-kon      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,7 @@ NAME			:=	philo
 CC				:=	cc
 #CFLAGS are the compiler flags: show all warnings and include debug info
 CFLAGS			:=	-Wall -Werror -Wextra -g #-fsanitize=address
+TFLAGS			:=	-pthread
 
 INCLS_PHILO		:=	incl
 INCLUDES		:=	-I $(INCLS_PHILO)
@@ -23,7 +24,7 @@ INCLUDES		:=	-I $(INCLS_PHILO)
 SRC_DIR			:=	src
 
 SRC_FILES		:=	main.c \
-					error_msg.c \
+					error_exit.c \
 					init_data.c \
 					ft_atoi.c
 
@@ -38,14 +39,14 @@ OBJ				:=	$(addprefix $(OBJ_DIR)/, $(OBJ_FILES))
 all: $(NAME)
 
 $(NAME): $(OBJ_DIR) $(OBJ) 
-	$(CC) $(CFLAGS) $(OBJ) $(INCLUDES) -o $(NAME)
+	$(CC) $(CFLAGS) $(TFLAGS) $(OBJ) $(INCLUDES) -o $(NAME)
 
 $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)
 	mkdir -p $(OBJ_DIR)/$(SRC_DIR)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+	@$(CC) $(CFLAGS) $(TFLAGS) $(INCLUDES) -c $< -o $@
 
 
 norminette:

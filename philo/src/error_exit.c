@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   error_msg.c                                        :+:    :+:            */
+/*   error_exit.c                                       :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/11 16:42:44 by lade-kon      #+#    #+#                 */
-/*   Updated: 2024/10/11 16:47:15 by lade-kon      ########   odam.nl         */
+/*   Updated: 2024/10/16 18:49:07 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,9 @@ static void	ft_puterror_fd(char *str, int fd)
 	exit(EXIT_FAILURE);
 }
 
-void	error_msg(int flag)
+void	error_exit(t_table *data, char *str)
 {
-	if (flag == ARGS)
-		ft_puterror_fd("Not the right amount of arguments!", STDERR_FILENO);
+	if (data)
+		free(data);
+	ft_puterror_fd(str, STDERR_FILENO);
 }

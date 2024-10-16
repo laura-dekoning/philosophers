@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_atoi.c                                          :+:    :+:            */
+/*   ft_atol.c                                          :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/10/17 21:28:01 by lade-kon      #+#    #+#                 */
-/*   Updated: 2024/10/11 16:53:46 by lade-kon      ########   odam.nl         */
+/*   Created: 2022/10/21 07:26:37 by lde-koni      #+#    #+#                 */
+/*   Updated: 2024/10/16 18:44:57 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	ft_atoi(const char *str)
+long	ft_atol(const char *str)
 {
-	int	neg_pos;
-	int	res;
-	int	i;
+	long	neg_pos;
+	long	res;
+	int		i;
 
 	neg_pos = 1;
 	res = 0;

@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/11 16:15:26 by lade-kon      #+#    #+#                 */
-/*   Updated: 2024/10/11 16:52:30 by lade-kon      ########   odam.nl         */
+/*   Updated: 2024/10/16 18:57:49 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,28 @@
 
 int	main(int argc, char **argv)
 {
+	t_table	table;
+
 	if (argc != 5 && argc != 6)
-		error_msg(ARGS);
-	init_data(argc, argv);
+		error_exit(NULL, ARGS_ERROR);
+	parse_input(&table, argc, argv);
+	data_init(&table);
+	dinner_start(&table);
+	clean_table(&table);
+
+
+
+
+
+
+// 	pthread_t	thread1;
+// 	pthread_mutex_t	mutex;
+// 	pthread_mutex_lock_t	mutex_lock;
+
+// 	pthread_create(&thread1, NULL, &function, NULL);
+// 	pthread_join(&thread1, NULL);
+// 	pthread_mutex_init(&mutex_lock, NULL);
+// 	pthread_mutex_lock(&mutex_lock);
+// //my code here
+// 	pthread_mutex_unlock(&mutex_lock);
 }
