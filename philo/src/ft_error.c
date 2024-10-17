@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   error_exit.c                                       :+:    :+:            */
+/*   ft_error.c                                         :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/11 16:42:44 by lade-kon      #+#    #+#                 */
-/*   Updated: 2024/10/16 18:49:07 by lade-kon      ########   odam.nl         */
+/*   Updated: 2024/10/17 18:38:35 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,16 +36,11 @@ static void	ft_putendl_fd(char *s, int fd)
 	ft_putchar_fd('\n', fd);
 }
 
-static void	ft_puterror_fd(char *str, int fd)
+int	ft_error(t_table *data, char *str)
 {
-	ft_putstr_fd(B_R"Error\n"DEF, fd);
-	ft_putendl_fd(str, fd);
-	exit(EXIT_FAILURE);
-}
-
-void	error_exit(t_table *data, char *str)
-{
+	ft_putstr_fd(B_R"Error\n"DEF, STDERR_FILENO);
+	ft_putendl_fd(str, STDERR_FILENO);
 	if (data)
 		free(data);
-	ft_puterror_fd(str, STDERR_FILENO);
+	return (ERROR);
 }

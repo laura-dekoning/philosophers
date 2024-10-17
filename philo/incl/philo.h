@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/11 16:16:05 by lade-kon      #+#    #+#                 */
-/*   Updated: 2024/10/17 17:00:39 by lade-kon      ########   odam.nl         */
+/*   Updated: 2024/10/17 18:43:15 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "structs.h"
 # include "colors.h"
+# include "errors.h"
 # include <pthread.h>
 # include <unistd.h>
 # include <stdlib.h>
@@ -61,7 +62,7 @@ with a mutex for each of them.*/
 
 
 
-void	error_exit(t_table *table, char *str);
+void	ft_error(t_table *table, char *str);
 void	parse_input(t_table *table, int argc, char **argv);
 long	ft_atol(const char *str);
 t_table	*init_data(int argc, char **argv);
