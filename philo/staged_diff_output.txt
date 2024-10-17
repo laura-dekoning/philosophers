@@ -1,0 +1,447 @@
+diff --git a/philo/Makefile b/philo/Makefile
+index c78adb7..baef51b 100644
+--- a/philo/Makefile
++++ b/philo/Makefile
+@@ -6,7 +6,7 @@
+ #    By: lade-kon <lade-kon@student.codam.nl>         +#+                      #
+ #                                                    +#+                       #
+ #    Created: 2024/10/11 15:53:12 by lade-kon      #+#    #+#                  #
+-#    Updated: 2024/10/11 16:57:52 by lade-kon      ########   odam.nl          #
++#    Updated: 2024/10/16 18:40:56 by lade-kon      ########   odam.nl          #
+ #                                                                              #
+ # **************************************************************************** #
+ 
+@@ -16,6 +16,7 @@ NAME			:=	philo
+ CC				:=	cc
+ #CFLAGS are the compiler flags: show all warnings and include debug info
+ CFLAGS			:=	-Wall -Werror -Wextra -g #-fsanitize=address
++TFLAGS			:=	-pthread
+ 
+ INCLS_PHILO		:=	incl
+ INCLUDES		:=	-I $(INCLS_PHILO)
+@@ -23,7 +24,7 @@ INCLUDES		:=	-I $(INCLS_PHILO)
+ SRC_DIR			:=	src
+ 
+ SRC_FILES		:=	main.c \
+-					error_msg.c \
++					error_exit.c \
+ 					init_data.c \
+ 					ft_atoi.c
+ 
+@@ -38,14 +39,14 @@ OBJ				:=	$(addprefix $(OBJ_DIR)/, $(OBJ_FILES))
+ all: $(NAME)
+ 
+ $(NAME): $(OBJ_DIR) $(OBJ) 
+-	$(CC) $(CFLAGS) $(OBJ) $(INCLUDES) -o $(NAME)
++	$(CC) $(CFLAGS) $(TFLAGS) $(OBJ) $(INCLUDES) -o $(NAME)
+ 
+ $(OBJ_DIR):
+ 	mkdir -p $(OBJ_DIR)
+ 	mkdir -p $(OBJ_DIR)/$(SRC_DIR)
+ 
+ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+-	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
++	@$(CC) $(CFLAGS) $(TFLAGS) $(INCLUDES) -c $< -o $@
+ 
+ 
+ norminette:
+diff --git a/philo/incl/philo.h b/philo/incl/philo.h
+index b8b7eb9..eba4513 100644
+--- a/philo/incl/philo.h
++++ b/philo/incl/philo.h
+@@ -6,7 +6,7 @@
+ /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
+ /*                                                   +#+                      */
+ /*   Created: 2024/10/11 16:16:05 by lade-kon      #+#    #+#                 */
+-/*   Updated: 2024/10/11 17:08:23 by lade-kon      ########   odam.nl         */
++/*   Updated: 2024/10/16 18:52:26 by lade-kon      ########   odam.nl         */
+ /*                                                                            */
+ /* ************************************************************************** */
+ 
+@@ -26,16 +26,44 @@
+ # include <stdbool.h>
+ # include <inttypes.h>
+ 
++/*Philosopher number 1 sits next to philosopher number 
++number_of_philosophers.
++Any other philosopher number N sits between philosopher number N - 1 and 
++philosopher number N + 1*/
++
++/*About the logs of your program:
++• Any state change of a philosopher must be formatted as follows:
++◦ timestamp_in_ms X has taken a fork
++◦ timestamp_in_ms X is eating
++◦ timestamp_in_ms X is sleeping
++◦ timestamp_in_ms X is thinking
++◦ timestamp_in_ms X died
++Replace timestamp_in_ms with the current timestamp in milliseconds
++and X with the philosopher number.
++• A displayed state message should not be mixed up with another message.
++• A message announcing a philosopher died should be displayed no more than 10 ms
++after the actual death of the philosopher.
++• Again, philosophers should avoid dying!*/
++
++/*The specific rules for the mandatory part are:
++• Each philosopher should be a thread.
++• There is one fork between each pair of philosophers. Therefore, if there are several
++philosophers, each philosopher has a fork on their left side and a fork on their right
++side. If there is only one philosopher, there should be only one fork on the table.
++• To prevent philosophers from duplicating forks, you should protect the forks state
++with a mutex for each of them.*/
++
+ # define ERROR -1
+ # define SUCCESS 0
+ 
++# define ARGS_ERROR -1
++# define INT_ERROR -2
+ 
+-# define ARGS 1
+ 
+ 
+-void	error_msg(int flag);
+-int		ft_atoi(const char *str);
+-t_data	*init_data(int argc, char **argv);
++void	error_exit(t_table *table, char *str);
++void	parse_input(t_table *table, int argc, char **argv);
++t_table	*init_data(int argc, char **argv);
+ 
+ 
+ #endif
+\ No newline at end of file
+diff --git a/philo/incl/structs.h b/philo/incl/structs.h
+index ffa75fb..83464f0 100644
+--- a/philo/incl/structs.h
++++ b/philo/incl/structs.h
+@@ -6,7 +6,7 @@
+ /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
+ /*                                                   +#+                      */
+ /*   Created: 2024/10/11 16:22:56 by lade-kon      #+#    #+#                 */
+-/*   Updated: 2024/10/11 16:41:14 by lade-kon      ########   odam.nl         */
++/*   Updated: 2024/10/16 18:32:09 by lade-kon      ########   odam.nl         */
+ /*                                                                            */
+ /* ************************************************************************** */
+ 
+@@ -17,15 +17,63 @@
+ # include <stdbool.h>
+ # include <inttypes.h>
+ 
+-typedef	struct s_data
++/**
++ * @brief makes code more readable with smaller variable name.
++ */
++typedef pthread_mutex_t t_mutex;
++
++typedef struct s_fork
+ {
+-	int	philo_count;
+-	int	time_die;
+-	int	time_eat;
+-	int	time_sleep;
+-	int	eat_count;
++	t_mutex	fork; //a fork is a mutex
++	int		fork_id;
++}	t_fork;
+ 
+-}	t_data;
++/**
++ * @brief TABLE
++ * 
++ * @param philo_count: Number of philos and also number of forks on table.
++ * @param time_to_die (in milliseconds): If a philo didn’t start eating 
++ * time_to_die milliseconds since the beginning of their last meal or the 
++ * beginning of the simulation, they die.
++ * @param time_to_eat (in milliseconds): The time it takes for a philo to eat.
++ * During that time, they will need to hold two forks.
++ * @param time_to_sleep (in milliseconds): The time a philo will be sleeping.
++ * @param meal_limit (optional argument): If all philos have eaten at least 
++ * meal_limit times, the simulation stops. If not specified, the simulation 
++ * stops when a philo dies.
++ * 
++ * ./philo 5 800 200 200 [5]
++ */
++typedef	struct s_table
++{
++	long		philo_count;
++	long		time_to_die;
++	long		time_to_eat;
++	long		time_to_sleep;
++	long		meal_limit; // [5] || FLAG if -1
++	long		start_simulation; //when simulation is started
++	long		end_simulation; //a philo dies or when all philos are full
++	t_fork		*forks; //array of forks
++	t_philo		*philos; //array of philos
++	pthread_t	thread_id; // a philo is a thread
++}	t_table;
+ 
++/**
++ * @brief PHILO
++ * 
++ * @param philo_id: Each philo has a number ranging from 1 to philo_count.
++ * @param meals_counter: Counts the amount of meals the philo had so far.
++ * ./philo 5 800 200 200 [5]
++ */
++typedef struct s_philo
++{
++	int		philo_id;
++	int		meals_counter;
++	long	last_meal_time; //time passed from last meal
++	bool	full;
++	t_fork	*left_fork;
++	t_fork	*right_fork;
++	t_table	*table;
++}	t_philo;
+ 
+ #endif
+\ No newline at end of file
+diff --git a/philo/src/error_msg.c b/philo/src/error_exit.c
+similarity index 83%
+rename from philo/src/error_msg.c
+rename to philo/src/error_exit.c
+index b430b7a..824b07e 100644
+--- a/philo/src/error_msg.c
++++ b/philo/src/error_exit.c
+@@ -1,12 +1,12 @@
+ /* ************************************************************************** */
+ /*                                                                            */
+ /*                                                        ::::::::            */
+-/*   error_msg.c                                        :+:    :+:            */
++/*   error_exit.c                                       :+:    :+:            */
+ /*                                                     +:+                    */
+ /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
+ /*                                                   +#+                      */
+ /*   Created: 2024/10/11 16:42:44 by lade-kon      #+#    #+#                 */
+-/*   Updated: 2024/10/11 16:47:15 by lade-kon      ########   odam.nl         */
++/*   Updated: 2024/10/16 18:49:07 by lade-kon      ########   odam.nl         */
+ /*                                                                            */
+ /* ************************************************************************** */
+ 
+@@ -43,8 +43,9 @@ static void	ft_puterror_fd(char *str, int fd)
+ 	exit(EXIT_FAILURE);
+ }
+ 
+-void	error_msg(int flag)
++void	error_exit(t_table *data, char *str)
+ {
+-	if (flag == ARGS)
+-		ft_puterror_fd("Not the right amount of arguments!", STDERR_FILENO);
++	if (data)
++		free(data);
++	ft_puterror_fd(str, STDERR_FILENO);
+ }
+diff --git a/philo/src/ft_atoi.c b/philo/src/ft_atol.c
+similarity index 79%
+rename from philo/src/ft_atoi.c
+rename to philo/src/ft_atol.c
+index 302d060..b19d55a 100644
+--- a/philo/src/ft_atoi.c
++++ b/philo/src/ft_atol.c
+@@ -1,22 +1,22 @@
+ /* ************************************************************************** */
+ /*                                                                            */
+ /*                                                        ::::::::            */
+-/*   ft_atoi.c                                          :+:    :+:            */
++/*   ft_atol.c                                          :+:    :+:            */
+ /*                                                     +:+                    */
+ /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
+ /*                                                   +#+                      */
+-/*   Created: 2023/10/17 21:28:01 by lade-kon      #+#    #+#                 */
+-/*   Updated: 2024/10/11 16:53:46 by lade-kon      ########   odam.nl         */
++/*   Created: 2022/10/21 07:26:37 by lde-koni      #+#    #+#                 */
++/*   Updated: 2024/10/16 18:44:57 by lade-kon      ########   odam.nl         */
+ /*                                                                            */
+ /* ************************************************************************** */
+ 
+ #include "philo.h"
+ 
+-int	ft_atoi(const char *str)
++long	ft_atol(const char *str)
+ {
+-	int	neg_pos;
+-	int	res;
+-	int	i;
++	long	neg_pos;
++	long	res;
++	int		i;
+ 
+ 	neg_pos = 1;
+ 	res = 0;
+diff --git a/philo/src/init_data.c b/philo/src/init_data.c
+index 7aacca8..3870cb6 100644
+--- a/philo/src/init_data.c
++++ b/philo/src/init_data.c
+@@ -6,23 +6,40 @@
+ /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
+ /*                                                   +#+                      */
+ /*   Created: 2024/10/11 16:50:56 by lade-kon      #+#    #+#                 */
+-/*   Updated: 2024/10/11 17:06:12 by lade-kon      ########   odam.nl         */
++/*   Updated: 2024/10/16 18:59:32 by lade-kon      ########   odam.nl         */
+ /*                                                                            */
+ /* ************************************************************************** */
+ 
+ #include "philo.h"
+ 
+-t_data	*init_data(int argc, char **argv)
++int	check_data(t_table *data)
+ {
+-	t_data	*data;
++	if (data->philo_count < 1 || data->philo_count > INT_MAX)
++		return (ERROR);
++	if (data->time_to_die < 1 || data->time_to_die > INT_MAX)
++		return (ERROR);
++	if (data->time_to_eat < 1 || data->time_to_eat > INT_MAX)
++		return (ERROR);
++	if (data->time_to_sleep < 1 || data->time_to_sleep > INT_MAX)
++		return (ERROR);
++	if (data->meal_limit < 1 || data->meal_limit > INT_MAX)
++		return (ERROR);
++	return (SUCCESS);
++}
++
++t_table	*init_data(int argc, char **argv)
++{
++	t_table	*table;
+ 
+-	data = (t_data *)malloc(sizeof(t_data));
++	table = (t_table *)malloc(sizeof(t_table));
+ 	
+-	data->philo_count = ft_atoi(argv[0]);
+-	data->time_die = ft_atoi(argv[1]);
+-	data->time_eat = ft_atoi(argv[2]);
+-	data->time_sleep = ft_atoi(argv[3]);
++	table->philo_count = ft_atol(argv[0]);
++	table->time_to_die = ft_atol(argv[1]);
++	table->time_to_eat = ft_atol(argv[2]);
++	table->time_to_sleep = ft_atol(argv[3]);
+ 	if (argc == 6)
+-		data->eat_count = ft_atoi(argv[4]);
+-	return (data);
++		table->meal_limit = ft_atol(argv[4]);
++	if (check_data(table) == ERROR)
++		return (error_exit(table, INT_ERROR));
++	return (table);
+ }
+diff --git a/philo/src/main.c b/philo/src/main.c
+index 1d14d47..5feb7c8 100644
+--- a/philo/src/main.c
++++ b/philo/src/main.c
+@@ -6,7 +6,7 @@
+ /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
+ /*                                                   +#+                      */
+ /*   Created: 2024/10/11 16:15:26 by lade-kon      #+#    #+#                 */
+-/*   Updated: 2024/10/11 16:52:30 by lade-kon      ########   odam.nl         */
++/*   Updated: 2024/10/16 18:57:49 by lade-kon      ########   odam.nl         */
+ /*                                                                            */
+ /* ************************************************************************** */
+ 
+@@ -14,7 +14,28 @@
+ 
+ int	main(int argc, char **argv)
+ {
++	t_table	table;
++
+ 	if (argc != 5 && argc != 6)
+-		error_msg(ARGS);
+-	init_data(argc, argv);
++		error_exit(NULL, ARGS_ERROR);
++	parse_input(&table, argc, argv);
++	data_init(&table);
++	dinner_start(&table);
++	clean_table(&table);
++
++
++
++
++
++
++// 	pthread_t	thread1;
++// 	pthread_mutex_t	mutex;
++// 	pthread_mutex_lock_t	mutex_lock;
++
++// 	pthread_create(&thread1, NULL, &function, NULL);
++// 	pthread_join(&thread1, NULL);
++// 	pthread_mutex_init(&mutex_lock, NULL);
++// 	pthread_mutex_lock(&mutex_lock);
++// //my code here
++// 	pthread_mutex_unlock(&mutex_lock);
+ }
+diff --git a/philo/src/parser.c b/philo/src/parser.c
+new file mode 100644
+index 0000000..65a0426
+--- /dev/null
++++ b/philo/src/parser.c
+@@ -0,0 +1,75 @@
++/* ************************************************************************** */
++/*                                                                            */
++/*                                                        ::::::::            */
++/*   parser.c                                           :+:    :+:            */
++/*                                                     +:+                    */
++/*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
++/*                                                   +#+                      */
++/*   Created: 2024/10/16 18:15:27 by lade-kon      #+#    #+#                 */
++/*   Updated: 2024/10/16 19:08:15 by lade-kon      ########   odam.nl         */
++/*                                                                            */
++/* ************************************************************************** */
++
++#include "philo.h"
++
++static bool	ft_isdigit(int c)
++{
++	if (c >= '0' && c <= '9')
++		return (true);
++	return (false);
++}
++
++static int	ft_numlen(const char *str)
++{
++	int	i;
++
++	i = 0;
++	while (str[i] != '\0' && ft_isdigit(str[i]))
++		i++;
++	return (i);
++}
++
++static char	*valid_input(char *str)
++{
++	int	len;
++
++	len = 0;
++	while (str == ' ' || (str >= 9 && str <= 13))
++		++str;
++	if (str == '+')
++		++str;
++	else if (str == '-')
++		error_exit(NULL, "Numbers can't be negative bro");
++	if (!ft_isdigit(*str))
++		error_exit(NULL, "You have to give me numbers bro!");
++	len = ft_numlen(str);
++
++		error_exit(NULL, "Numbers can't be this big bro");
++
++	return (str);
++}
++
++
++static long	ft_atol(const char *str)
++{
++	long	number;
++
++	number = 0;
++	str = valid_input(str);
++	while (str >= '0' && str <= '9')
++	{
++		number = number * 10 + (str - '0');
++		++str;
++	}
++	return (number);
++}
++
++void	parse_input(t_table *table, int argc, char **argv)
++{
++	table->philo_count = ft_atol(argv[0]);
++	table->time_to_die = ft_atol(argv[1]);
++	table->time_to_eat = ft_atol(argv[2]);
++	table->time_to_sleep = ft_atol(argv[3]);
++	if (argc == 6)
++		table->meal_limit = ft_atol(argv[4]);
++}

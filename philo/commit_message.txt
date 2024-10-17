@@ -1,0 +1,7 @@
+refactor: update Makefile and error handling, rename functions
+
+- Added `-pthread` flag to `Makefile` for thread handling.
+- Renamed `error_msg.c` to `error_exit.c` for better clarity.
+- Replaced `ft_atoi` with `ft_atol` for handling larger values.
+- Refactored data initialization and validation in `init_data.c`.
+- Added `parser.c` to handle input parsing and validation.

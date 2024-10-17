@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/11 16:22:56 by lade-kon      #+#    #+#                 */
-/*   Updated: 2024/10/16 18:32:09 by lade-kon      ########   odam.nl         */
+/*   Updated: 2024/10/17 17:08:02 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,27 @@ typedef struct s_fork
 {
 	t_mutex	fork; //a fork is a mutex
 	int		fork_id;
-}	t_fork;
+}			t_fork;
+
+typedef	struct s_table	t_table;
+
+/**
+ * @brief PHILO
+ * 
+ * @param philo_id: Each philo has a number ranging from 1 to philo_count.
+ * @param meals_counter: Counts the amount of meals the philo had so far.
+ * ./philo 5 800 200 200 [5]
+ */
+typedef struct s_philo
+{
+	int		philo_id;
+	int		meals_counter;
+	long	last_meal_time; //time passed from last meal
+	bool	full;
+	t_fork	*left_fork;
+	t_fork	*right_fork;
+	t_table	*table;
+}			t_philo;
 
 /**
  * @brief TABLE
@@ -56,24 +76,11 @@ typedef	struct s_table
 	t_fork		*forks; //array of forks
 	t_philo		*philos; //array of philos
 	pthread_t	thread_id; // a philo is a thread
-}	t_table;
+}				t_table;
 
-/**
- * @brief PHILO
- * 
- * @param philo_id: Each philo has a number ranging from 1 to philo_count.
- * @param meals_counter: Counts the amount of meals the philo had so far.
- * ./philo 5 800 200 200 [5]
- */
-typedef struct s_philo
-{
-	int		philo_id;
-	int		meals_counter;
-	long	last_meal_time; //time passed from last meal
-	bool	full;
-	t_fork	*left_fork;
-	t_fork	*right_fork;
-	t_table	*table;
-}	t_philo;
+// struct timeval {
+//     time_t      tv_sec;     // seconds
+//     suseconds_t tv_usec;    // microseconds
+// };
 
 #endif

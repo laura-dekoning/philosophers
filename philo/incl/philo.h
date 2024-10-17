@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/11 16:16:05 by lade-kon      #+#    #+#                 */
-/*   Updated: 2024/10/16 18:52:26 by lade-kon      ########   odam.nl         */
+/*   Updated: 2024/10/17 17:00:39 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # include <stdint.h>
 # include <stdio.h>
 # include <time.h>
-# include <sys/time.h>
+# include <sys/time.h> //usleep - suspend execution for microsecond intervals
 # include <limits.h>
 # include <stdbool.h>
 # include <inttypes.h>
@@ -63,7 +63,9 @@ with a mutex for each of them.*/
 
 void	error_exit(t_table *table, char *str);
 void	parse_input(t_table *table, int argc, char **argv);
+long	ft_atol(const char *str);
 t_table	*init_data(int argc, char **argv);
+void	print_table(t_table *table);
 
 
 #endif

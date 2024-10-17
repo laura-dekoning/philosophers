@@ -6,7 +6,7 @@
 #    By: lade-kon <lade-kon@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2024/10/11 15:53:12 by lade-kon      #+#    #+#                  #
-#    Updated: 2024/10/16 18:40:56 by lade-kon      ########   odam.nl          #
+#    Updated: 2024/10/17 15:26:54 by lade-kon      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,9 +24,11 @@ INCLUDES		:=	-I $(INCLS_PHILO)
 SRC_DIR			:=	src
 
 SRC_FILES		:=	main.c \
+					parser.c \
+					ft_atol.c \
 					error_exit.c \
-					init_data.c \
-					ft_atoi.c
+					print.c \
+					# init_data.c \
 
 
 SRC				:=	$(addprefix $(SRC_DIR)/, $(SRC_FILES))
