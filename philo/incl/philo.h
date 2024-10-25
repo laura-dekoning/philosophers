@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/11 16:16:05 by lade-kon      #+#    #+#                 */
-/*   Updated: 2024/10/17 18:43:15 by lade-kon      ########   odam.nl         */
+/*   Updated: 2024/10/25 14:04:33 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,17 +54,15 @@ side. If there is only one philosopher, there should be only one fork on the tab
 • To prevent philosophers from duplicating forks, you should protect the forks state
 with a mutex for each of them.*/
 
-# define ERROR -1
-# define SUCCESS 0
+# define FORK "has taken a fork"
+# define EAT "is eating"
+# define SLEEP "is sleeping"
+# define THINK "is thinking"
+# define DIED "died"
 
-# define ARGS_ERROR -1
-# define INT_ERROR -2
-
-
-
-void	ft_error(t_table *table, char *str);
+int		ft_error(t_table *table, char *str);
 void	parse_input(t_table *table, int argc, char **argv);
-long	ft_atol(const char *str);
+long	ft_atol(const char *str, long num);
 t_table	*init_data(int argc, char **argv);
 void	print_table(t_table *table);
 

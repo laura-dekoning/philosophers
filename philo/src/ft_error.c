@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/11 16:42:44 by lade-kon      #+#    #+#                 */
-/*   Updated: 2024/10/17 18:38:35 by lade-kon      ########   odam.nl         */
+/*   Updated: 2024/10/25 14:40:39 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,17 @@ static void	ft_putendl_fd(char *s, int fd)
 	ft_putchar_fd('\n', fd);
 }
 
-int	ft_error(t_table *data, char *str)
+int	ft_error(t_table *data, int flag)
 {
+	char	*str;
+
 	ft_putstr_fd(B_R"Error\n"DEF, STDERR_FILENO);
+	if (flag == TOO_BIG)
+		str = TOO_BIG_ERR;
+	else if (flag == NO_NEG)
+		str = NEGATIVE_ERR;
+	else if (flag == NO_NUM)
+		str = NO_NUM_ERR;
 	ft_putendl_fd(str, STDERR_FILENO);
 	if (data)
 		free(data);

@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/17 18:40:47 by lade-kon      #+#    #+#                 */
-/*   Updated: 2024/10/17 18:48:13 by lade-kon      ########   odam.nl         */
+/*   Updated: 2024/10/25 14:36:44 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,17 @@
 #ifndef ERRORS_H
 # define ERRORS_H
 
-# define NO_NEG "Numbers can't be negative bro"
-# define TOO_BIG "Numbers can't be this big bro"
-# define NO_NUM "You have to give me numbers bro!"
+# define NEGATIVE_ERR "Numbers can't be negative bro"
+# define TOO_BIG_ERR "Numbers can't be this big bro"
+# define NO_NUM_ERR "You have to give me numbers bro!"
 
-# define NEGATIVE -1
-# define ABOVE_INT_MAX -2
-# define NOT_NUM -3
+typedef enum e_error 
+{
+	SUCCESS = 0,
+	ERROR = -1,
+	NO_NEG = -2,
+	TOO_BIG = -3,
+	NO_NUM = -4
+} 	t_error;
 
 #endif
