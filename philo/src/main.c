@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/11 16:15:26 by lade-kon      #+#    #+#                 */
-/*   Updated: 2024/10/25 13:57:28 by lade-kon      ########   odam.nl         */
+/*   Updated: 2024/10/26 16:48:36 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,20 @@ int	main(int argc, char **argv)
 {
 	t_table	*table;
 
+	table = (t_table *)malloc(sizeof(t_table));
+	if (!table)
+		return (ERROR);
 	if (argc != 5 && argc != 6)
-		error_exit(NULL, "This is not the right amount of arguments!");
-	if (parse_input(table, argc, argv) < 0)
-		return (-1);
-	// data_init(&table);
+		return (ft_error(NULL, ARGS));
+	if (parse_input(table, argc, argv) != SUCCESS)
+		return (ERROR);
+	if (init_data(table) != SUCCESS)
+		return (ERROR);
 	// dinner_start(&table);
 	// clean_table(&table);
 
 
-	return (0);
+	return (SUCCESS);
 
 
 

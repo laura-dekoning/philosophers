@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/11 16:16:05 by lade-kon      #+#    #+#                 */
-/*   Updated: 2024/10/25 14:04:33 by lade-kon      ########   odam.nl         */
+/*   Updated: 2024/10/26 16:49:40 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,10 @@ with a mutex for each of them.*/
 # define THINK "is thinking"
 # define DIED "died"
 
-int		ft_error(t_table *table, char *str);
-void	parse_input(t_table *table, int argc, char **argv);
-long	ft_atol(const char *str, long num);
-t_table	*init_data(int argc, char **argv);
+int		ft_error(t_table *data, int flag);
+t_error	parse_input(t_table *table, int argc, char **argv);
+t_error	ft_atol(const char *str, long *num);
+t_error	init_data(t_table *table);
 void	print_table(t_table *table);
 
 

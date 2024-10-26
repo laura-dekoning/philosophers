@@ -6,7 +6,7 @@
 #    By: lade-kon <lade-kon@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2024/10/11 15:53:12 by lade-kon      #+#    #+#                  #
-#    Updated: 2024/10/25 14:07:31 by lade-kon      ########   odam.nl          #
+#    Updated: 2024/10/26 16:49:27 by lade-kon      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,6 +28,7 @@ SRC_FILES		:=	main.c \
 					ft_atol.c \
 					ft_error.c \
 					print.c \
+					init.c \
 
 
 SRC				:=	$(addprefix $(SRC_DIR)/, $(SRC_FILES))
