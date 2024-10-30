@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/11 16:15:26 by lade-kon      #+#    #+#                 */
-/*   Updated: 2024/10/26 16:48:36 by lade-kon      ########   odam.nl         */
+/*   Updated: 2024/10/30 17:34:37 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,15 @@
 
 int	main(int argc, char **argv)
 {
-	t_table	*table;
+	t_table	table;
 
-	table = (t_table *)malloc(sizeof(t_table));
-	if (!table)
-		return (ERROR);
+	memset(&table, 0, sizeof(t_table));
 	if (argc != 5 && argc != 6)
-		return (ft_error(NULL, ARGS));
-	if (parse_input(table, argc, argv) != SUCCESS)
-		return (ERROR);
-	if (init_data(table) != SUCCESS)
-		return (ERROR);
+		return (ft_error(&table, ARGS));
+	if (parse_input(&table, argc, argv) != SUCCESS)
+		return (ft_error(&table, ERROR));
+	if (alloc_table_data(&table) != SUCCESS)
+		return (ft_error(&table, ERROR));
 	// dinner_start(&table);
 	// clean_table(&table);
 

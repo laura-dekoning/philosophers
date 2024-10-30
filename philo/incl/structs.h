@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/11 16:22:56 by lade-kon      #+#    #+#                 */
-/*   Updated: 2024/10/17 18:57:58 by lade-kon      ########   odam.nl         */
+/*   Updated: 2024/10/30 17:31:14 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ typedef	struct s_table
 	long		end_simulation; //a philo dies or when all philos are full
 	t_fork		*forks; //array of forks
 	t_philo		*philos; //array of philos
-	pthread_t	thread_id; // a philo is a thread
+	pthread_t	*p_ids; // a philo is a thread, these are the thread_id's
 }				t_table;
 
 // struct timeval {

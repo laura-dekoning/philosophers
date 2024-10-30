@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/17 18:40:47 by lade-kon      #+#    #+#                 */
-/*   Updated: 2024/10/26 16:09:55 by lade-kon      ########   odam.nl         */
+/*   Updated: 2024/10/30 17:15:28 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # define TOO_BIG_ERR "Numbers can't be this big bro"
 # define NO_NUM_ERR "You have to give me numbers bro!"
 # define ARGS_ERR "This is not the right amount of arguments!"
+# define MALLOC_ERR "Something went wrong with malloc =("
 
 typedef enum e_error 
 {
@@ -27,7 +28,8 @@ typedef enum e_error
 	NO_NEG = -2,
 	TOO_BIG = -3,
 	NO_NUM = -4,
-	ARGS = -5
+	ARGS = -5,
+	MALLOC = -6
 } 	t_error;
 
 #endif
