@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/11 16:22:56 by lade-kon      #+#    #+#                 */
-/*   Updated: 2024/10/30 17:31:14 by lade-kon      ########   odam.nl         */
+/*   Updated: 2024/10/31 18:58:10 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ typedef struct s_philo
 {
 	int		philo_id;
 	int		meals_counter;
-	long	last_meal_time; //time passed from last meal
+	size_t	last_meal_time; //time passed from last meal
 	bool	full;
 	t_fork	*left_fork;
 	t_fork	*right_fork;
@@ -66,16 +66,16 @@ typedef struct s_philo
  */
 typedef	struct s_table
 {
-	long		philo_count;
-	long		time_to_die;
-	long		time_to_eat;
-	long		time_to_sleep;
-	long		meal_limit; // [5] || FLAG if -1
-	long		start_simulation; //when simulation is started
-	long		end_simulation; //a philo dies or when all philos are full
+	size_t		philo_count;
+	size_t		time_to_die;
+	size_t		time_to_eat;
+	size_t		time_to_sleep;
+	size_t		meal_limit; // [5] || FLAG if -1
+	size_t		start_simulation; //when simulation is started
+	size_t		end_simulation; //a philo dies or when all philos are full
 	t_fork		*forks; //array of forks
 	t_philo		*philos; //array of philos
-	pthread_t	*p_ids; // a philo is a thread, these are the thread_id's
+	pthread_t	*pt_id; // a philo is a thread, this is the philothread_id
 }				t_table;
 
 // struct timeval {

@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/11 16:15:26 by lade-kon      #+#    #+#                 */
-/*   Updated: 2024/10/30 17:34:37 by lade-kon      ########   odam.nl         */
+/*   Updated: 2024/10/31 18:42:49 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	main(int argc, char **argv)
 		return (ft_error(&table, ARGS));
 	if (parse_input(&table, argc, argv) != SUCCESS)
 		return (ft_error(&table, ERROR));
-	if (alloc_table_data(&table) != SUCCESS)
+	if (init_table(&table) != SUCCESS)
 		return (ft_error(&table, ERROR));
 	// dinner_start(&table);
 	// clean_table(&table);

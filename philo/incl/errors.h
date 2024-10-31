@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/17 18:40:47 by lade-kon      #+#    #+#                 */
-/*   Updated: 2024/10/30 17:15:28 by lade-kon      ########   odam.nl         */
+/*   Updated: 2024/10/31 18:25:51 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # define NO_NUM_ERR "You have to give me numbers bro!"
 # define ARGS_ERR "This is not the right amount of arguments!"
 # define MALLOC_ERR "Something went wrong with malloc =("
+# define THREAD_ERR "Oh no, something went wrong while creating threads"
 
 typedef enum e_error 
 {
@@ -29,7 +30,8 @@ typedef enum e_error
 	TOO_BIG = -3,
 	NO_NUM = -4,
 	ARGS = -5,
-	MALLOC = -6
+	MALLOC = -6,
+	THREAD = -7
 } 	t_error;
 
 #endif

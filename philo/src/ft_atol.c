@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/17 15:01:22 by lade-kon      #+#    #+#                 */
-/*   Updated: 2024/10/26 16:47:07 by lade-kon      ########   odam.nl         */
+/*   Updated: 2024/10/31 19:07:41 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,16 +46,16 @@ static t_error valid_input(const char *str, const char **num_start)
 }
 
 
-t_error	ft_atol(const char *str, long *num)
+t_error	ft_atol(const char *str, size_t *num)
 {
-	long		number;
+	size_t		number;
 	const char	*num_start;
 
 	num_start = NULL;
 	number = 0;
 
 	if (valid_input(str, &num_start) != SUCCESS)
-		return (ERROR);
+		return (ERROR); 
 	str = num_start;
 	while (ft_isdigit(*str) == true)
 	{

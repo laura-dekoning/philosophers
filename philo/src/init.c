@@ -6,16 +6,22 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/26 16:48:44 by lade-kon      #+#    #+#                 */
-/*   Updated: 2024/10/30 17:43:54 by lade-kon      ########   odam.nl         */
+/*   Updated: 2024/10/31 18:43:48 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	*philo_loop(void *data)
+void	*philo_loop(void *arg)
 {
-	(void)data;
-	printf("Jeeej\n");
+	int	philo_id;
+
+	philo_id = *(int *)arg;
+	printf("philo %i %s\n", philo_id, THINK);
+	printf("philo %i %s\n", philo_id, EAT);
+	printf("philo %i %s\n", philo_id, SLEEP);
+	printf("philo %i %s\n", philo_id, FORK);
+	printf("philo %i %s\n", philo_id, DIED);
 	return (NULL);
 }
 
@@ -28,16 +34,25 @@ t_error	create_philos(t_table *table)
 	{
 		table->philos[i].table = table;
 		table->philos[i].philo_id = i;
-		if (pthread_create(table->p_ids[i], 0, philo_loop, &table->philos[i]) != SUCCESS)
-			return (ERROR);
-		
+		if (pthread_create(table->pt_id[i], 0, philo_loop, &table->philos[i]) != SUCCESS)
+			return (THREAD);
+		i++;
+	}
+	i = 0;
+	while (i < table->philo_count)
+	{
+		if (pthread_join(table->pt_id[i], NULL) != SUCCESS);
+			return (THREAD);
+		i++;
 	}
 }
 
-t_error	alloc_table_data(t_table *table)
+t_error	init_table(t_table *table)
 {
 	int	id;
+	int	x;
 
+	x = 0;
 	id = 0;
 	table->end_simulation = false;
 	table->philos = (t_philo *)malloc(sizeof(t_philo) * table->philo_count);
@@ -46,13 +61,16 @@ t_error	alloc_table_data(t_table *table)
 	table->forks = (t_fork *)malloc(sizeof(t_fork) * table->philo_count);
 	if (!table->forks)
 		return (ft_error(table, MALLOC));
-	table->p_ids = (pthread_t *)malloc(sizeof(pthread_t) * table->philo_count);
-	if (!table->p_ids)
+	table->pt_id = (pthread_t *)malloc(sizeof(pthread_t) * table->philo_count);
+	if (!table->pt_id)
 		return (ft_error(table, MALLOC));
 	while (id < table->philo_count)
 	{
 		table->forks[id].fork_id = id;
 		id++;
 	}
+	x = create_philos(table);
+	if (x == THREAD)
+		return (ft_error(table, THREAD_ERR));
 	return (SUCCESS);
 }

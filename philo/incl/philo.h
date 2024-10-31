@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/11 16:16:05 by lade-kon      #+#    #+#                 */
-/*   Updated: 2024/10/30 17:34:18 by lade-kon      ########   odam.nl         */
+/*   Updated: 2024/10/31 18:58:10 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,8 @@ with a mutex for each of them.*/
 
 int		ft_error(t_table *data, int flag);
 t_error	parse_input(t_table *table, int argc, char **argv);
-t_error	ft_atol(const char *str, long *num);
-t_error	alloc_table_data(t_table *table);
+t_error	ft_atol(const char *str, size_t *num);
+t_error	init_table(t_table *table);
 void	print_table(t_table *table);
 
 
