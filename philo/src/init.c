@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/26 16:48:44 by lade-kon      #+#    #+#                 */
-/*   Updated: 2024/10/31 18:43:48 by lade-kon      ########   odam.nl         */
+/*   Updated: 2024/11/05 13:43:44 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@ void	*philo_loop(void *arg)
 	int	philo_id;
 
 	philo_id = *(int *)arg;
-	printf("philo %i %s\n", philo_id, THINK);
-	printf("philo %i %s\n", philo_id, EAT);
-	printf("philo %i %s\n", philo_id, SLEEP);
-	printf("philo %i %s\n", philo_id, FORK);
-	printf("philo %i %s\n", philo_id, DIED);
+	PRINT_THINK(philo_id);
+	PRINT_EAT(philo_id);
+	PRINT_SLEEP(philo_id);
+	PRINT_FORK(philo_id);
+	PRINT_DIED(philo_id);
 	return (NULL);
 }
 
