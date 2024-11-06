@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/17 18:40:47 by lade-kon      #+#    #+#                 */
-/*   Updated: 2024/10/31 18:25:51 by lade-kon      ########   odam.nl         */
+/*   Updated: 2024/11/06 17:30:46 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,9 @@ typedef enum e_error
 	NO_NUM = -4,
 	ARGS = -5,
 	MALLOC = -6,
-	THREAD = -7
+	THREAD_CREATE = -7,
+	THREAD_JOIN = -8,
+	MUTEX_INIT = -9
 } 	t_error;
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/11 16:22:56 by lade-kon      #+#    #+#                 */
-/*   Updated: 2024/10/31 18:58:10 by lade-kon      ########   odam.nl         */
+/*   Updated: 2024/11/05 17:37:04 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,12 @@
 # include <stdbool.h>
 # include <inttypes.h>
 
-/**
- * @brief makes code more readable with smaller variable name.
- */
-typedef pthread_mutex_t t_mutex;
 
 typedef struct s_fork
 {
-	t_mutex	fork; //a fork is a mutex
-	int		fork_id;
-}			t_fork;
+	pthread_mutex_t	fork; //a fork is a mutex
+	int				fork_id;
+}					t_fork;
 
 typedef	struct s_table	t_table;
 
@@ -73,6 +69,7 @@ typedef	struct s_table
 	size_t		meal_limit; // [5] || FLAG if -1
 	size_t		start_simulation; //when simulation is started
 	size_t		end_simulation; //a philo dies or when all philos are full
+	bool		death;
 	t_fork		*forks; //array of forks
 	t_philo		*philos; //array of philos
 	pthread_t	*pt_id; // a philo is a thread, this is the philothread_id
