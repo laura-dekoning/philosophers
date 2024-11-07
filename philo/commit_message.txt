@@ -1,7 +1,15 @@
-refactor: update Makefile and error handling, rename functions
+Refactor error handling and mutex usage, rename functions and enums
 
-- Added `-pthread` flag to `Makefile` for thread handling.
-- Renamed `error_msg.c` to `error_exit.c` for better clarity.
-- Replaced `ft_atoi` with `ft_atol` for handling larger values.
-- Refactored data initialization and validation in `init_data.c`.
-- Added `parser.c` to handle input parsing and validation.
+- Updated `Makefile`: renamed `ft_atol` to `ft_atoul`.
+- Refactored error handling in `ft_error.c`: replaced integer flags with error messages.
+- Adjusted `init.c` and `parser.c`: migrated to `ft_atoul` for safer parsing, added better handling of return values.
+- Modified `structs.h`: removed `t_fork` struct, now using `pthread_mutex_t *forks`, renamed fork pointers in `s_philo`.
+- Renamed `ft_atol.c` to `ft_atoul.c`, updated function to use `unsigned long`.
+  
+Known issues:
+- `init_table` function returns need consistent error handling (especially for pthread joins).
+- Review how errors are freed or cleaned in failure paths.
+- Ensure all mutex initializations are checked and freed if they fail.
+  
+General refactoring and cleanup, but needs further testing for edge cases and error consistency.
+

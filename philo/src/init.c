@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/26 16:48:44 by lade-kon      #+#    #+#                 */
-/*   Updated: 2024/11/07 13:51:43 by lade-kon      ########   odam.nl         */
+/*   Updated: 2024/11/07 14:57:55 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,11 @@ void	assign_forks(t_philo *philo, pthread_mutex_t *forks, int i)
 	int	nbr_philos;
 
 	nbr_philos = philo->table->philo_count;
-	philo->first_fork = &forks[(i + 1) % nbr_philos];
+	philo->first_fork = &forks[(i + 1) % nbr_philos]; //odd takes left fork first
 	philo->second_fork = &forks[i];
 	if (i % 2 == 0)
 	{
-		philo->first_fork = &forks[i];
+		philo->first_fork = &forks[i]; //even takes right for first
 		philo->second_fork = &forks[(i + 1) % nbr_philos];
 	}
 }
