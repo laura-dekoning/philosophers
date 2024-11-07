@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/11 16:16:05 by lade-kon      #+#    #+#                 */
-/*   Updated: 2024/11/05 13:43:10 by lade-kon      ########   odam.nl         */
+/*   Updated: 2024/11/07 13:44:01 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,10 +86,10 @@ with a mutex for each of them.*/
     # define PRINT_DIED(id) printf("%d %s\n", id, DIED)
 #endif
 
-int		ft_error(t_table *data, int flag);
-t_error	parse_input(t_table *table, int argc, char **argv);
-t_error	ft_atol(const char *str, size_t *num);
-t_error	init_table(t_table *table);
+int		ft_error(t_table *data, char *str);
+int		parse_input(t_table *table, int argc, char **argv);
+int		ft_atoul(const char *str, size_t *num);
+int		init_table(t_table *table);
 void	print_table(t_table *table);
 
 

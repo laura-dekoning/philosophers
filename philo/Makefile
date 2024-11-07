@@ -6,7 +6,7 @@
 #    By: lade-kon <lade-kon@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2024/10/11 15:53:12 by lade-kon      #+#    #+#                  #
-#    Updated: 2024/10/30 17:08:55 by lade-kon      ########   odam.nl          #
+#    Updated: 2024/11/07 13:51:04 by lade-kon      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ SRC_DIR			:=	src
 
 SRC_FILES		:=	main.c \
 					parser.c \
-					ft_atol.c \
+					ft_atoul.c \
 					ft_error.c \
 					print.c \
 					init.c \

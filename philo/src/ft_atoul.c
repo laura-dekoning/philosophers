@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_atol.c                                          :+:    :+:            */
+/*   ft_atoul.c                                         :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/17 15:01:22 by lade-kon      #+#    #+#                 */
-/*   Updated: 2024/10/31 19:07:41 by lade-kon      ########   odam.nl         */
+/*   Updated: 2024/11/07 13:51:43 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int	ft_numlen(const char *str)
 	return (i);
 }
 
-static t_error valid_input(const char *str, const char **num_start)
+static int valid_input(const char *str, const char **num_start)
 {
 	while (*str == ' ' || (*str >= 9 && *str <= 13))
 		str++;
@@ -46,7 +46,7 @@ static t_error valid_input(const char *str, const char **num_start)
 }
 
 
-t_error	ft_atol(const char *str, size_t *num)
+int	ft_atoul(const char *str, size_t *num)
 {
 	size_t		number;
 	const char	*num_start;

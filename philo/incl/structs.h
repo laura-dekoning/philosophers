@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/11 16:22:56 by lade-kon      #+#    #+#                 */
-/*   Updated: 2024/11/05 17:37:04 by lade-kon      ########   odam.nl         */
+/*   Updated: 2024/11/07 13:41:57 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,6 @@
 # include <pthread.h>
 # include <stdbool.h>
 # include <inttypes.h>
-
-
-typedef struct s_fork
-{
-	pthread_mutex_t	fork; //a fork is a mutex
-	int				fork_id;
-}					t_fork;
 
 typedef	struct s_table	t_table;
 
@@ -39,8 +32,8 @@ typedef struct s_philo
 	int		meals_counter;
 	size_t	last_meal_time; //time passed from last meal
 	bool	full;
-	t_fork	*left_fork;
-	t_fork	*right_fork;
+	pthread_mutex_t	*first_fork;
+	pthread_mutex_t	*second_fork;
 	t_table	*table;
 }			t_philo;
 
@@ -67,10 +60,11 @@ typedef	struct s_table
 	size_t		time_to_eat;
 	size_t		time_to_sleep;
 	size_t		meal_limit; // [5] || FLAG if -1
-	size_t		start_simulation; //when simulation is started
+	size_t		start_simulation; //time when simulation is started
 	size_t		end_simulation; //a philo dies or when all philos are full
+	bool		eat_limit;
 	bool		death;
-	t_fork		*forks; //array of forks
+	pthread_mutex_t		*forks; //array of forks
 	t_philo		*philos; //array of philos
 	pthread_t	*pt_id; // a philo is a thread, this is the philothread_id
 }				t_table;
