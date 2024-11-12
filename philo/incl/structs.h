@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/11 16:22:56 by lade-kon      #+#    #+#                 */
-/*   Updated: 2024/11/12 10:15:02 by lade-kon      ########   odam.nl         */
+/*   Updated: 2024/11/12 11:33:58 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,14 @@ typedef	struct s_table	t_table;
  */
 typedef struct s_philo
 {
-	int		philo_id;
-	int		meals_eaten;
-	size_t	last_meal_time; //time passed from last meal
-	bool	full;
+	int				philo_id;
+	int				meals_eaten;
+	size_t			last_meal_time; //time passed from last meal
+	bool			full;
 	pthread_mutex_t	*first_fork;
 	pthread_mutex_t	*second_fork;
-	t_table	*table;
+	pthread_mutex_t	philo_mutex;
+	t_table			*table;
 }			t_philo;
 
 /**
@@ -61,13 +62,15 @@ typedef	struct s_table
 	size_t			time_to_sleep;
 	size_t			meal_limit; // [5] || FLAG if -1
 	size_t			start_simulation; //time when simulation is started
-	size_t			end_simulation; //a philo dies or when all philos are full
 	struct timeval	start_time;
+	bool			end_simulation; //a philo dies or when all philos are full
+	bool			all_threads_ready;
 	bool			eat_limit;
 	bool			death;
-	pthread_mutex_t	*forks; //array of forks
 	t_philo			*philos; //array of philos
-	pthread_t		*pt_id; // a philo is a thread, this is the philothread_id
+	pthread_t		*philo_threads; // a philo is a thread, this is the philothread_id
+	pthread_mutex_t	*forks; //array of forks
+	pthread_mutex_t table_mutex; //avoid races while reading from table
 }					t_table;
 
 // struct timeval {

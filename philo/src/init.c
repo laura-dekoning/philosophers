@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/26 16:48:44 by lade-kon      #+#    #+#                 */
-/*   Updated: 2024/11/12 09:40:27 by lade-kon      ########   odam.nl         */
+/*   Updated: 2024/11/12 21:51:10 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ int	init_philos(t_table *table)
 	table->philos = (t_philo *)malloc(sizeof(t_philo) * table->philo_count);
 	if (!table->philos)
 		return (ft_error(table, MALLOC));
-	table->pt_id = (pthread_t *)malloc(sizeof(pthread_t) * table->philo_count);
-	if (!table->pt_id)
+	table->philo_threads = (pthread_t *)malloc(sizeof(pthread_t) * table->philo_count);
+	if (!table->philo_threads)
 		return (ft_error(table, MALLOC));
 	i = 0;
 	while (i < table->philo_count)
@@ -78,13 +78,23 @@ int	init_table(t_table *table)
 
 	retval = 0;
 	table->end_simulation = false;
-	retval = inipthread_mutex_ts(table);
-	retval = init_philos(table);
+	table->all_threads_ready = false;
+	table->eat_limit = false;
+	table->death = false;[']
+	
+	
+	[']
+	
+	
+	']
+	if (pthread_mutex_init(&table->table_mutex, NULL) != SUCCESS)
+		return (ft_error(table, MUTEX_INIT));
+	retval = init_philos(table); //TODO: still have to rework this into something else probably
 	if (retval != table->philo_count)
 	{
 		while (retval > 0)
 		{
-			if (pthread_join(table->pt_id[retval], NULL) != SUCCESS)
+			if (pthread_join(table->philo_threads[retval], NULL) != SUCCESS)
 				return (ft_error(table, THREAD_JOIN));
 			retval--;
 		}
