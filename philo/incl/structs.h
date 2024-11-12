@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/11 16:22:56 by lade-kon      #+#    #+#                 */
-/*   Updated: 2024/11/07 15:01:15 by lade-kon      ########   odam.nl         */
+/*   Updated: 2024/11/12 09:39:31 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,5 +73,11 @@ typedef	struct s_table
 //     time_t      tv_sec;     // seconds
 //     suseconds_t tv_usec;    // microseconds
 // };
+typedef enum s_time_code
+{
+	SECONDS,
+	MILLISECONDS,
+	MICROSECONDS
+}			t_time_code;
 
 #endif

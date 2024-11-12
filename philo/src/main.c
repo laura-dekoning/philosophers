@@ -6,11 +6,20 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/11 16:15:26 by lade-kon      #+#    #+#                 */
-/*   Updated: 2024/11/07 13:51:43 by lade-kon      ########   odam.nl         */
+/*   Updated: 2024/11/12 09:41:32 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+int	ft_error(t_table *data, char *str)
+{
+	if (data)
+		free(data);
+	printf(B_R"Error\n"DEF);
+	printf("%s\n", str);
+	return (ERROR);
+}
 
 int	main(int argc, char **argv)
 {
@@ -23,22 +32,10 @@ int	main(int argc, char **argv)
 		return (ERROR);
 	if (init_table(&table) != SUCCESS)
 		return (ERROR);
-	// dinner_start(&table);
+	if (dinner_start(&table) != SUCCESS)
+		return (ERROR);
 	// clean_table(&table);
 
 
 	return (SUCCESS);
-
-
-
-// 	pthread_t	thread1;
-// 	pthread_mutex_t	mutex;
-// 	pthread_mutex_lock_t	mutex_lock;
-
-// 	pthread_create(&thread1, NULL, &function, NULL);
-// 	pthread_join(&thread1, NULL);
-// 	pthread_mutex_init(&mutex_lock, NULL);
-// 	pthread_mutex_lock(&mutex_lock);
-// //my code here
-// 	pthread_mutex_unlock(&mutex_lock);
 }

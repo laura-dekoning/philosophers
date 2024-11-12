@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/11 16:16:05 by lade-kon      #+#    #+#                 */
-/*   Updated: 2024/11/07 13:44:01 by lade-kon      ########   odam.nl         */
+/*   Updated: 2024/11/12 09:24:58 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "structs.h"
 # include "colors.h"
-# include "errors.h"
+# include "macros.h"
 # include <pthread.h>
 # include <unistd.h>
 # include <stdlib.h>
@@ -55,36 +55,7 @@ side. If there is only one philosopher, there should be only one fork on the tab
 • To prevent philosophers from duplicating forks, you should protect the forks state
 with a mutex for each of them.*/
 
-// Messages for philos
-# define FORK "has taken a fork"
-# define EAT "is eating"
-# define SLEEP "is sleeping"
-# define THINK "is thinking"
-# define DIED "died"
 
-#ifdef PRETTY_MODE
-	// Define colors from red to green
-	# define DEF   "\033[0;39m"  // Default color
-	# define RED   "\033[0;91m"  // Light Red
-	# define ORANGE "\033[0;93m" // Light Yellow/Orange
-	# define YELLOW "\033[1;93m" // Bright Yellow
-	# define LGREEN "\033[0;92m" // Light Green
-	# define GREEN  "\033[1;92m" // Bright Green
-
-    // Macros to print each action with a specific color
-    # define PRINT_FORK(id) printf(ORANGE "%d %s" DEF "\n", id, FORK)
-    # define PRINT_EAT(id)  printf(GREEN "%d %s" DEF "\n", id, EAT)
-    # define PRINT_SLEEP(id) printf(YELLOW "%d %s" DEF "\n", id, SLEEP)
-    # define PRINT_THINK(id) printf(LGREEN "%d %s" DEF "\n", id, THINK)
-    # define PRINT_DIED(id) printf(RED "%d %s" DEF "\n", id, DIED)
-#else
-    // Default printing without color if PRETTY_MODE is not defined
-    # define PRINT_FORK(id) printf("%d %s\n", id, FORK)
-    # define PRINT_EAT(id)  printf("%d %s\n", id, EAT)
-    # define PRINT_SLEEP(id) printf("%d %s\n", id, SLEEP)
-    # define PRINT_THINK(id) printf("%d %s\n", id, THINK)
-    # define PRINT_DIED(id) printf("%d %s\n", id, DIED)
-#endif
 
 int		ft_error(t_table *data, char *str);
 int		parse_input(t_table *table, int argc, char **argv);
@@ -92,5 +63,10 @@ int		ft_atoul(const char *str, size_t *num);
 int		init_table(t_table *table);
 void	print_table(t_table *table);
 
+// GETTERS & SETTERS
+void	set_bool(pthread_mutex_t *mutex, bool *dest, bool value);
+bool	get_bool(pthread_mutex_t *mutex, bool *value);
+void	set_long(pthread_mutex_t *mutex, long *dest, long value);
+long	get_long(pthread_mutex_t *mutex, long *value);
 
 #endif

@@ -6,24 +6,12 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/26 16:48:44 by lade-kon      #+#    #+#                 */
-/*   Updated: 2024/11/07 14:57:55 by lade-kon      ########   odam.nl         */
+/*   Updated: 2024/11/12 09:40:27 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	*philo_loop(void *arg)
-{
-	int	philo_id;
-
-	philo_id = *(int *)arg;
-	PRINT_THINK(philo_id);
-	PRINT_EAT(philo_id);
-	PRINT_SLEEP(philo_id);
-	PRINT_FORK(philo_id);
-	PRINT_DIED(philo_id);
-	return (NULL);
-}
 
 int	init_forks(t_table *table)
 {
@@ -56,7 +44,6 @@ void	assign_forks(t_philo *philo, pthread_mutex_t *forks, int i)
 	}
 }
 
-
 int	init_philos(t_table *table)
 {
 	int		i;
@@ -73,13 +60,11 @@ int	init_philos(t_table *table)
 	{
 		philo = table->philos + i;
 		philo->philo_id = i + 1;
-		philo->meals_counter = 0;
+		philo->meals_eaten = 0;
 		philo->last_meal_time = 0;
 		philo->full = false;
 		philo->table = table;
 		assign_forks(philo, table->forks, i);
-		if (pthread_create(table->pt_id[i], 0, philo_loop, &table->philos[i]) != SUCCESS)
-			return (i);
 		i++;
 	}
 
