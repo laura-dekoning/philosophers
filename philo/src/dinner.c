@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/12 09:05:35 by lade-kon      #+#    #+#                 */
-/*   Updated: 2024/11/12 11:10:22 by lade-kon      ########   odam.nl         */
+/*   Updated: 2024/11/14 14:12:51 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,21 @@ void	*dinner_routine(void *data)
 
 	philo = (t_philo *)data;
 	wait_all_threads(philo->table);
+	// set last meal time
 
+	while (!simulation_finished(philo->table))
+	{
+		// 1) am i full?
+		if (philo->full)//TODO thread safe
+			break ;
+		// 2) eat
+		eat(philo);
+		// 3) sleep --> write status & precise usleep
+		precise_usleep(philo);
+
+		// 4) think
+		thinking(philo);
+	}
 	return (NULL);
 }
 
@@ -52,8 +66,16 @@ int	dinner_start(t_table *table)
 			}
 			i++;
 		}
-		gettimeofday(&table->start_time, NULL);
-		table->start_simulation = gettime(MILLISECONDS);
-		
 	}
+	gettimeofday(&table->start_time, NULL);
+	table->start_simulation = gettime(MILLISECONDS);
+	set_bool(&table->table_mutex, &table->all_threads_ready, true);
+	//wait for everyone
+	i = 0;
+	while (i < table->philo_count)
+	{
+		pthread_join(&table->philos[i], NULL);
+		i++;
+	}
+	// if we get here, all philos are full!
 }

@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/11 16:22:56 by lade-kon      #+#    #+#                 */
-/*   Updated: 2024/11/12 11:33:58 by lade-kon      ########   odam.nl         */
+/*   Updated: 2024/11/14 14:40:39 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ typedef	struct s_table
 	pthread_t		*philo_threads; // a philo is a thread, this is the philothread_id
 	pthread_mutex_t	*forks; //array of forks
 	pthread_mutex_t table_mutex; //avoid races while reading from table
+	pthread_mutex_t	write_mutex; 
 }					t_table;
 
 // struct timeval {
@@ -83,5 +84,15 @@ typedef enum s_time_code
 	MILLISECONDS,
 	MICROSECONDS
 }			t_time_code;
+
+typedef enum s_philo_status
+{
+	EATING,
+	SLEEPING,
+	THINKING,
+	TAKE_FIRST_FORK,
+	TAKE_SECOND_FORK,
+	DEAD
+}			t_philo_status;
 
 #endif

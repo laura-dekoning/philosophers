@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/17 18:40:47 by lade-kon      #+#    #+#                 */
-/*   Updated: 2024/11/12 09:25:42 by lade-kon      ########   odam.nl         */
+/*   Updated: 2024/11/14 14:52:16 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,18 +47,20 @@
 	# define GREEN  "\033[1;92m" // Bright Green
 
 	// Macros to print each action with a specific color
-	# define PRINT_FORK(id) printf(ORANGE "%d %s" DEF "\n", id, FORK)
-	# define PRINT_EAT(id)  printf(GREEN "%d %s" DEF "\n", id, EAT)
-	# define PRINT_SLEEP(id) printf(YELLOW "%d %s" DEF "\n", id, SLEEP)
-	# define PRINT_THINK(id) printf(LGREEN "%d %s" DEF "\n", id, THINK)
-	# define PRINT_DIED(id) printf(RED "%d %s" DEF "\n", id, DIED)
+	# define PRINT_FORK(time, id) printf(B_W"%-6ld"ORANGE"%d %s" DEF "\n", time, id, FORK)
+	# define PRINT_EAT(time, id)  printf(B_W"%-6ld"GREEN"%d %s" DEF "\n", time, id, EAT)
+	# define PRINT_SLEEP(time, id) printf(B_W"%-6ld"YELLOW"%d %s" DEF "\n", time, id, SLEEP)
+	# define PRINT_THINK(time, id) printf(B_W"%-6ld"LGREEN"%d %s" DEF "\n", time, id, THINK)
+	# define PRINT_DIED(time, id) printf(B_W"%-6ld"RED"%d %s" DEF "\n", time, id, DIED)
 #else
 	// Default printing without color if PRETTY_MODE is not defined
-	# define PRINT_FORK(id) printf("%d %s\n", id, FORK)
-	# define PRINT_EAT(id)  printf("%d %s\n", id, EAT)
-	# define PRINT_SLEEP(id) printf("%d %s\n", id, SLEEP)
-	# define PRINT_THINK(id) printf("%d %s\n", id, THINK)
-	# define PRINT_DIED(id) printf("%d %s\n", id, DIED)
+	# define PRINT_FORK(time, id) printf(B_W"%-6ld"DEF"%d %s\n", time, id, FORK)
+	# define PRINT_EAT(time, id)  printf(B_G"%-6ld"DEF"%d %s\n", time, id, EAT)
+	# define PRINT_SLEEP(time, id) printf(B_W"%-6ld"DEF"%d %s\n", time, id, SLEEP)
+	# define PRINT_THINK(time, id) printf(B_W"%-6ld"DEF"%d %s\n", time, id, THINK)
+	# define PRINT_DIED(time, id) printf(B_R"%-6ld"DEF"%d %s\n", time, id, DIED)
 #endif
+
+
 
 #endif

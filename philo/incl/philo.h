@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/11 16:16:05 by lade-kon      #+#    #+#                 */
-/*   Updated: 2024/11/12 10:06:47 by lade-kon      ########   odam.nl         */
+/*   Updated: 2024/11/14 14:36:40 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,16 @@ void	set_bool(pthread_mutex_t *mutex, bool *dest, bool value);
 bool	get_bool(pthread_mutex_t *mutex, bool *value);
 void	set_long(pthread_mutex_t *mutex, long *dest, long value);
 long	get_long(pthread_mutex_t *mutex, long *value);
+bool	simulation_finished(t_table *table);
 
 // TIME
 size_t	gettime(t_time_code time_code);
 
+// UTILS
+void	precise_usleep(size_t usec, t_table *table);
+
+// SYNCHRO UTILS
+void	wait_all_threads(t_table *table);
 
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/12 09:30:08 by lade-kon      #+#    #+#                 */
-/*   Updated: 2024/11/12 10:19:59 by lade-kon      ########   odam.nl         */
+/*   Updated: 2024/11/14 14:16:07 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,30 @@ size_t	gettime(t_time_code time_code)
 		return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
 	else if (time_code == MICROSECONDS)
 		return ((time.tv_sec * 1000000) + time.tv_usec);
+}
+
+void	precise_usleep(size_t usec, t_table *table)
+{
+	size_t	start;
+	size_t	elapsed;
+	size_t	remain;
+
+	start = gettime(MICROSECONDS);
+	while ((gettime(MICROSECONDS) - start) < usec)
+	{
+		if (simulation_finished(table))
+			break ;
+		elapsed = gettime(MICROSECONDS) - start;
+		remain = usec - elapsed;
+		// to get a spinlock threshold
+		if (remain > 1000)
+			usleep(usec / 2);
+		else
+		{
+			//SPINLOCK
+			while ((gettime(MICROSECONDS) - start) < usec)
+				;
+		}
+	}
+
 }

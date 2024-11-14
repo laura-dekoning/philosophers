@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/26 16:48:44 by lade-kon      #+#    #+#                 */
-/*   Updated: 2024/11/12 21:52:58 by lade-kon      ########   odam.nl         */
+/*   Updated: 2024/11/14 13:49:41 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,9 @@ int	init_table(t_table *table)
 	table->death = false;
 	if (pthread_mutex_init(&table->table_mutex, NULL) != SUCCESS)
 		return (ft_error(table, MUTEX_INIT));
+	if (pthread_mutex_init(&table->write_mutex, NULL) != SUCCESS)
+		return (ft_error(table, MUTEX_INIT));
+	
 	retval = init_philos(table); //TODO: still have to rework this into something else probably
 	if (retval != table->philo_count)
 	{
