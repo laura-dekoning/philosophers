@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/12 09:05:35 by lade-kon      #+#    #+#                 */
-/*   Updated: 2024/11/14 14:12:51 by lade-kon      ########   odam.nl         */
+/*   Updated: 2024/11/27 13:46:12 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ void	*dinner_routine(void *data)
 		// 2) eat
 		eat(philo);
 		// 3) sleep --> write status & precise usleep
-		precise_usleep(philo);
+		write_status(SLEEPING, philo, true);
+		precise_usleep(philo->table->time_to_sleep, philo->table);
 
 		// 4) think
 		thinking(philo);

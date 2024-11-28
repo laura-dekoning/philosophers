@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/13 13:44:44 by lade-kon      #+#    #+#                 */
-/*   Updated: 2024/11/14 14:51:18 by lade-kon      ########   odam.nl         */
+/*   Updated: 2024/11/27 13:41:51 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	write_status(t_philo_status status, t_philo *philo, bool debug)
 	size_t	elapsed;
 
 	elapsed = gettime(MILLISECONDS);
+	if (philo->full)
+		return ;
 	pthread_mutex_lock(&philo->table->write_mutex);
 	if (debug)
 		write_status_debug(status, philo, debug);
@@ -34,5 +36,4 @@ void	write_status(t_philo_status status, t_philo *philo, bool debug)
 			PRINT_DIED(elapsed, philo->philo_id);
 	}
 	pthread_mutex_unlock(&philo->table->write_mutex);
-	
 }

@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/11 16:16:05 by lade-kon      #+#    #+#                 */
-/*   Updated: 2024/11/14 14:36:40 by lade-kon      ########   odam.nl         */
+/*   Updated: 2024/11/27 13:42:00 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,5 +79,6 @@ void	precise_usleep(size_t usec, t_table *table);
 // SYNCHRO UTILS
 void	wait_all_threads(t_table *table);
 
+void	write_status(t_philo_status status, t_philo *philo, bool debug);
 
 #endif
