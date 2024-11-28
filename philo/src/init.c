@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/26 16:48:44 by lade-kon      #+#    #+#                 */
-/*   Updated: 2024/11/14 13:49:41 by lade-kon      ########   odam.nl         */
+/*   Updated: 2024/11/28 17:20:16 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ int	init_philos(t_table *table)
 		philo->full = false;
 		philo->table = table;
 		assign_forks(philo, table->forks, i);
+		if (mutex_handle(&philo->philo_mutex, INIT) != SUCCESS)
+			return (ft_error(table, MUTEX_INIT));
 		i++;
 	}
 
@@ -81,9 +83,9 @@ int	init_table(t_table *table)
 	table->all_threads_ready = false;
 	table->eat_limit = false;
 	table->death = false;
-	if (pthread_mutex_init(&table->table_mutex, NULL) != SUCCESS)
+	if (mutex_handle(&table->table_mutex, INIT) != SUCCESS)
 		return (ft_error(table, MUTEX_INIT));
-	if (pthread_mutex_init(&table->write_mutex, NULL) != SUCCESS)
+	if (mutex_handle(&table->write_mutex, INIT) != SUCCESS)
 		return (ft_error(table, MUTEX_INIT));
 	
 	retval = init_philos(table); //TODO: still have to rework this into something else probably

@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/11 16:22:56 by lade-kon      #+#    #+#                 */
-/*   Updated: 2024/11/14 14:40:39 by lade-kon      ########   odam.nl         */
+/*   Updated: 2024/11/28 16:16:40 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <stdbool.h>
 # include <inttypes.h>
 
-typedef	struct s_table	t_table;
+typedef struct s_table	t_table;
 
 /**
  * @brief PHILO
@@ -34,7 +34,7 @@ typedef struct s_philo
 	bool			full;
 	pthread_mutex_t	*first_fork;
 	pthread_mutex_t	*second_fork;
-	pthread_mutex_t	philo_mutex;
+	pthread_mutex_t	philo_mutex; //useful for races with the monitor
 	t_table			*table;
 }			t_philo;
 
@@ -54,7 +54,7 @@ typedef struct s_philo
  * 
  * ./philo 5 800 200 200 [5]
  */
-typedef	struct s_table
+typedef struct s_table
 {
 	size_t			philo_count;
 	size_t			time_to_die;
@@ -68,10 +68,10 @@ typedef	struct s_table
 	bool			eat_limit;
 	bool			death;
 	t_philo			*philos; //array of philos
-	pthread_t		*philo_threads; // a philo is a thread, this is the philothread_id
+	pthread_t		*philo_threads; // a philo is a thread, this is the id
 	pthread_mutex_t	*forks; //array of forks
-	pthread_mutex_t table_mutex; //avoid races while reading from table
-	pthread_mutex_t	write_mutex; 
+	pthread_mutex_t	table_mutex; //avoid races while reading from table
+	pthread_mutex_t	write_mutex;
 }					t_table;
 
 // struct timeval {
@@ -83,7 +83,17 @@ typedef enum s_time_code
 	SECONDS,
 	MILLISECONDS,
 	MICROSECONDS
-}			t_time_code;
+}	t_time_code;
+
+typedef enum s_opcode
+{
+	LOCK,
+	UNLOCK,
+	CREATE,
+	INIT,
+	JOIN,
+	DESTROY
+}	t_opcode;
 
 typedef enum s_philo_status
 {
@@ -93,6 +103,6 @@ typedef enum s_philo_status
 	TAKE_FIRST_FORK,
 	TAKE_SECOND_FORK,
 	DEAD
-}			t_philo_status;
+}	t_philo_status;
 
 #endif
