@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/13 11:57:25 by lade-kon      #+#    #+#                 */
-/*   Updated: 2024/11/28 17:17:07 by lade-kon      ########   odam.nl         */
+/*   Updated: 2024/12/06 14:57:15 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,5 +22,6 @@ int	mutex_handle(pthread_mutex_t *mutex, t_opcode opcode)
 	else if (opcode == INIT)
 		return (pthread_mutex_init(mutex, NULL));
 	else if (opcode == DESTROY)
-		return (pthread_mutex_destory(mutex));
+		return (pthread_mutex_destroy(mutex));
+	return (ERROR);
 }

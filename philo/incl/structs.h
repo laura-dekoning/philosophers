@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/11 16:22:56 by lade-kon      #+#    #+#                 */
-/*   Updated: 2024/11/28 16:16:40 by lade-kon      ########   odam.nl         */
+/*   Updated: 2024/12/06 14:55:20 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,10 @@
 # include <pthread.h>
 # include <stdbool.h>
 # include <inttypes.h>
+# include <sys/time.h>
 
 typedef struct s_table	t_table;
+
 
 /**
  * @brief PHILO
@@ -29,8 +31,8 @@ typedef struct s_table	t_table;
 typedef struct s_philo
 {
 	int				philo_id;
-	int				meals_eaten;
-	size_t			last_meal_time; //time passed from last meal
+	size_t			meals_eaten;
+	long			last_meal_time; //time passed from last meal
 	bool			full;
 	pthread_mutex_t	*first_fork;
 	pthread_mutex_t	*second_fork;

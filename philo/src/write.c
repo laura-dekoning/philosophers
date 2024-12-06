@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/13 13:44:44 by lade-kon      #+#    #+#                 */
-/*   Updated: 2024/11/28 16:23:04 by lade-kon      ########   odam.nl         */
+/*   Updated: 2024/12/06 15:13:50 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,14 @@
 void	write_status(t_philo_status status, t_philo *philo)
 {
 	size_t	elapsed;
+	size_t	time;
+	int		id;
 
-	elapsed = gettime(MILLISECONDS);
 	if (philo->full)
 		return ;
+	elapsed = gettime(MILLISECONDS);
+	time = elapsed - philo->table->start_simulation;
+	id = philo->philo_id;
 	pthread_mutex_lock(&philo->table->write_mutex);
 	if ((status == TAKE_FIRST_FORK || status == TAKE_SECOND_FORK) && !simulation_finished(philo->table))
 		printf(B_W"%-6ld"DEF"%d %s\n", time, id, FORK);

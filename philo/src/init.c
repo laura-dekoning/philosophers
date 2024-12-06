@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/26 16:48:44 by lade-kon      #+#    #+#                 */
-/*   Updated: 2024/11/28 17:20:16 by lade-kon      ########   odam.nl         */
+/*   Updated: 2024/12/06 14:39:38 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 int	init_forks(t_table *table)
 {
-	int	i;
+	size_t	i;
 
 	table->forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * table->philo_count);
 	if (!table->forks)
@@ -46,7 +46,7 @@ void	assign_forks(t_philo *philo, pthread_mutex_t *forks, int i)
 
 int	init_philos(t_table *table)
 {
-	int		i;
+	size_t		i;
 	t_philo	*philo;
 
 	table->philos = (t_philo *)malloc(sizeof(t_philo) * table->philo_count);
@@ -89,7 +89,7 @@ int	init_table(t_table *table)
 		return (ft_error(table, MUTEX_INIT));
 	
 	retval = init_philos(table); //TODO: still have to rework this into something else probably
-	if (retval != table->philo_count)
+	if ((unsigned long)retval != table->philo_count)
 	{
 		while (retval > 0)
 		{

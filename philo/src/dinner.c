@@ -6,11 +6,16 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/12 09:05:35 by lade-kon      #+#    #+#                 */
-/*   Updated: 2024/11/28 17:24:20 by lade-kon      ########   odam.nl         */
+/*   Updated: 2024/12/06 14:52:54 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+static void	think(t_philo *philo)
+{
+	write_status(THINKING, philo);
+}
 
 /**
  * eat routine
@@ -21,19 +26,19 @@
  */
 static void	eat(t_philo *philo)
 {
-	mutex_handle(&philo->first_fork, LOCK);
+	mutex_handle(philo->first_fork, LOCK);
 	write_status(TAKE_FIRST_FORK, philo);
-	mutex_handle(&philo->second_fork, LOCK);
+	mutex_handle(philo->second_fork, LOCK);
 	write_status(TAKE_SECOND_FORK, philo);
-	set_long(&philo->philo_mutex, philo->last_meal_time, gettime(MILLISECONDS));
+	set_long(&philo->philo_mutex, &philo->last_meal_time, gettime(MILLISECONDS));
 	philo->meals_eaten++;
 	write_status(EATING, philo);
 	precise_usleep(philo->table->time_to_eat, philo->table);
 	if (philo->table->meal_limit > 0
 		&& philo->meals_eaten == philo->table->meal_limit)
 		set_bool(&philo->philo_mutex, &philo->full, true);
-	mutex_handle(&philo->first_fork, UNLOCK);
-	mutex_handle(&philo->second_fork, UNLOCK);
+	mutex_handle(philo->first_fork, UNLOCK);
+	mutex_handle(philo->second_fork, UNLOCK);
 }
 
 /**
@@ -61,14 +66,14 @@ void	*dinner_routine(void *data)
 		precise_usleep(philo->table->time_to_sleep, philo->table);
 
 		// 4) think
-		thinking(philo);
+		think(philo);
 	}
 	return (NULL);
 }
 
 int	dinner_start(t_table *table)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
 	if (table->meal_limit == 0)
@@ -79,7 +84,7 @@ int	dinner_start(t_table *table)
 	{
 		while (i < table->philo_count)
 		{
-			if (pthread_create(table->philo_threads[i], 0, dinner_routine, &table->philos[i]) != SUCCESS)
+			if (pthread_create(&table->philo_threads[i], 0, dinner_routine, &table->philos[i]) != SUCCESS)
 			{
 				while (i >= 0)
 				{
@@ -98,8 +103,9 @@ int	dinner_start(t_table *table)
 	i = 0;
 	while (i < table->philo_count)
 	{
-		pthread_join(&table->philos[i], NULL);
+		pthread_join(table->philo_threads[i], NULL);
 		i++;
 	}
 	// if we get here, all philos are full!
+	return (SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/12 09:30:08 by lade-kon      #+#    #+#                 */
-/*   Updated: 2024/11/14 14:16:07 by lade-kon      ########   odam.nl         */
+/*   Updated: 2024/12/06 14:58:12 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ size_t	gettimediff(struct timeval start, t_time_code time_code)
 		start_time = ((start.tv_sec * 1000000) + start.tv_usec);
 		return (current_time - start_time);
 	}
+	return (ERROR);
 }
 
 size_t	gettime(t_time_code time_code)
@@ -47,6 +48,7 @@ size_t	gettime(t_time_code time_code)
 		return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
 	else if (time_code == MICROSECONDS)
 		return ((time.tv_sec * 1000000) + time.tv_usec);
+	return (ERROR);
 }
 
 void	precise_usleep(size_t usec, t_table *table)
