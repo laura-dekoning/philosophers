@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/11 16:15:26 by lade-kon      #+#    #+#                 */
-/*   Updated: 2024/12/06 15:30:44 by lade-kon      ########   odam.nl         */
+/*   Updated: 2024/12/06 18:23:13 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ int	main(int argc, char **argv)
 	printf(B_O"Started "O"initialization\n"DEF);
 	if (init_table(&table) != SUCCESS)
 		return (clean_data(&table, ERROR));
+	// print_table(&table);
+	// print_philos(table.philos);
 	printf(B_G"Completed "G"initialization\n"DEF);
 	printf("--------------------------------------\n");
 	printf(B_Y"Started "Y"dinner\n"DEF);

@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/11 16:16:05 by lade-kon      #+#    #+#                 */
-/*   Updated: 2024/12/06 14:37:54 by lade-kon      ########   odam.nl         */
+/*   Updated: 2024/12/06 18:08:54 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,13 @@ int		parse_input(t_table *table, int argc, char **argv);
 int		ft_atoul(const char *str, size_t *num);
 int		init_table(t_table *table);
 void	print_table(t_table *table);
+void	print_philos(t_philo *philo);
+void	print_philo(t_philo *philo);
+
 int		clean_data(t_table *data, int flag);
 
 //DINNER
-int	dinner_start(t_table *table);
+int		dinner_start(t_table *table);
 
 
 // GETTERS & SETTERS
