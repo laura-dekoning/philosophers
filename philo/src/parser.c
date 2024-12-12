@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/16 18:15:27 by lade-kon      #+#    #+#                 */
-/*   Updated: 2024/11/12 09:08:05 by lade-kon      ########   odam.nl         */
+/*   Updated: 2024/12/12 20:45:53 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,6 @@ int	parse_input(t_table *table, int argc, char **argv)
 	}
 	else
 		table->meal_limit = -1;
-	print_table(table);
+	// print_table(table);
 	return (SUCCESS);
 }

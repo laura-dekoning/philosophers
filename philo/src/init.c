@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/26 16:48:44 by lade-kon      #+#    #+#                 */
-/*   Updated: 2024/12/12 16:34:26 by lade-kon      ########   odam.nl         */
+/*   Updated: 2024/12/12 20:45:29 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	init_forks(t_table *table)
 		if (pthread_mutex_init(&table->forks[i], NULL) != SUCCESS)
 			return (ft_error(table, MUTEX_INIT));
 		i++;
-		printf(B_Y"Forks assigned: %li\n"DEF, i);
+		// printf(B_Y"Forks assigned: %li\n"DEF, i);
 	}
 	return (SUCCESS);
 }
@@ -72,8 +72,8 @@ int	init_philos(t_table *table)
 		if (mutex_handle(&philo->philo_mutex, INIT) != SUCCESS)
 			return (ft_error(table, MUTEX_INIT));
 		i++;
-		print_philo(philo);
-		printf(B_Y"Philos initiliazed: %li\n"DEF, i);
+		// print_philo(philo);
+		// printf(B_Y"Philos initiliazed: %li\n"DEF, i);
 	}
 
 	return (SUCCESS);

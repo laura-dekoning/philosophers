@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/17 15:23:47 by lade-kon      #+#    #+#                 */
-/*   Updated: 2024/12/06 18:13:09 by lade-kon      ########   odam.nl         */
+/*   Updated: 2024/12/12 20:44:25 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,11 @@ void	print_philos(t_philo *philo)
 	while (i < philo->table->philo_count)
 	{
 		printf("Index: %zu\n", i);
-		printf("Philo id: %i\n", philo->philo_id);
-		printf("Meals eaten: %li\n", philo->meals_eaten);
-		printf("Last meal: %li\n", philo->last_meal_time);
-		printf("Full: %i\n", philo->full);
+		printf("Philo id: %i\n", philo[i].philo_id);
+		printf("Meals eaten: %li\n", philo[i].meals_eaten);
+		printf("Last meal: %li\n", philo[i].last_meal_time);
+		printf("Full: %i\n", philo[i].full);
 		printf("--------------------------------------\n");
-		philo++;
 		i++;
 	}
 }
