@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/26 16:48:44 by lade-kon      #+#    #+#                 */
-/*   Updated: 2024/12/06 18:38:06 by lade-kon      ########   odam.nl         */
+/*   Updated: 2024/12/12 16:34:26 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int	init_forks(t_table *table)
 		if (pthread_mutex_init(&table->forks[i], NULL) != SUCCESS)
 			return (ft_error(table, MUTEX_INIT));
 		i++;
+		printf(B_Y"Forks assigned: %li\n"DEF, i);
 	}
 	return (SUCCESS);
 }
@@ -43,13 +44,13 @@ void	assign_forks(t_philo *philo, pthread_mutex_t *forks, int i)
 	else
 	{
 		philo->first_fork = &forks[i]; //even takes right for first
-		philo->first_fork = &forks[i + 1];
+		philo->second_fork = &forks[(i + 1) % nbr_philos];
 	}
 }
 
 int	init_philos(t_table *table)
 {
-	size_t		i;
+	size_t	i;
 	t_philo	*philo;
 
 	table->philos = (t_philo *)malloc(sizeof(t_philo) * table->philo_count);
@@ -72,6 +73,7 @@ int	init_philos(t_table *table)
 			return (ft_error(table, MUTEX_INIT));
 		i++;
 		print_philo(philo);
+		printf(B_Y"Philos initiliazed: %li\n"DEF, i);
 	}
 
 	return (SUCCESS);
@@ -91,7 +93,8 @@ int	init_table(t_table *table)
 		return (ft_error(table, MUTEX_INIT));
 	if (mutex_handle(&table->write_mutex, INIT) != SUCCESS)
 		return (ft_error(table, MUTEX_INIT));
-	
+	if (init_forks(table) != SUCCESS)
+		return(ft_error(table, MUTEX_INIT));
 	retval = init_philos(table); //TODO: still have to rework this into something else probably
 	if ((unsigned long)retval != table->philo_count)
 	{
