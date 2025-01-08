@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/12 09:05:35 by lade-kon      #+#    #+#                 */
-/*   Updated: 2024/12/12 21:03:53 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/01/08 11:47:28 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@ static void	eat(t_philo *philo)
 	write_status(TAKE_FIRST_FORK, philo);
 	mutex_handle(philo->second_fork, LOCK);
 	write_status(TAKE_SECOND_FORK, philo);
-	set_long(&philo->philo_mutex, &philo->last_meal_time, gettime(MILLISECONDS));
 	philo->meals_eaten++;
 	write_status(EATING, philo);
 	precise_usleep(philo->table->time_to_eat, philo->table);
+	set_long(&philo->philo_mutex, &philo->last_meal_time, gettime(MILLISECONDS));
 	if (philo->table->meal_limit > 0
 		&& philo->meals_eaten == philo->table->meal_limit)
 		set_bool(&philo->philo_mutex, &philo->full, true);
@@ -111,13 +111,33 @@ int	dinner_start(t_table *table)
 }
 
 
+void	*monitor_routine(void *data)
+{
+	t_table	*table;
+	size_t	time;
+	size_t	i;
 
-
+	table = (t_table *)data;
+	time = gettime(MILLISECONDS);
+	mutex_handle(&table->table_mutex, LOCK);
+	i = 0;
+	while (i < table->philo_count)
+	{
+		if ((time - table->philos[i].last_meal_time) > table->time_to_die)
+		{
+			set_bool(&table->write_mutex, &table->death, true);
+			exit(ERROR); //FIX THIS PART!
+		}
+	mutex_handle(&table->table_mutex, UNLOCK);
+	}
+	return (NULL);
+}
 
 
 /**
  * THIS IS THE CHATGPT EXAMPLE
  * JUST WANTED TO READ BACK*/
+/*
 int	dinner_start(t_table *table)
 {
 	size_t	i;
@@ -145,7 +165,7 @@ int	dinner_start(t_table *table)
 	}
 
 	// Start monitoring thread
-	if (pthread_create(&table->monitor_thread, NULL, monitor_philos, table) != SUCCESS)
+	if (pthread_create(&table->monitor_thread, NULL, monitor_routine, table) != SUCCESS)
 	{
 		// Cleanup in case of failure
 		i = 0;
@@ -154,6 +174,7 @@ int	dinner_start(t_table *table)
 			pthread_join(table->philo_threads[i], NULL);
 			i++;
 		}
+		pthread_join(table->monitor_thread, NULL);
 		return (ft_error(table, "Monitoring Threading"));
 	}
 
@@ -176,3 +197,4 @@ int	dinner_start(t_table *table)
 	// If we get here, all philosophers are either full or dead
 	return (SUCCESS);
 }
+*/

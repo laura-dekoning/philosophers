@@ -1,1 +1,4 @@
 staged_diff_output.txt
+*.o
+philo/obj
+obj
