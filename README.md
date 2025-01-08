@@ -1,6 +1,10 @@
 **Dining Philosophers Problem**
 This repository contains a C implementation of the Dining Philosophers Problem. This problem is a classic concurrency challenge in computer science that demonstrates how to manage shared resources (in this case, forks) between multiple processes (philosophers) without causing deadlock or resource contention.
 
+
+![Alt text](file:///home/lade-kon/Pictures/philo_problem)
+
+
 Program Overview
 The project consists of:
 
