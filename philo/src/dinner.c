@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/12 09:05:35 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/01/09 16:57:05 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/01/09 17:09:34 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ void	*monitor_routine(void *data)
 					printf(B_G"Philo[%li]: Time since last meal: %li\n"DEF, i + 1, (time - table->philos[i].last_meal_time));
 					printf(B_R"philo[%li] died\n"DEF, (i+1));
 					//MAKE SURE THE PROGRAM CLEANS AND STOPS.
-					return (ERROR);
+					return (NULL);
 				}
 			}
 			else
@@ -138,6 +138,7 @@ void	*monitor_routine(void *data)
 					printf(B_G"Philo[%li]: Time since last meal: %li\n"DEF, i + 1, (time - table->philos[i].last_meal_time));
 					printf(B_R"philo[%li] died\n"DEF, (i+1));
 					//MAKE SURE THE PROGRAM CLEANS AND STOPS.
+					return (NULL);
 				}
 			}
 			mutex_handle(&table->philos[i].philo_mutex, UNLOCK);
