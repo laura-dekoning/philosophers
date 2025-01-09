@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/13 13:44:44 by lade-kon      #+#    #+#                 */
-/*   Updated: 2024/12/12 20:48:01 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/01/09 14:10:49 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ void	write_status(t_philo_status status, t_philo *philo)
 	size_t	time;
 	int		id;
 
-	if (philo->full)
-		return ;
 	elapsed = gettime(MILLISECONDS);
 	time = elapsed - philo->table->start_simulation;
 	id = philo->philo_id;
