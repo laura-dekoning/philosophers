@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/12 09:05:35 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/01/09 15:02:28 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/01/09 16:57:05 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static void	thinking(t_philo *philo)
 {
 	write_status(THINKING, philo);
+	usleep(600);
 }
 
 static void	sleeping(t_philo *philo)
@@ -58,7 +59,7 @@ static void	eating(t_philo *philo)
 	set_long(&philo->philo_mutex, &philo->last_meal_time, gettime(MILLISECONDS));
 	philo->meals_eaten++;
 	write_status(EATING, philo);
-	printf(B_O"Philo[%i] -> meals eaten: %li\n"DEF, philo->philo_id ,philo->meals_eaten);
+	// printf(B_O"Philo[%i] -> meals eaten: %li\n"DEF, philo->philo_id ,philo->meals_eaten);
 	precise_usleep(philo->table->time_to_eat, philo->table);
 	if (philo->table->meal_limit > 0
 		&& philo->meals_eaten == philo->table->meal_limit)
@@ -81,7 +82,7 @@ void	*dinner_routine(void *data)
 	// 2.0) odd philos start with sleeping so not everyone starts with trying to get the fork
 	if (philo->philo_id % 2 == 0)
 	{
-		printf(B_Y"philo[%i] is even\n"DEF, philo->philo_id);
+		// printf(B_Y"philo[%i] is even\n"DEF, philo->philo_id);
 		eating(philo);
 	}
 	else
@@ -91,12 +92,12 @@ void	*dinner_routine(void *data)
 		// 1) am i full?
 		if (all_philos_full(philo->table))//TODO thread safe if all philos are full
 			break ;
-		// 4) think
-		thinking(philo);
 		// 2) eat
 		eating(philo);
 		// 3) sleep --> write status & precise usleep
 		sleeping(philo);
+		// 4) think
+		thinking(philo);
 	}
 	return (NULL);
 }
@@ -113,8 +114,9 @@ void	*monitor_routine(void *data)
 		i = 0;
 		while (i < table->philo_count)
 		{
-			time = gettime(MILLISECONDS);
 			mutex_handle(&table->philos[i].philo_mutex, LOCK);
+			mutex_handle(&table->time_mutex, LOCK);
+			time = gettime(MILLISECONDS);
 			if (table->philos[i].last_meal_time == 0)
 			{
 				if ((time - table->start_simulation) > table->time_to_die)
@@ -124,6 +126,7 @@ void	*monitor_routine(void *data)
 					printf(B_G"Philo[%li]: Time since last meal: %li\n"DEF, i + 1, (time - table->philos[i].last_meal_time));
 					printf(B_R"philo[%li] died\n"DEF, (i+1));
 					//MAKE SURE THE PROGRAM CLEANS AND STOPS.
+					return (ERROR);
 				}
 			}
 			else
@@ -138,6 +141,7 @@ void	*monitor_routine(void *data)
 				}
 			}
 			mutex_handle(&table->philos[i].philo_mutex, UNLOCK);
+			mutex_handle(&table->time_mutex, UNLOCK);
 			i++;
 		}
 		if (all_philos_full(table) == true)
@@ -151,11 +155,8 @@ int	dinner_start(t_table *table)
 	size_t	i;
 
 	i = 0;
-	if (table->meal_limit == 0)
-		return (SUCCESS); // back to main, clean
-	else if (table->philo_count == 1)
-		return (SUCCESS); 
-
+	if (table->meal_limit == 0 || table->philo_count == 1)
+		return (SUCCESS); // back to main, clean 
 	// Create philosopher threads
 	while (i < table->philo_count)
 	{
