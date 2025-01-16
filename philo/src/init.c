@@ -6,12 +6,11 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/26 16:48:44 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/01/16 17:05:41 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/01/16 17:10:21 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
 
 int	init_forks(t_table *table)
 {
@@ -26,7 +25,6 @@ int	init_forks(t_table *table)
 		if (pthread_mutex_init(&table->forks[i], NULL) != SUCCESS)
 			return (ft_error(table, MUTEX_INIT));
 		i++;
-		// printf(B_Y"Forks assigned: %li\n"DEF, i);
 	}
 	return (SUCCESS);
 }
@@ -68,6 +66,9 @@ int	init_philos(t_table *table)
 		return (ft_error(table, MALLOC));
 	table->philo_threads = (pthread_t *)malloc(sizeof(pthread_t) * table->philo_count);
 	if (!table->philo_threads)
+		return (ft_error(table, MALLOC));
+	table->monitor_thread = (pthread_t *)malloc(sizeof(pthread_t) * table->philo_count);
+	if (!table->monitor_thread)
 		return (ft_error(table, MALLOC));
 	i = 0;
 	while (i < table->philo_count)
