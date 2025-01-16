@@ -6,7 +6,7 @@
 #    By: lade-kon <lade-kon@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2024/10/11 15:53:12 by lade-kon      #+#    #+#                  #
-#    Updated: 2025/01/16 15:03:28 by lade-kon      ########   odam.nl          #
+#    Updated: 2025/01/16 17:25:18 by lade-kon      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME			:=	philo
 
 CC				:=	cc
 #CFLAGS are the compiler flags: show all warnings and include debug info
-CFLAGS			:=	-Wall -Werror -Wextra #-g -fsanitize=address
+CFLAGS			:=	-Wall -Werror -Wextra -g -fsanitize=address
 TFLAGS			:=	-pthread
 
 INCLS_PHILO		:=	incl
@@ -33,7 +33,7 @@ SRC_FILES		:=	main.c \
 					get_set.c \
 					time.c \
 					print.c \
-					write.c \
+					# write.c \
 
 SRC				:=	$(addprefix $(SRC_DIR)/, $(SRC_FILES))
 

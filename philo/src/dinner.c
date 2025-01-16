@@ -6,51 +6,13 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/12 09:05:35 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/01/16 16:59:15 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/01/16 17:22:17 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static bool	all_philos_full(t_table *table)
-{
-	size_t	i;
 
-	i = 0;
-	while (i < table->philo_count)
-	{
-		mutex_handle(&table->philos[i].philo_mutex, LOCK);
-		if (table->philos[i].full == false)
-		{
-			mutex_handle(&table->philos[i].philo_mutex, UNLOCK);
-			return (false);
-		}
-		mutex_handle(&table->philos[i].philo_mutex, UNLOCK);
-		i++;
-	}
-	return (true);
-}
-
-static bool	is_philo_dead(t_table *table, size_t time, size_t i)
-{
-	if (table->philos[i].last_meal_time == 0)
-	{
-		if ((time - table->start_simulation) > table->time_to_die)
-		{
-			write_status(DEAD, &table->philos[i]);
-			return (true);
-		}
-	}
-	else
-	{
-		if ((time - table->philos[i].last_meal_time) > table->time_to_die)
-		{
-			write_status(DEAD, &table->philos[i]);
-			return (true);
-		}
-	}
-	return (false);
-}
 
 static void	*monitor_routine(void *data)
 {
@@ -109,13 +71,11 @@ void	*dinner_routine(void *data)
 	return (NULL);
 }
 
-int	dinner_start(t_table *table)
+int	create_philo_threads(t_table *table)
 {
 	size_t	i;
 
 	i = 0;
-	if (table->meal_limit == 0 || table->philo_count == 1)
-		return (SUCCESS);
 	while (i < table->philo_count)
 	{
 		if (pthread_create(&table->philo_threads[i], NULL, dinner_routine, &table->philos[i]) != SUCCESS)
@@ -125,11 +85,18 @@ int	dinner_start(t_table *table)
 				i--;
 				pthread_join(table->philo_threads[i], NULL);
 			}
-			return (ft_error(table, "Threading"));
+			return (ft_error(table, "Something went wrong will creating philo threads"));
 		}
 		i++;
 	}
-	if (pthread_create(table->monitor_thread, NULL, monitor_routine, table) != SUCCESS)
+	return (SUCCESS);
+}
+
+int	create_monitor_thread(t_table *table)
+{
+	size_t	i;
+
+	if (pthread_create(table->monitor_thread, NULL, monitor_routine, table) == ERROR)
 	{
 		i = 0;
 		while (i < table->philo_count)
@@ -138,8 +105,21 @@ int	dinner_start(t_table *table)
 			i++;
 		}
 		pthread_join(*table->monitor_thread, NULL);
-		return (ft_error(table, "Monitoring Threading"));
+		return (ft_error(table, "Something went wrong will creating the monitoring thread"));
 	}
+	return (SUCCESS);
+}
+
+int	dinner_start(t_table *table)
+{
+	size_t	i;
+
+	if (table->meal_limit == 0 || table->philo_count == 1)
+		return (SUCCESS);
+	if (create_philo_threads(table) == ERROR)
+		return (ERROR);
+	if (create_monitor_thread(table) == ERROR)
+		return (ERROR);
 	gettimeofday(&table->start_time, NULL);
 	table->start_simulation = gettime(MILLISECONDS);
 	set_bool(&table->table_mutex, &table->all_threads_ready, true);

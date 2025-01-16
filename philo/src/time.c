@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/12 09:30:08 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/01/16 17:01:13 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/01/16 17:14:53 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ size_t	gettime(t_time_code time_code)
 	return (ERROR);
 }
 
+/**FIGURE OUT HOW THIS WORKS */
 void	precise_usleep(size_t time_to, t_table *table)
 {
 	size_t	start;
