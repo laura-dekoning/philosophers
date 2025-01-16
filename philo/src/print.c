@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/17 15:23:47 by lade-kon      #+#    #+#                 */
-/*   Updated: 2024/12/12 20:44:25 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/01/16 16:57:42 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void	print_table(t_table *table)
 	printf("Start simulatoin: %li\n", table->start_simulation);
 	printf("End simulation: %i\n", table->end_simulation);
 	printf("All threads ready: %i\n", table->all_threads_ready);
-	printf("Death: %i\n", table->death);
 }
 
 void	print_philos(t_philo *philo)

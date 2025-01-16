@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/12 09:30:08 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/01/16 16:22:28 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/01/16 17:01:13 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ void	precise_usleep(size_t time_to, t_table *table)
 	{
 		if (simulation_finished(table))
 			break ;
-		// usleep(500);
 		elapsed = gettime(MILLISECONDS) - start;
 		remain = time_to - elapsed;
 		// to get a spinlock threshold

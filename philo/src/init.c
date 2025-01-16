@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/26 16:48:44 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/01/16 16:26:40 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/01/16 17:05:41 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ int	init_table(t_table *table)
 	if (init_forks(table) != SUCCESS)
 		return(ft_error(table, MUTEX_INIT));
 	retval = init_philos(table); //TODO: still have to rework this into something else probably
+	// print_philos(table->philos);
 	if ((unsigned long)retval != table->philo_count)
 	{
 		while (retval > 0)

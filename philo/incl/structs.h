@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/11 16:22:56 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/01/16 15:05:44 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/01/16 16:57:35 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ typedef struct s_table
 	bool			eat_limit;
 	t_philo			*philos; //array of philos
 	pthread_t		*philo_threads; // a philo is a thread, this is the id
+	pthread_t		*monitor_thread;
 	pthread_mutex_t	*forks; //array of forks
 	pthread_mutex_t	table_mutex; //avoid races while reading from table
 	pthread_mutex_t	write_mutex;

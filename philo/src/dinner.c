@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/12 09:05:35 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/01/16 15:04:30 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/01/16 16:59:15 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,17 @@ int	dinner_start(t_table *table)
 		}
 		i++;
 	}
-	monitor_routine(table);
+	if (pthread_create(table->monitor_thread, NULL, monitor_routine, table) != SUCCESS)
+	{
+		i = 0;
+		while (i < table->philo_count)
+		{
+			pthread_join(table->philo_threads[i], NULL);
+			i++;
+		}
+		pthread_join(*table->monitor_thread, NULL);
+		return (ft_error(table, "Monitoring Threading"));
+	}
 	gettimeofday(&table->start_time, NULL);
 	table->start_simulation = gettime(MILLISECONDS);
 	set_bool(&table->table_mutex, &table->all_threads_ready, true);
