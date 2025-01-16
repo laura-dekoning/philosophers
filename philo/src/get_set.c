@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/12 09:15:35 by lade-kon      #+#    #+#                 */
-/*   Updated: 2024/11/14 14:02:12 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/01/16 13:23:02 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,17 +30,17 @@ bool	get_bool(pthread_mutex_t *mutex, bool *value)
 	return (retval);
 }
 
-//LONG
-void	set_long(pthread_mutex_t *mutex, long *dest, long value)
+//SIZE_T
+void	set_size_t(pthread_mutex_t *mutex, size_t *dest, size_t value)
 {
 	pthread_mutex_lock(mutex);
 	*dest = value;
 	pthread_mutex_unlock(mutex);
 }
 
-long	get_long(pthread_mutex_t *mutex, long *value)
+size_t	get_size_t(pthread_mutex_t *mutex, size_t *value)
 {
-	long	retval;
+	size_t	retval;
 
 	pthread_mutex_lock(mutex);
 	retval = *value;

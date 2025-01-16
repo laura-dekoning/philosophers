@@ -6,13 +6,12 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/13 11:57:25 by lade-kon      #+#    #+#                 */
-/*   Updated: 2024/12/06 14:57:15 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/01/16 16:23:17 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-//Maybe look back in video at 41:00 for return handling
 int	mutex_handle(pthread_mutex_t *mutex, t_opcode opcode)
 {
 	if (opcode == LOCK)

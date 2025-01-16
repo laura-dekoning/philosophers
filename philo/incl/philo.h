@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/11 16:16:05 by lade-kon      #+#    #+#                 */
-/*   Updated: 2024/12/12 17:17:34 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/01/16 15:03:18 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,12 +70,16 @@ int		clean_data(t_table *table, int flag);
 //DINNER
 int		dinner_start(t_table *table);
 
+//DINNER UTILS
+void	thinking(t_philo *philo);
+void	sleeping(t_philo *philo);
+void	eating(t_philo *philo);
 
 // GETTERS & SETTERS
 void	set_bool(pthread_mutex_t *mutex, bool *dest, bool value);
 bool	get_bool(pthread_mutex_t *mutex, bool *value);
-void	set_long(pthread_mutex_t *mutex, long *dest, long value);
-long	get_long(pthread_mutex_t *mutex, long *value);
+void	set_size_t(pthread_mutex_t *mutex, size_t *dest, size_t value);
+size_t	get_size_t(pthread_mutex_t *mutex, size_t *value);
 bool	simulation_finished(t_table *table);
 
 // TIME UTILS

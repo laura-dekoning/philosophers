@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/11 16:22:56 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/01/09 15:58:01 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/01/16 15:05:44 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ typedef struct s_philo
 {
 	int				philo_id;
 	size_t			meals_eaten;
-	long			last_meal_time; //time passed from last meal
+	size_t			last_meal_time; //time passed from last meal
 	bool			full;
 	pthread_mutex_t	*first_fork;
 	pthread_mutex_t	*second_fork;
@@ -68,10 +68,8 @@ typedef struct s_table
 	bool			end_simulation; //a philo dies or when all philos are full
 	bool			all_threads_ready;
 	bool			eat_limit;
-	bool			death;
 	t_philo			*philos; //array of philos
 	pthread_t		*philo_threads; // a philo is a thread, this is the id
-	pthread_t		*monitor_thread; // a thread that is monitoring TTD
 	pthread_mutex_t	*forks; //array of forks
 	pthread_mutex_t	table_mutex; //avoid races while reading from table
 	pthread_mutex_t	write_mutex;

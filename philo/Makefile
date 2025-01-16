@@ -6,7 +6,7 @@
 #    By: lade-kon <lade-kon@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2024/10/11 15:53:12 by lade-kon      #+#    #+#                  #
-#    Updated: 2025/01/09 12:26:05 by lade-kon      ########   odam.nl          #
+#    Updated: 2025/01/16 15:03:28 by lade-kon      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,7 @@ SRC_FILES		:=	main.c \
 					parser.c \
 					init.c \
 					dinner.c \
+					dinner_utils.c \
 					utils.c \
 					synchro_utils.c \
 					get_set.c \
