@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/12 09:05:35 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/01/17 19:16:43 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/01/17 19:54:14 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,12 @@ static void	*monitor_routine(void *data)
 		while (i < table->philo_count)
 		{
 			mutex_handle(&table->philos[i].philo_mutex, LOCK);
-			mutex_handle(&table->time_mutex, LOCK);
+			mutex_handle(&table->table_mutex, LOCK);
 			time = gettime();
 			if (is_philo_dead(table, time, i) == true)
 				set_bool(&table->write_mutex, &table->end_simulation, true);
 			mutex_handle(&table->philos[i].philo_mutex, UNLOCK);
-			mutex_handle(&table->time_mutex, UNLOCK);
+			mutex_handle(&table->table_mutex, UNLOCK);
 			i++;
 		}
 		if (all_philos_full(table) == true)
@@ -53,7 +53,8 @@ void	*dinner_routine(void *data)
 	philo = (t_philo *)data;
 	if (philo->table->ready_to_start != true)
 		return (NULL);
-	wait_all_threads(philo->table);
+	if (get_bool(&philo->table->table_mutex, philo->table->ready_to_start) != true)
+		return (NULL);
 	if (philo->philo_id % 2 == 0)
 	{
 		eating(philo);
