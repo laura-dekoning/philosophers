@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/26 16:48:44 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/01/16 17:10:21 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/01/17 14:15:41 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ int	init_forks(t_table *table)
 {
 	size_t	i;
 
-	table->forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * table->philo_count);
+	table->forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t)
+			* table->philo_count);
 	if (!table->forks)
 		return (ft_error(table, MALLOC));
 	i = 0;
@@ -56,20 +57,30 @@ void	assign_forks(t_philo *philo, pthread_mutex_t *forks, int i)
 	}
 }
 
+int	malloc_data(t_table *table)
+{
+	table->philos = (t_philo *)malloc(sizeof(t_philo)
+			* table->philo_count);
+	if (!table->philos)
+		return (ft_error(table, MALLOC));
+	table->philo_threads = (pthread_t *)malloc(sizeof(pthread_t)
+			* table->philo_count);
+	if (!table->philo_threads)
+		return (ft_error(table, MALLOC));
+	table->monitor_thread = (pthread_t *)malloc(sizeof(pthread_t)
+			* table->philo_count);
+	if (!table->monitor_thread)
+		return (ft_error(table, MALLOC));
+	return (SUCCESS);
+}
+
 int	init_philos(t_table *table)
 {
 	size_t	i;
 	t_philo	*philo;
 
-	table->philos = (t_philo *)malloc(sizeof(t_philo) * table->philo_count);
-	if (!table->philos)
-		return (ft_error(table, MALLOC));
-	table->philo_threads = (pthread_t *)malloc(sizeof(pthread_t) * table->philo_count);
-	if (!table->philo_threads)
-		return (ft_error(table, MALLOC));
-	table->monitor_thread = (pthread_t *)malloc(sizeof(pthread_t) * table->philo_count);
-	if (!table->monitor_thread)
-		return (ft_error(table, MALLOC));
+	if (malloc_data(table) != SUCCESS)
+		return (ERROR);
 	i = 0;
 	while (i < table->philo_count)
 	{
@@ -87,7 +98,6 @@ int	init_philos(t_table *table)
 	return (SUCCESS);
 }
 
-//figure out how you want to do the returns and error messages (where to free etc).
 int	init_table(t_table *table)
 {
 	int	retval;
@@ -101,9 +111,8 @@ int	init_table(t_table *table)
 	if (mutex_handle(&table->write_mutex, INIT) != SUCCESS)
 		return (ft_error(table, MUTEX_INIT));
 	if (init_forks(table) != SUCCESS)
-		return(ft_error(table, MUTEX_INIT));
-	retval = init_philos(table); //TODO: still have to rework this into something else probably
-	// print_philos(table->philos);
+		return (ft_error(table, MUTEX_INIT));
+	retval = init_philos(table);
 	if ((unsigned long)retval != table->philo_count)
 	{
 		while (retval > 0)

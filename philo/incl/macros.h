@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/17 18:40:47 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/01/16 16:25:04 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/01/16 19:21:32 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@
 # define THREAD_CREATE "Oh no, something went wrong while creating threads."
 # define MUTEX_INIT "Mutex initialization went wrong."
 # define THREAD_JOIN "Joining threads didn't work appropriately."
+# define PHILO "Something went wrong will creating philo threads."
+# define MONITOR "Something went wrong will creating the monitoring thread."
 
 // Messages for philos
 # define FORK "has taken a fork"

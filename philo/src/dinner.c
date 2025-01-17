@@ -6,13 +6,11 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/12 09:05:35 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/01/16 17:22:17 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/01/17 17:22:15 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-
 
 static void	*monitor_routine(void *data)
 {
@@ -28,7 +26,7 @@ static void	*monitor_routine(void *data)
 		{
 			mutex_handle(&table->philos[i].philo_mutex, LOCK);
 			mutex_handle(&table->time_mutex, LOCK);
-			time = gettime(MILLISECONDS);
+			time = gettime();
 			if (is_philo_dead(table, time, i) == true)
 				set_bool(&table->write_mutex, &table->end_simulation, true);
 			mutex_handle(&table->philos[i].philo_mutex, UNLOCK);
@@ -78,14 +76,15 @@ int	create_philo_threads(t_table *table)
 	i = 0;
 	while (i < table->philo_count)
 	{
-		if (pthread_create(&table->philo_threads[i], NULL, dinner_routine, &table->philos[i]) != SUCCESS)
+		if (i == 5 || pthread_create(&table->philo_threads[i], NULL,
+				dinner_routine, &table->philos[i]) != SUCCESS)
 		{
 			while (i > 0)
 			{
 				i--;
 				pthread_join(table->philo_threads[i], NULL);
 			}
-			return (ft_error(table, "Something went wrong will creating philo threads"));
+			return (ft_error(table, PHILO));
 		}
 		i++;
 	}
@@ -96,7 +95,8 @@ int	create_monitor_thread(t_table *table)
 {
 	size_t	i;
 
-	if (pthread_create(table->monitor_thread, NULL, monitor_routine, table) == ERROR)
+	if (pthread_create(table->monitor_thread, NULL,
+			monitor_routine, table) == ERROR)
 	{
 		i = 0;
 		while (i < table->philo_count)
@@ -105,7 +105,7 @@ int	create_monitor_thread(t_table *table)
 			i++;
 		}
 		pthread_join(*table->monitor_thread, NULL);
-		return (ft_error(table, "Something went wrong will creating the monitoring thread"));
+		return (ft_error(table, MONITOR));
 	}
 	return (SUCCESS);
 }
@@ -121,7 +121,7 @@ int	dinner_start(t_table *table)
 	if (create_monitor_thread(table) == ERROR)
 		return (ERROR);
 	gettimeofday(&table->start_time, NULL);
-	table->start_simulation = gettime(MILLISECONDS);
+	table->start_simulation = gettime();
 	set_bool(&table->table_mutex, &table->all_threads_ready, true);
 	i = 0;
 	while (i < table->philo_count)

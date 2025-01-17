@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/16 18:15:27 by lade-kon      #+#    #+#                 */
-/*   Updated: 2024/12/12 20:45:53 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/01/16 19:19:47 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int	ft_numlen(const char *str)
 	return (i);
 }
 
-static int valid_input(const char *str, const char **num_start)
+static int	valid_input(const char *str, const char **num_start)
 {
 	while (*str == ' ' || (*str >= 9 && *str <= 13))
 		str++;
@@ -52,9 +52,8 @@ int	ft_atoul(const char *str, size_t *num)
 
 	num_start = NULL;
 	number = 0;
-
 	if (valid_input(str, &num_start) != SUCCESS)
-		return (ERROR); 
+		return (ERROR);
 	str = num_start;
 	while (ft_isdigit(*str) == true)
 	{
@@ -69,14 +68,14 @@ int	ft_atoul(const char *str, size_t *num)
 
 int	parse_input(t_table *table, int argc, char **argv)
 {
-	 if (ft_atoul(argv[1], &table->philo_count) != SUCCESS)
-	 	return (ERROR);
-	 if (ft_atoul(argv[2], &table->time_to_die) != SUCCESS)
-	 	return (ERROR);
-	 if (ft_atoul(argv[3], &table->time_to_eat) != SUCCESS)
-	 	return (ERROR);
-	 if (ft_atoul(argv[4], &table->time_to_sleep) != SUCCESS)
-	 	return (ERROR);
+	if (ft_atoul(argv[1], &table->philo_count) != SUCCESS)
+		return (ERROR);
+	if (ft_atoul(argv[2], &table->time_to_die) != SUCCESS)
+		return (ERROR);
+	if (ft_atoul(argv[3], &table->time_to_eat) != SUCCESS)
+		return (ERROR);
+	if (ft_atoul(argv[4], &table->time_to_sleep) != SUCCESS)
+		return (ERROR);
 	if (argc == 6)
 	{
 		table->eat_limit = true;
@@ -85,6 +84,5 @@ int	parse_input(t_table *table, int argc, char **argv)
 	}
 	else
 		table->meal_limit = -1;
-	// print_table(table);
 	return (SUCCESS);
 }

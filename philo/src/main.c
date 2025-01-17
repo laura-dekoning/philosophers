@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/11 16:15:26 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/01/16 17:14:14 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/01/17 14:14:03 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	clean_data(t_table *table, int flag)
 	if (table->philos)
 		free (table->philos);
 	if (table->philo_threads)
-		free (table->philo_threads);	
+		free (table->philo_threads);
 	if (table->monitor_thread)
 		free (table->monitor_thread);
 	if (table->forks)

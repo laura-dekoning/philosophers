@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/12 09:05:35 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/01/16 15:02:51 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/01/16 19:30:59 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	eating(t_philo *philo)
 	write_status(TAKE_FIRST_FORK, philo);
 	mutex_handle(philo->second_fork, LOCK);
 	write_status(TAKE_SECOND_FORK, philo);
-	set_size_t(&philo->philo_mutex, &philo->last_meal_time, gettime(MILLISECONDS));
+	set_size_t(&philo->philo_mutex, &philo->last_meal_time, gettime());
 	philo->meals_eaten++;
 	write_status(EATING, philo);
 	precise_usleep(philo->table->time_to_eat, philo->table);

@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/11 16:22:56 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/01/16 16:57:35 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/01/16 19:30:42 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 # include <sys/time.h>
 
 typedef struct s_table	t_table;
-
 
 /**
  * @brief PHILO
@@ -76,17 +75,6 @@ typedef struct s_table
 	pthread_mutex_t	write_mutex;
 	pthread_mutex_t	time_mutex; //useful for races with the monitor
 }					t_table;
-
-// struct timeval {
-//     time_t      tv_sec;     // seconds
-//     suseconds_t tv_usec;    // microseconds
-// };
-typedef enum s_time_code
-{
-	SECONDS,
-	MILLISECONDS,
-	MICROSECONDS
-}	t_time_code;
 
 typedef enum s_opcode
 {
