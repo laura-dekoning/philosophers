@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/11 16:22:56 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/01/17 19:02:38 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/01/17 19:25:25 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct s_philo
 	pthread_mutex_t	*first_fork;
 	pthread_mutex_t	*second_fork;
 	pthread_mutex_t	philo_mutex; //useful for races with the monitor
+	pthread_mutex_t	last_meal_time_mutex; //mutex for the last meal time
 	t_table			*table;
 }			t_philo;
 
