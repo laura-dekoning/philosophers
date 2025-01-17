@@ -6,7 +6,7 @@
 #    By: lade-kon <lade-kon@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2024/10/11 15:53:12 by lade-kon      #+#    #+#                  #
-#    Updated: 2025/01/17 17:12:57 by lade-kon      ########   odam.nl          #
+#    Updated: 2025/01/17 19:36:13 by lade-kon      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ SRC_DIR			:=	src
 SRC_FILES		:=	main.c \
 					parser.c \
 					init.c \
+					mutexes.c \
 					dinner.c \
 					dinner_utils.c \
 					utils.c \

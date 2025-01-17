@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/11 16:16:05 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/01/16 19:31:17 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/01/17 19:43:44 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,8 @@ void	precise_usleep(size_t usec, t_table *table);
 
 // MUTEX
 int		mutex_handle(pthread_mutex_t *mutex, t_opcode opcode);
+int		init_forks(t_table *table);
+
 
 // SYNCHRO UTILS
 void	wait_all_threads(t_table *table);

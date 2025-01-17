@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/11 16:22:56 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/01/17 19:25:25 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/01/17 19:35:02 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,12 +73,13 @@ typedef struct s_table
 	pthread_t		*philo_threads; // a philo is a thread, this is the id
 	pthread_t		*monitor_thread;
 	pthread_mutex_t	*forks; //array of forks
+	pthread_mutex_t	*prog_m; //array of program mutexes
 	pthread_mutex_t	table_mutex; //avoid races while reading from table
 	pthread_mutex_t	write_mutex;
 	pthread_mutex_t	time_mutex; //useful for races with the monitor
 }					t_table;
 
-typedef enum s_opcode
+typedef enum e_opcode
 {
 	LOCK,
 	UNLOCK,
@@ -88,7 +89,7 @@ typedef enum s_opcode
 	DESTROY
 }	t_opcode;
 
-typedef enum s_philo_status
+typedef enum e_philo_status
 {
 	EATING,
 	SLEEPING,
@@ -97,5 +98,13 @@ typedef enum s_philo_status
 	TAKE_SECOND_FORK,
 	DEAD
 }	t_philo_status;
+
+typedef enum e_prog
+{
+	START,
+	STOP,
+	DISPLAY,
+	ALL
+}	t_prog;
 
 #endif

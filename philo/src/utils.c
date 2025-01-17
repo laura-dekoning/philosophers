@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/13 11:57:25 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/01/17 14:13:38 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/01/17 19:43:15 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,3 +88,20 @@ void	write_status(t_philo_status status, t_philo *philo)
 		printf("%-6ld%d %s\n", time, id, DIED);
 	pthread_mutex_unlock(&philo->table->write_mutex);
 }
+
+//Check if this is correct, maybe something else needs to happen if simulation is finished.
+//But maybe just unlock and NOT print is fine. 
+// void	write_status(char *status, t_philo *philo)
+// {
+// 	size_t	elapsed;
+// 	size_t	time;
+// 	int		id;
+
+// 	elapsed = gettime();
+// 	time = elapsed - philo->table->start_simulation;
+// 	id = philo->philo_id;
+// 	mutex_handle(&philo->table->prog_m[DISPLAY], LOCK);
+// 	if (!simulation_finished(philo->table))
+// 		printf("%-6ld%d %s\n", time, id, status);
+// 	mutex_handle(&philo->table->prog_m[DISPLAY], UNLOCK);
+// }
