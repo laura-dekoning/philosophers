@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/13 11:57:25 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/01/17 19:43:15 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/01/22 12:44:13 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,9 @@ bool	is_philo_dead(t_table *table, size_t time, size_t i)
 	return (false);
 }
 
-void	write_status(t_philo_status status, t_philo *philo)
+//Check if this is correct, maybe something else needs to happen if simulation is finished.
+//But maybe just unlock and NOT print is fine. 
+void	write_status(char *status, t_philo *philo)
 {
 	size_t	elapsed;
 	size_t	time;
@@ -74,34 +76,8 @@ void	write_status(t_philo_status status, t_philo *philo)
 	elapsed = gettime();
 	time = elapsed - philo->table->start_simulation;
 	id = philo->philo_id;
-	pthread_mutex_lock(&philo->table->write_mutex);
-	if ((status == TAKE_FIRST_FORK || status == TAKE_SECOND_FORK)
-		&& !simulation_finished(philo->table))
-		printf("%-6ld%d %s\n", time, id, FORK);
-	else if (status == EATING && !simulation_finished(philo->table))
-		printf("%-6ld%d %s\n", time, id, EAT);
-	else if (status == SLEEPING && !simulation_finished(philo->table))
-		printf("%-6ld%d %s\n", time, id, SLEEP);
-	else if (status == THINKING && !simulation_finished(philo->table))
-		printf("%-6ld%d %s\n", time, id, THINK);
-	else if (status == DEAD && !simulation_finished(philo->table))
-		printf("%-6ld%d %s\n", time, id, DIED);
-	pthread_mutex_unlock(&philo->table->write_mutex);
+	mutex_handle(&philo->table->prog_m[DISPLAY], LOCK);
+	if (!simulation_finished(philo->table))
+		printf("%-6ld%d %s\n", time, id, status);
+	mutex_handle(&philo->table->prog_m[DISPLAY], UNLOCK);
 }
-
-//Check if this is correct, maybe something else needs to happen if simulation is finished.
-//But maybe just unlock and NOT print is fine. 
-// void	write_status(char *status, t_philo *philo)
-// {
-// 	size_t	elapsed;
-// 	size_t	time;
-// 	int		id;
-
-// 	elapsed = gettime();
-// 	time = elapsed - philo->table->start_simulation;
-// 	id = philo->philo_id;
-// 	mutex_handle(&philo->table->prog_m[DISPLAY], LOCK);
-// 	if (!simulation_finished(philo->table))
-// 		printf("%-6ld%d %s\n", time, id, status);
-// 	mutex_handle(&philo->table->prog_m[DISPLAY], UNLOCK);
-// }
