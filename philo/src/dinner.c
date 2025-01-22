@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/12 09:05:35 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/01/17 19:54:14 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/01/22 12:28:00 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,6 @@ int	dinner_start(t_table *table)
 		return (ERROR);
 	if (create_monitor_thread(table) == ERROR)
 		return (ERROR);
-	gettimeofday(&table->start_time, NULL);
 	table->start_simulation = gettime();
 	set_bool(&table->table_mutex, &table->ready_to_start, true);
 	i = 0;

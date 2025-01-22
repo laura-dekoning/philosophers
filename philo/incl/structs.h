@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/11 16:22:56 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/01/17 19:54:36 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/01/22 12:28:36 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,11 @@ typedef struct s_philo
 {
 	int				philo_id;
 	size_t			meals_eaten;
-	size_t			last_meal_time; //time passed from last meal
+	size_t			last_meal_time; //time passed from beginning of last meal
 	bool			full;
 	pthread_mutex_t	*first_fork;
 	pthread_mutex_t	*second_fork;
-	pthread_mutex_t	philo_mutex; //useful for races with the monitor
-	pthread_mutex_t	last_meal_time_mutex; //mutex for the last meal time
+	pthread_mutex_t	philo_mutex; //for accessing last_meal_time and meals_eaten
 	t_table			*table;
 }			t_philo;
 
@@ -64,9 +63,7 @@ typedef struct s_table
 	size_t			time_to_sleep;
 	size_t			meal_limit; // [5] || FLAG if -1
 	size_t			start_simulation; //time when simulation is started
-	struct timeval	start_time;
 	bool			end_simulation; //a philo dies or when all philos are full
-	bool			all_threads_ready;
 	bool			ready_to_start;
 	bool			eat_limit;
 	t_philo			*philos; //array of philos
@@ -74,8 +71,7 @@ typedef struct s_table
 	pthread_t		*monitor_thread;
 	pthread_mutex_t	*forks; //array of forks
 	pthread_mutex_t	*prog_m; //array of program mutexes
-	pthread_mutex_t	table_mutex; //avoid races while reading from table
-	pthread_mutex_t	write_mutex; // mutex for someone to change a value in the table
+	pthread_mutex_t	table_mutex; //avoid races while reading/writing from/to table
 }					t_table;
 
 typedef enum e_opcode

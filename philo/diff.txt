@@ -1,0 +1,277 @@
+diff --git a/philo/diff_output.txt b/philo/diff_output.txt
+deleted file mode 100644
+index 079eee1..0000000
+--- a/philo/diff_output.txt
++++ /dev/null
+@@ -1,202 +0,0 @@
+-diff --git a/philo/diff_output.txt b/philo/diff_output.txt
+-index 15dada8..e69de29 100644
+---- a/philo/diff_output.txt
+-+++ b/philo/diff_output.txt
+-@@ -1,136 +0,0 @@
+--diff --git a/philo/Makefile b/philo/Makefile
+--index 291da75..ff7f66e 100644
+----- a/philo/Makefile
+--+++ b/philo/Makefile
+--@@ -6,7 +6,7 @@
+-- 
+--@@ -26,6 +26,7 @@ SRC_DIR			:=	src
+-- SRC_FILES		:=	main.c \
+-- 					parser.c \
+-- 					init.c \
+--+					mutexes.c \
+-- 					dinner.c \
+-- 					dinner_utils.c \
+-- 					utils.c \
+--diff --git a/philo/incl/philo.h b/philo/incl/philo.h
+--index bccd79f..4fc61e3 100644
+----- a/philo/incl/philo.h
+--+++ b/philo/incl/philo.h
+--@@ -6,7 +6,7 @@
+-- 
+--@@ -91,6 +91,8 @@ void	precise_usleep(size_t usec, t_table *table);
+-- 
+-- // MUTEX
+-- int		mutex_handle(pthread_mutex_t *mutex, t_opcode opcode);
+--+int		init_forks(t_table *table);
+--+
+-- 
+-- // SYNCHRO UTILS
+-- void	wait_all_threads(t_table *table);
+--diff --git a/philo/incl/structs.h b/philo/incl/structs.h
+--index c83e678..a319064 100644
+----- a/philo/incl/structs.h
+--+++ b/philo/incl/structs.h
+--@@ -6,7 +6,7 @@
+-- 
+--@@ -73,12 +73,13 @@ typedef struct s_table
+-- 	pthread_t		*philo_threads; // a philo is a thread, this is the id
+-- 	pthread_t		*monitor_thread;
+-- 	pthread_mutex_t	*forks; //array of forks
+--+	pthread_mutex_t	*prog_m; //array of program mutexes
+-- 	pthread_mutex_t	table_mutex; //avoid races while reading from table
+-- 	pthread_mutex_t	write_mutex;
+-- 	pthread_mutex_t	time_mutex; //useful for races with the monitor
+-- }					t_table;
+-- 
+---typedef enum s_opcode
+--+typedef enum e_opcode
+-- {
+-- 	LOCK,
+-- 	UNLOCK,
+--@@ -88,7 +89,7 @@ typedef enum s_opcode
+-- 	DESTROY
+-- }	t_opcode;
+-- 
+---typedef enum s_philo_status
+--+typedef enum e_philo_status
+-- {
+-- 	EATING,
+-- 	SLEEPING,
+--@@ -98,4 +99,12 @@ typedef enum s_philo_status
+-- 	DEAD
+-- }	t_philo_status;
+-- 
+--+typedef enum e_prog
+--+{
+--+	START,
+--+	STOP,
+--+	DISPLAY,
+--+	ALL
+--+}	t_prog;
+--+
+-- #endif
+--\ No newline at end of file
+--diff --git a/philo/src/init.c b/philo/src/init.c
+--index c4428d1..cf61ec1 100644
+----- a/philo/src/init.c
+--+++ b/philo/src/init.c
+--@@ -6,30 +6,12 @@
+-- 
+-- #include "philo.h"
+-- 
+---int	init_forks(t_table *table)
+---{
+---	size_t	i;
+---
+---	table->forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t)
+---			* table->philo_count);
+---	if (!table->forks)
+---		return (ft_error(table, MALLOC));
+---	i = 0;
+---	while (i < table->philo_count)
+---	{
+---		if (pthread_mutex_init(&table->forks[i], NULL) != SUCCESS)
+---			return (ft_error(table, MUTEX_INIT));
+---		i++;
+---	}
+---	return (SUCCESS);
+---}
+---
+-- /**
+--  * Every philosopher starts with his own fork on the right side.
+--  * So philo[0] (philo 1) has fork[0] on the right and fork[philo_count]
+--@@ -123,5 +105,6 @@ int	init_table(t_table *table)
+-- 			retval--;
+-- 		}
+-- 	}
+--+	//CHECK IF THIS IS NECESSARY
+-- 	return (SUCCESS);
+-- }
+--diff --git a/philo/src/utils.c b/philo/src/utils.c
+--index 26c3ea6..7c84d11 100644
+----- a/philo/src/utils.c
+--+++ b/philo/src/utils.c
+--@@ -6,7 +6,7 @@
+-- 
+--@@ -88,3 +88,20 @@ void	write_status(t_philo_status status, t_philo *philo)
+-- 		printf("%-6ld%d %s\n", time, id, DIED);
+-- 	pthread_mutex_unlock(&philo->table->write_mutex);
+-- }
+--+
+--+//Check if this is correct, maybe something else needs to happen if simulation is finished.
+--+//But maybe just unlock and NOT print is fine. 
+--+// void	write_status(char *status, t_philo *philo)
+--+// {
+--+// 	size_t	elapsed;
+--+// 	size_t	time;
+--+// 	int		id;
+--+
+--+// 	elapsed = gettime();
+--+// 	time = elapsed - philo->table->start_simulation;
+--+// 	id = philo->philo_id;
+--+// 	mutex_handle(&philo->table->prog_m[DISPLAY], LOCK);
+--+// 	if (!simulation_finished(philo->table))
+--+// 		printf("%-6ld%d %s\n", time, id, status);
+--+// 	mutex_handle(&philo->table->prog_m[DISPLAY], UNLOCK);
+--+// }
+-diff --git a/philo/incl/structs.h b/philo/incl/structs.h
+-index a319064..03b4984 100644
+---- a/philo/incl/structs.h
+-+++ b/philo/incl/structs.h
+-@@ -6,7 +6,7 @@
+- 
+-@@ -75,8 +75,7 @@ typedef struct s_table
+- 	pthread_mutex_t	*forks; //array of forks
+- 	pthread_mutex_t	*prog_m; //array of program mutexes
+- 	pthread_mutex_t	table_mutex; //avoid races while reading from table
+--	pthread_mutex_t	write_mutex;
+--	pthread_mutex_t	time_mutex; //useful for races with the monitor
+-+	pthread_mutex_t	write_mutex; // mutex for someone to change a value in the table
+- }					t_table;
+- 
+- typedef enum e_opcode
+-diff --git a/philo/src/dinner.c b/philo/src/dinner.c
+-index c1ebba0..251bc4e 100644
+---- a/philo/src/dinner.c
+-+++ b/philo/src/dinner.c
+-@@ -6,7 +6,7 @@
+- 
+-@@ -25,12 +25,12 @@ static void	*monitor_routine(void *data)
+- 		while (i < table->philo_count)
+- 		{
+- 			mutex_handle(&table->philos[i].philo_mutex, LOCK);
+--			mutex_handle(&table->time_mutex, LOCK);
+-+			mutex_handle(&table->table_mutex, LOCK);
+- 			time = gettime();
+- 			if (is_philo_dead(table, time, i) == true)
+- 				set_bool(&table->write_mutex, &table->end_simulation, true);
+- 			mutex_handle(&table->philos[i].philo_mutex, UNLOCK);
+--			mutex_handle(&table->time_mutex, UNLOCK);
+-+			mutex_handle(&table->table_mutex, UNLOCK);
+- 			i++;
+- 		}
+- 		if (all_philos_full(table) == true)
+-@@ -53,7 +53,8 @@ void	*dinner_routine(void *data)
+- 	philo = (t_philo *)data;
+- 	if (philo->table->ready_to_start != true)
+- 		return (NULL);
+--	wait_all_threads(philo->table);
+-+	if (get_bool(&philo->table->table_mutex, philo->table->ready_to_start) != true)
+-+		return (NULL);
+- 	if (philo->philo_id % 2 == 0)
+- 	{
+- 		eating(philo);
+-diff --git a/philo/src/main.c b/philo/src/main.c
+-index 5fcdfe2..1d58d50 100644
+---- a/philo/src/main.c
+-+++ b/philo/src/main.c
+-@@ -6,7 +6,7 @@
+- 
+-@@ -19,7 +19,6 @@ int	clean_data(t_table *table, int flag)
+- 	i = 0;
+- 	mutex_handle(&table->table_mutex, DESTROY);
+- 	mutex_handle(&table->write_mutex, DESTROY);
+--	mutex_handle(&table->time_mutex, DESTROY);
+- 	while (i < table->philo_count)
+- 	{
+- 		mutex_handle(&table->forks[i], DESTROY);
+diff --git a/philo/incl/structs.h b/philo/incl/structs.h
+index 03b4984..f84b6d3 100644
+--- a/philo/incl/structs.h
++++ b/philo/incl/structs.h
+@@ -6,7 +6,7 @@
+ /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
+ /*                                                   +#+                      */
+ /*   Created: 2024/10/11 16:22:56 by lade-kon      #+#    #+#                 */
+-/*   Updated: 2025/01/17 19:54:36 by lade-kon      ########   odam.nl         */
++/*   Updated: 2025/01/22 12:28:36 by lade-kon      ########   odam.nl         */
+ /*                                                                            */
+ /* ************************************************************************** */
+ 
+@@ -31,12 +31,11 @@ typedef struct s_philo
+ {
+ 	int				philo_id;
+ 	size_t			meals_eaten;
+-	size_t			last_meal_time; //time passed from last meal
++	size_t			last_meal_time; //time passed from beginning of last meal
+ 	bool			full;
+ 	pthread_mutex_t	*first_fork;
+ 	pthread_mutex_t	*second_fork;
+-	pthread_mutex_t	philo_mutex; //useful for races with the monitor
+-	pthread_mutex_t	last_meal_time_mutex; //mutex for the last meal time
++	pthread_mutex_t	philo_mutex; //for accessing last_meal_time and meals_eaten
+ 	t_table			*table;
+ }			t_philo;
+ 
+@@ -64,9 +63,7 @@ typedef struct s_table
+ 	size_t			time_to_sleep;
+ 	size_t			meal_limit; // [5] || FLAG if -1
+ 	size_t			start_simulation; //time when simulation is started
+-	struct timeval	start_time;
+ 	bool			end_simulation; //a philo dies or when all philos are full
+-	bool			all_threads_ready;
+ 	bool			ready_to_start;
+ 	bool			eat_limit;
+ 	t_philo			*philos; //array of philos
+@@ -74,8 +71,7 @@ typedef struct s_table
+ 	pthread_t		*monitor_thread;
+ 	pthread_mutex_t	*forks; //array of forks
+ 	pthread_mutex_t	*prog_m; //array of program mutexes
+-	pthread_mutex_t	table_mutex; //avoid races while reading from table
+-	pthread_mutex_t	write_mutex; // mutex for someone to change a value in the table
++	pthread_mutex_t	table_mutex; //avoid races while reading/writing from/to table
+ }					t_table;
+ 
+ typedef enum e_opcode
+diff --git a/philo/src/dinner.c b/philo/src/dinner.c
+index 251bc4e..932a05d 100644
+--- a/philo/src/dinner.c
++++ b/philo/src/dinner.c
+@@ -6,7 +6,7 @@
+ /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
+ /*                                                   +#+                      */
+ /*   Created: 2024/11/12 09:05:35 by lade-kon      #+#    #+#                 */
+-/*   Updated: 2025/01/17 19:54:14 by lade-kon      ########   odam.nl         */
++/*   Updated: 2025/01/22 12:28:00 by lade-kon      ########   odam.nl         */
+ /*                                                                            */
+ /* ************************************************************************** */
+ 
+@@ -123,7 +123,6 @@ int	dinner_start(t_table *table)
+ 		return (ERROR);
+ 	if (create_monitor_thread(table) == ERROR)
+ 		return (ERROR);
+-	gettimeofday(&table->start_time, NULL);
+ 	table->start_simulation = gettime();
+ 	set_bool(&table->table_mutex, &table->ready_to_start, true);
+ 	i = 0;
