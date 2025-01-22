@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/13 11:57:25 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/01/22 12:55:52 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/01/22 19:01:28 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ bool	all_philos_full(t_table *table)
 	size_t	i;
 	t_philo	*philo;
 
-	philo = &table->philos;
+	philo = table->philos;
 	i = 0;
 	while (i < table->philo_count)
 	{
@@ -47,7 +47,7 @@ bool	is_philo_dead(t_table *table, size_t time, size_t i)
 	{
 		if ((time - table->start_simulation) > table->time_to_die)
 		{
-			write_status(DEAD, &table->philos[i]);
+			write_status(DIED, &table->philos[i]);
 			return (true);
 		}
 	}
@@ -55,7 +55,7 @@ bool	is_philo_dead(t_table *table, size_t time, size_t i)
 	{
 		if ((time - table->philos[i].last_meal_time) > table->time_to_die)
 		{
-			write_status(DEAD, &table->philos[i]);
+			write_status(DIED, &table->philos[i]);
 			return (true);
 		}
 	}
@@ -74,7 +74,13 @@ void	write_status(char *status, t_philo *philo)
 	time = elapsed - philo->table->start_simulation;
 	id = philo->philo_id;
 	mutex_handle(&philo->table->prog_m[DISPLAY], LOCK);
-	if (!simulation_finished(philo->table))
-		printf("%-6ld%d %s\n", time, id, status);
+	if (get_bool(&philo->table->table_mutex, &philo->table->death) == true)
+	{
+		printf("%-6ld%d %s\n", time, id, status); //WHEN SOMEONE DIES SOMETHING HAPPENS
+		mutex_handle(&philo->table->prog_m[DISPLAY], UNLOCK);
+		return ;
+	}
+	else if (!simulation_finished(philo->table))
+		printf("%-6ld%d %s\n", time, id, status); //WHEN SOMEONE DIES SOMETHING HAPPENS
 	mutex_handle(&philo->table->prog_m[DISPLAY], UNLOCK);
 }

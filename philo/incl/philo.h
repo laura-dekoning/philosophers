@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/11 16:16:05 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/01/17 19:43:44 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/01/22 17:21:16 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,8 @@ void	eating(t_philo *philo);
 //UTILS
 bool	all_philos_full(t_table *table);
 bool	is_philo_dead(t_table *table, size_t time, size_t i);
-void	write_status(t_philo_status status, t_philo *philo);
+void	write_status(char *status, t_philo *philo);
+
 
 // GETTERS & SETTERS
 void	set_bool(pthread_mutex_t *mutex, bool *dest, bool value);
@@ -92,6 +93,8 @@ void	precise_usleep(size_t usec, t_table *table);
 // MUTEX
 int		mutex_handle(pthread_mutex_t *mutex, t_opcode opcode);
 int		init_forks(t_table *table);
+int		init_prog_mutexes(t_table *table);
+int		init_mutexes(t_table *table);
 
 
 // SYNCHRO UTILS

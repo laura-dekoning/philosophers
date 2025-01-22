@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/12 09:05:35 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/01/16 19:30:59 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/01/22 16:10:27 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 void	thinking(t_philo *philo)
 {
-	write_status(THINKING, philo);
+	write_status(THINK, philo);
 }
 
 void	sleeping(t_philo *philo)
 {
-	write_status(SLEEPING, philo);
+	write_status(SLEEP, philo);
 	precise_usleep(philo->table->time_to_sleep, philo->table);
 }
 
@@ -34,12 +34,12 @@ void	sleeping(t_philo *philo)
 void	eating(t_philo *philo)
 {
 	mutex_handle(philo->first_fork, LOCK);
-	write_status(TAKE_FIRST_FORK, philo);
+	write_status(FORK, philo);
 	mutex_handle(philo->second_fork, LOCK);
-	write_status(TAKE_SECOND_FORK, philo);
+	write_status(FORK, philo);
 	set_size_t(&philo->philo_mutex, &philo->last_meal_time, gettime());
 	philo->meals_eaten++;
-	write_status(EATING, philo);
+	write_status(EAT, philo);
 	precise_usleep(philo->table->time_to_eat, philo->table);
 	if (philo->table->meal_limit > 0
 		&& philo->meals_eaten == philo->table->meal_limit)

@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/12 09:15:35 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/01/16 17:24:48 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/01/22 18:58:59 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,5 +53,5 @@ size_t	get_size_t(pthread_mutex_t *mutex, size_t *value)
  */
 bool	simulation_finished(t_table *table)
 {
-	return (get_bool(&table->table_mutex, &table->end_simulation));
+	return (get_bool(&table->prog_m[STOP], &table->end_simulation));
 }

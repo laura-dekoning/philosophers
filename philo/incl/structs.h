@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/11 16:22:56 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/01/22 12:47:27 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/01/22 18:11:15 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ typedef struct s_table
 	bool			end_simulation; //true if a philo dies or all philos are full
 	bool			ready_to_start;
 	bool			eat_limit;
+	bool			death;
 	t_philo			*philos; //array of philos
 	pthread_t		*philo_threads; // a philo is a thread, this is the id
 	pthread_t		*monitor_thread;

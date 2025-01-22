@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/26 16:48:44 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/01/22 13:03:21 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/01/22 18:11:34 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,18 +88,10 @@ int	init_table(t_table *table)
 	table->end_simulation = false;
 	table->ready_to_start = false;
 	table->eat_limit = false;
+	table->death = false;
 	if (init_mutexes(table) != SUCCESS)
 		return (ft_error(table, MUTEX_INIT));
-	retval = init_philos(table);
-	if ((unsigned long)retval != table->philo_count)
-	{
-		while (retval > 0)
-		{
-			if (pthread_join(table->philo_threads[retval], NULL) != SUCCESS)
-				return (ft_error(table, THREAD_JOIN));
-			retval--;
-		}
-	}
-	//CHECK IF THIS ABOVE IS NECESSARY
+	if (init_philos(table) != SUCCESS)
+		return (ft_error(table, PHILO_INIT));
 	return (SUCCESS);
 }

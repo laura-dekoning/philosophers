@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/12 09:05:35 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/01/22 12:48:31 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/01/22 18:59:30 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,19 @@ static void	*monitor_routine(void *data)
 		while (i < table->philo_count)
 		{
 			mutex_handle(&table->philos[i].philo_mutex, LOCK);
-			mutex_handle(&table->table_mutex, LOCK);
 			time = gettime();
 			if (is_philo_dead(table, time, i) == true)
-				set_bool(&table->table_mutex, &table->end_simulation, true);
+			{
+				set_bool(&table->table_mutex, &table->death, true);
+				set_bool(&table->prog_m[STOP], &table->end_simulation, true);
+				mutex_handle(&table->philos[i].philo_mutex, UNLOCK);
+				break ;
+			}
 			mutex_handle(&table->philos[i].philo_mutex, UNLOCK);
-			mutex_handle(&table->table_mutex, UNLOCK);
 			i++;
 		}
 		if (all_philos_full(table) == true)
-			set_bool(&table->table_mutex, &table->end_simulation, true);
+			set_bool(&table->prog_m[STOP], &table->end_simulation, true);
 	}
 	return (NULL);
 }
@@ -42,7 +45,7 @@ static void	*monitor_routine(void *data)
 /**
  * Dinner routine
  * ----------------------------------------------------------
- * 1) All philos have to wait till ready --> wait_all_threads
+ * 1) All philos have to wait till ready --> ready_to_start
  * 2) Endless philo loop till philos full or died
  * 3) Odd philos start with sleeping
  */
@@ -51,23 +54,22 @@ void	*dinner_routine(void *data)
 	t_philo	*philo;
 
 	philo = (t_philo *)data;
-	if (philo->table->ready_to_start != true)
-		return (NULL);
-	if (get_bool(&philo->table->table_mutex, philo->table->ready_to_start) != true)
-		return (NULL);
-	if (philo->philo_id % 2 == 0)
+	if (get_bool(&philo->table->prog_m[START], &philo->table->ready_to_start) == true)
 	{
-		eating(philo);
-		sleeping(philo);
-		thinking(philo);
-	}
-	else
-		sleeping(philo);
-	while (!simulation_finished(philo->table))
-	{
-		eating(philo);
-		sleeping(philo);
-		thinking(philo);
+		if (philo->philo_id % 2 == 0)
+		{
+			eating(philo);
+			sleeping(philo);
+			thinking(philo);
+		}
+		else
+			sleeping(philo);
+		while (!simulation_finished(philo->table))
+		{
+			eating(philo);
+			sleeping(philo);
+			thinking(philo);
+		}
 	}
 	return (NULL);
 }

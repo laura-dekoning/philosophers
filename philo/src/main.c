@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/11 16:15:26 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/01/22 13:01:00 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/01/22 16:12:46 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,12 @@ int	clean_data(t_table *table, int flag)
 		mutex_handle(&table->philos[i].philo_mutex, DESTROY);
 		i++;
 	}
+	i = 0;
+	while (i < ALL)
+	{
+		mutex_handle(&table->prog_m[i], DESTROY);
+		i++;
+	}
 	if (table->philos)
 		free (table->philos);
 	if (table->philo_threads)
@@ -32,6 +38,8 @@ int	clean_data(t_table *table, int flag)
 		free (table->monitor_thread);
 	if (table->forks)
 		free (table->forks);
+	if (table->prog_m)
+		free(table->prog_m);
 	return (flag);
 }
 
