@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/11 16:22:56 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/01/22 12:28:36 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/01/22 12:47:27 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ typedef struct s_table
 	size_t			time_to_sleep;
 	size_t			meal_limit; // [5] || FLAG if -1
 	size_t			start_simulation; //time when simulation is started
-	bool			end_simulation; //a philo dies or when all philos are full
+	bool			end_simulation; //true if a philo dies or all philos are full
 	bool			ready_to_start;
 	bool			eat_limit;
 	t_philo			*philos; //array of philos

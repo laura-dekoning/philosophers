@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/13 11:57:25 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/01/22 12:44:13 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/01/22 12:55:52 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,17 +28,14 @@ int	mutex_handle(pthread_mutex_t *mutex, t_opcode opcode)
 bool	all_philos_full(t_table *table)
 {
 	size_t	i;
+	t_philo	*philo;
 
+	philo = &table->philos;
 	i = 0;
 	while (i < table->philo_count)
 	{
-		mutex_handle(&table->philos[i].philo_mutex, LOCK);
-		if (table->philos[i].full == false)
-		{
-			mutex_handle(&table->philos[i].philo_mutex, UNLOCK);
+		if (!get_bool(&philo[i].philo_mutex, &philo[i].full))
 			return (false);
-		}
-		mutex_handle(&table->philos[i].philo_mutex, UNLOCK);
 		i++;
 	}
 	return (true);

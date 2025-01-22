@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/26 16:48:44 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/01/17 19:38:22 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/01/22 12:46:38 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,12 +86,9 @@ int	init_table(t_table *table)
 
 	retval = 0;
 	table->end_simulation = false;
-	table->all_threads_ready = false;
 	table->ready_to_start = false;
 	table->eat_limit = false;
 	if (mutex_handle(&table->table_mutex, INIT) != SUCCESS)
-		return (ft_error(table, MUTEX_INIT));
-	if (mutex_handle(&table->write_mutex, INIT) != SUCCESS)
 		return (ft_error(table, MUTEX_INIT));
 	if (init_forks(table) != SUCCESS)
 		return (ft_error(table, MUTEX_INIT));
@@ -105,6 +102,6 @@ int	init_table(t_table *table)
 			retval--;
 		}
 	}
-	//CHECK IF THIS IS NECESSARY
+	//CHECK IF THIS ABOVE IS NECESSARY
 	return (SUCCESS);
 }

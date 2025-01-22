@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/12 09:05:35 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/01/22 12:28:00 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/01/22 12:48:31 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,13 @@ static void	*monitor_routine(void *data)
 			mutex_handle(&table->table_mutex, LOCK);
 			time = gettime();
 			if (is_philo_dead(table, time, i) == true)
-				set_bool(&table->write_mutex, &table->end_simulation, true);
+				set_bool(&table->table_mutex, &table->end_simulation, true);
 			mutex_handle(&table->philos[i].philo_mutex, UNLOCK);
 			mutex_handle(&table->table_mutex, UNLOCK);
 			i++;
 		}
 		if (all_philos_full(table) == true)
-			set_bool(&table->write_mutex, &table->end_simulation, true);
+			set_bool(&table->table_mutex, &table->end_simulation, true);
 	}
 	return (NULL);
 }
