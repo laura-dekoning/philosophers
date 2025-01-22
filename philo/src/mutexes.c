@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/17 19:35:53 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/01/17 19:36:38 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/01/22 15:24:37 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,34 @@ int	init_forks(t_table *table)
 			return (ft_error(table, MUTEX_INIT));
 		i++;
 	}
+	return (SUCCESS);
+}
+
+int	init_prog_mutexes(t_table *table)
+{
+	size_t	i;
+
+	table->prog_m = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t)
+			* ALL);
+	if (!table->prog_m)
+		return (ft_error(table, MALLOC));
+	i = 0;
+	while (i < ALL)
+	{
+		if (pthread_mutex_init(&table->prog_m[i], NULL) != SUCCESS)
+			return (ft_error(table, MUTEX_INIT));
+		i++;
+	}
+	return (SUCCESS);
+}
+
+int	init_mutexes(t_table *table)
+{
+	if (mutex_handle(&table->table_mutex, INIT) != SUCCESS)
+		return (ft_error(table, MUTEX_INIT));
+	if (init_forks(table) != SUCCESS)
+		return (ft_error(table, MUTEX_INIT));
+	if (init_prog_mutexes(table) != SUCCESS)
+		return (ft_error(table, MUTEX_INIT));
 	return (SUCCESS);
 }

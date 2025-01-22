@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/11 16:15:26 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/01/17 19:54:24 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/01/22 13:01:00 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,10 @@ int	clean_data(t_table *table, int flag)
 
 	i = 0;
 	mutex_handle(&table->table_mutex, DESTROY);
-	mutex_handle(&table->write_mutex, DESTROY);
 	while (i < table->philo_count)
 	{
 		mutex_handle(&table->forks[i], DESTROY);
 		mutex_handle(&table->philos[i].philo_mutex, DESTROY);
-		mutex_handle(table->philos[i].first_fork, DESTROY);
-		mutex_handle(table->philos[i].second_fork, DESTROY);
 		i++;
 	}
 	if (table->philos)
