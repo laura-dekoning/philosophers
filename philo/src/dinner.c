@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/12 09:05:35 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/01/23 17:34:02 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/01/23 19:10:04 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,28 @@ void	*dinner_routine(void *data)
 	t_philo	*philo;
 
 	philo = (t_philo *)data;
-	if (get_bool(&philo->table->prog_m[START], &philo->table->ready_to_start) == true)
+	while (get_bool(&philo->table->prog_m[START], &philo->table->ready_to_start) != true)
+		waiting(philo);
+	if (philo->philo_id % 2 == 0)
+		waiting(philo);
+	while (!simulation_finished(philo->table))
 	{
-		if (philo->philo_id % 2 == 0)
-			waiting(philo);
-		while (!simulation_finished(philo->table))
-		{
-			eating(philo);
-			sleeping(philo);
-			thinking(philo);
-		}
+		eating(philo);
+		sleeping(philo);
+		thinking(philo);
 	}
+	// if (get_bool(&philo->table->prog_m[START], &philo->table->ready_to_start) == true)
+	// {
+	// 	printf("------------------------------------Philo %i\n", philo->philo_id);
+	// 	if (philo->philo_id % 2 == 0)
+	// 		waiting(philo);
+	// 	while (!simulation_finished(philo->table))
+	// 	{
+	// 		eating(philo);
+	// 		sleeping(philo);
+	// 		thinking(philo);
+	// 	}
+	// }
 	return (NULL);
 }
 

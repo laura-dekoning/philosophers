@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/23 16:01:39 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/01/23 17:09:05 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/01/23 19:05:11 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ bool	everyone_full(t_table *table)
 	i = 0;
 	while (i < table->philo_count)
 	{
+		// printf("Is philo[%li] full\n", );
 		if (!get_bool(&philo[i].philo_mutex, &philo[i].full))
 			return (false);
 		i++;
