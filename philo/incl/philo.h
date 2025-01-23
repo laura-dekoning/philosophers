@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/11 16:16:05 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/01/23 17:32:41 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/01/23 19:37:19 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	waiting(t_philo *philo);
 void	write_status(char *status, t_philo *philo);
 
 //MONITOR
-void	*monitor(t_table *table);
+void	monitor(t_table *table);
 bool	everyone_full(t_table *table);
 bool	someone_died(t_table *table);
 bool	philo_died(t_table *table, size_t i);

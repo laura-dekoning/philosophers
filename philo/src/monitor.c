@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/23 16:01:39 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/01/23 19:05:11 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/01/23 19:37:08 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ bool	everyone_full(t_table *table)
 	i = 0;
 	while (i < table->philo_count)
 	{
-		// printf("Is philo[%li] full\n", );
 		if (!get_bool(&philo[i].philo_mutex, &philo[i].full))
 			return (false);
 		i++;
@@ -70,18 +69,18 @@ bool	someone_died(t_table *table)
 	return (false);
 }
 
-void	*monitor(t_table *table)
+void	monitor(t_table *table)
 {
 	while (1)
 	{
 		if (someone_died(table))
-			return (NULL);
-		if (table->meal_limit == true)
+			return ;
+		if (table->eat_limit == true)
 		{
 			if (everyone_full(table))
-				return (NULL);
+				return ;
 		}
-		usleep(500);
+		usleep(200);
 	}
-	return (NULL);
+	return ;
 }
