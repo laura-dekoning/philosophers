@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/23 16:01:39 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/01/23 16:23:01 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/01/23 17:09:05 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,15 @@ bool	everyone_full(t_table *table)
 			return (false);
 		i++;
 	}
+	set_bool(&table->prog_m[STOP], &table->end_simulation, true);
 	return (true);
 }
 
 bool	philo_died(t_table *table, size_t i)
 {
+	size_t	time;
+
+	time = gettime();
 	if (table->philos[i].last_meal_time == 0)
 	{
 		if ((time - table->start_simulation) > table->time_to_die)
@@ -45,44 +49,38 @@ bool	philo_died(t_table *table, size_t i)
 
 bool	someone_died(t_table *table)
 {
-	size_t	time;
 	size_t	i;
 
 	i = 0;
 	while (i < table->philo_count)
 	{
 		mutex_handle(&table->philos[i].philo_mutex, LOCK);
-		time = gettime();
 		if (philo_died(table, i) == true)
 		{
-			write_status(DIED, &table->philos[i]);
 			set_bool(&table->table_mutex, &table->death, true);
+			write_status(DIED, &table->philos[i]);
 			set_bool(&table->prog_m[STOP], &table->end_simulation, true);
 			mutex_handle(&table->philos[i].philo_mutex, UNLOCK);
-			break ;
+			return (true);
 		}
 		mutex_handle(&table->philos[i].philo_mutex, UNLOCK);
 		i++;
 	}
-
+	return (false);
 }
 
 void	*monitor(t_table *table)
 {
-
 	while (1)
 	{
 		if (someone_died(table))
 			return (NULL);
-		if (everyone_full(table))
-			return (NULL);
+		if (table->meal_limit == true)
+		{
+			if (everyone_full(table))
+				return (NULL);
+		}
 		usleep(500);
-	}
-
-	while (table->end_simulation == false)
-	{
-		if (all_philos_full(table) == true)
-			set_bool(&table->prog_m[STOP], &table->end_simulation, true);
 	}
 	return (NULL);
 }

@@ -6,7 +6,7 @@
 #    By: lade-kon <lade-kon@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2024/10/11 15:53:12 by lade-kon      #+#    #+#                  #
-#    Updated: 2025/01/23 16:02:32 by lade-kon      ########   odam.nl          #
+#    Updated: 2025/01/23 17:14:12 by lade-kon      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,7 @@ SRC_FILES		:=	main.c \
 					get_set.c \
 					time.c \
 					monitor.c \
+					threads.c \
 					print.c \
 
 SRC				:=	$(addprefix $(SRC_DIR)/, $(SRC_FILES))

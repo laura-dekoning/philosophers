@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/11 16:16:05 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/01/23 16:02:23 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/01/23 17:32:41 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,10 @@ void	print_table(t_table *table);
 void	print_philos(t_philo *philo);
 void	print_philo(t_philo *philo);
 int		clean_data(t_table *table, int flag);
-void	*monitor(t_table *table);
 
 //DINNER
 int		dinner_start(t_table *table);
+void	*dinner_routine(void *data);
 
 //DINNER UTILS
 void	thinking(t_philo *philo);
@@ -76,9 +76,13 @@ void	eating(t_philo *philo);
 void	waiting(t_philo *philo);
 
 //UTILS
-bool	all_philos_full(t_table *table);
-bool	is_philo_dead(t_table *table, size_t time, size_t i);
 void	write_status(char *status, t_philo *philo);
+
+//MONITOR
+void	*monitor(t_table *table);
+bool	everyone_full(t_table *table);
+bool	someone_died(t_table *table);
+bool	philo_died(t_table *table, size_t i);
 
 
 // GETTERS & SETTERS
@@ -92,7 +96,11 @@ bool	simulation_finished(t_table *table);
 size_t	gettime(void);
 void	precise_usleep(size_t usec, t_table *table);
 
-// MUTEX
+//THREADS
+int	create_threads(t_table *table);
+void	join_threads(t_table *table, size_t i);
+
+// MUTEXES
 int		mutex_handle(pthread_mutex_t *mutex, t_opcode opcode);
 int		init_forks(t_table *table);
 int		init_prog_mutexes(t_table *table);

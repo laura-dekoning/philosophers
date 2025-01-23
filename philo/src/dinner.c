@@ -6,13 +6,11 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/12 09:05:35 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/01/23 16:01:30 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/01/23 17:34:02 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-
 
 /**
  * Dinner routine
@@ -40,44 +38,16 @@ void	*dinner_routine(void *data)
 	return (NULL);
 }
 
-int	create_philo_threads(t_table *table)
-{
-	size_t	i;
-
-	i = 0;
-	while (i < table->philo_count)
-	{
-		if (pthread_create(&table->philo_threads[i], NULL,
-				&dinner_routine, &table->philos[i]) != SUCCESS)
-		{
-			while (i > 0)
-			{
-				i--;
-				pthread_join(table->philo_threads[i], NULL);
-			}
-			return (ft_error(table, PHILO));
-		}
-		i++;
-	}
-	return (SUCCESS);
-}
-
 int	dinner_start(t_table *table)
 {
-	size_t	i;
-
 	if (table->meal_limit == 0 || table->philo_count == 1)
 		return (SUCCESS);
-	if (create_philo_threads(table) == ERROR)
+	if (create_threads(table) == ERROR)
 		return (ERROR);
-	set_size_t(&table->table_mutex, &table->start_simulation, gettime());
+	table->start_simulation = gettime();
 	set_bool(&table->table_mutex, &table->ready_to_start, true);
-	monitor_routine(table);
-	i = 0;
-	while (i < table->philo_count)
-	{
-		pthread_join(table->philo_threads[i], NULL);
-		i++;
-	}
+	monitor(table);
+	join_threads(table, table->philo_count);
 	return (SUCCESS);
 }
+
