@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/26 16:48:44 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/01/22 18:11:34 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/01/23 15:36:50 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,10 @@ int	malloc_data(t_table *table)
 			* table->philo_count);
 	if (!table->philo_threads)
 		return (ft_error(table, MALLOC));
-	table->monitor_thread = (pthread_t *)malloc(sizeof(pthread_t)
-			* table->philo_count);
-	if (!table->monitor_thread)
-		return (ft_error(table, MALLOC));
+	// table->monitor_thread = (pthread_t *)malloc(sizeof(pthread_t)
+	// 		* table->philo_count);
+	// if (!table->monitor_thread)
+	// 	return (ft_error(table, MALLOC));
 	return (SUCCESS);
 }
 

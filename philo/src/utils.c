@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/13 11:57:25 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/01/22 19:01:28 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/01/23 16:03:11 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,42 +25,7 @@ int	mutex_handle(pthread_mutex_t *mutex, t_opcode opcode)
 	return (ERROR);
 }
 
-bool	all_philos_full(t_table *table)
-{
-	size_t	i;
-	t_philo	*philo;
 
-	philo = table->philos;
-	i = 0;
-	while (i < table->philo_count)
-	{
-		if (!get_bool(&philo[i].philo_mutex, &philo[i].full))
-			return (false);
-		i++;
-	}
-	return (true);
-}
-
-bool	is_philo_dead(t_table *table, size_t time, size_t i)
-{
-	if (table->philos[i].last_meal_time == 0)
-	{
-		if ((time - table->start_simulation) > table->time_to_die)
-		{
-			write_status(DIED, &table->philos[i]);
-			return (true);
-		}
-	}
-	else
-	{
-		if ((time - table->philos[i].last_meal_time) > table->time_to_die)
-		{
-			write_status(DIED, &table->philos[i]);
-			return (true);
-		}
-	}
-	return (false);
-}
 
 //Check if this is correct, maybe something else needs to happen if simulation is finished.
 //But maybe just unlock and NOT print is fine. 
@@ -70,10 +35,10 @@ void	write_status(char *status, t_philo *philo)
 	size_t	time;
 	int		id;
 
+	mutex_handle(&philo->table->prog_m[DISPLAY], LOCK);
 	elapsed = gettime();
 	time = elapsed - philo->table->start_simulation;
 	id = philo->philo_id;
-	mutex_handle(&philo->table->prog_m[DISPLAY], LOCK);
 	if (get_bool(&philo->table->table_mutex, &philo->table->death) == true)
 	{
 		printf("%-6ld%d %s\n", time, id, status); //WHEN SOMEONE DIES SOMETHING HAPPENS

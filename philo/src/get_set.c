@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/12 09:15:35 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/01/22 18:58:59 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/01/23 15:47:24 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ bool	get_bool(pthread_mutex_t *mutex, bool *value)
 //SIZE_T
 void	set_size_t(pthread_mutex_t *mutex, size_t *dest, size_t value)
 {
+	printf("here\n");
 	pthread_mutex_lock(mutex);
 	*dest = value;
 	pthread_mutex_unlock(mutex);

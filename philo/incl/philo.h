@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/11 16:16:05 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/01/22 17:21:16 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/01/23 16:02:23 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ void	print_table(t_table *table);
 void	print_philos(t_philo *philo);
 void	print_philo(t_philo *philo);
 int		clean_data(t_table *table, int flag);
+void	*monitor(t_table *table);
 
 //DINNER
 int		dinner_start(t_table *table);
@@ -72,6 +73,7 @@ int		dinner_start(t_table *table);
 void	thinking(t_philo *philo);
 void	sleeping(t_philo *philo);
 void	eating(t_philo *philo);
+void	waiting(t_philo *philo);
 
 //UTILS
 bool	all_philos_full(t_table *table);
@@ -95,9 +97,5 @@ int		mutex_handle(pthread_mutex_t *mutex, t_opcode opcode);
 int		init_forks(t_table *table);
 int		init_prog_mutexes(t_table *table);
 int		init_mutexes(t_table *table);
-
-
-// SYNCHRO UTILS
-void	wait_all_threads(t_table *table);
 
 #endif

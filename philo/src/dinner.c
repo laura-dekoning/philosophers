@@ -6,41 +6,13 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/12 09:05:35 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/01/22 18:59:30 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/01/23 16:01:30 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static void	*monitor_routine(void *data)
-{
-	t_table	*table;
-	size_t	time;
-	size_t	i;
 
-	table = (t_table *)data;
-	while (table->end_simulation == false)
-	{
-		i = 0;
-		while (i < table->philo_count)
-		{
-			mutex_handle(&table->philos[i].philo_mutex, LOCK);
-			time = gettime();
-			if (is_philo_dead(table, time, i) == true)
-			{
-				set_bool(&table->table_mutex, &table->death, true);
-				set_bool(&table->prog_m[STOP], &table->end_simulation, true);
-				mutex_handle(&table->philos[i].philo_mutex, UNLOCK);
-				break ;
-			}
-			mutex_handle(&table->philos[i].philo_mutex, UNLOCK);
-			i++;
-		}
-		if (all_philos_full(table) == true)
-			set_bool(&table->prog_m[STOP], &table->end_simulation, true);
-	}
-	return (NULL);
-}
 
 /**
  * Dinner routine
@@ -57,13 +29,7 @@ void	*dinner_routine(void *data)
 	if (get_bool(&philo->table->prog_m[START], &philo->table->ready_to_start) == true)
 	{
 		if (philo->philo_id % 2 == 0)
-		{
-			eating(philo);
-			sleeping(philo);
-			thinking(philo);
-		}
-		else
-			sleeping(philo);
+			waiting(philo);
 		while (!simulation_finished(philo->table))
 		{
 			eating(philo);
@@ -82,7 +48,7 @@ int	create_philo_threads(t_table *table)
 	while (i < table->philo_count)
 	{
 		if (pthread_create(&table->philo_threads[i], NULL,
-				dinner_routine, &table->philos[i]) != SUCCESS)
+				&dinner_routine, &table->philos[i]) != SUCCESS)
 		{
 			while (i > 0)
 			{
@@ -96,25 +62,6 @@ int	create_philo_threads(t_table *table)
 	return (SUCCESS);
 }
 
-int	create_monitor_thread(t_table *table)
-{
-	size_t	i;
-
-	if (pthread_create(table->monitor_thread, NULL,
-			monitor_routine, table) == ERROR)
-	{
-		i = 0;
-		while (i < table->philo_count)
-		{
-			pthread_join(table->philo_threads[i], NULL);
-			i++;
-		}
-		pthread_join(*table->monitor_thread, NULL);
-		return (ft_error(table, MONITOR));
-	}
-	return (SUCCESS);
-}
-
 int	dinner_start(t_table *table)
 {
 	size_t	i;
@@ -123,16 +70,14 @@ int	dinner_start(t_table *table)
 		return (SUCCESS);
 	if (create_philo_threads(table) == ERROR)
 		return (ERROR);
-	if (create_monitor_thread(table) == ERROR)
-		return (ERROR);
-	table->start_simulation = gettime();
+	set_size_t(&table->table_mutex, &table->start_simulation, gettime());
 	set_bool(&table->table_mutex, &table->ready_to_start, true);
+	monitor_routine(table);
 	i = 0;
 	while (i < table->philo_count)
 	{
 		pthread_join(table->philo_threads[i], NULL);
 		i++;
 	}
-	pthread_join(*table->monitor_thread, NULL);
 	return (SUCCESS);
 }
