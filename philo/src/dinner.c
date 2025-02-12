@@ -6,11 +6,30 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/12 09:05:35 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/02/12 11:39:11 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/02/12 14:42:44 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+void someone_is_starving(t_philo *philo)
+{
+    size_t 	time_gap;
+	size_t	enough_time;
+	size_t	time_die;
+	size_t	time_eat;
+    
+    mutex_handle(&philo->philo_mutex, LOCK);
+    time_gap = (gettime()- philo->table->start_simulation) - philo->last_meal_time;
+	time_die = philo->table->time_to_die;
+	time_eat = philo->table->time_to_eat;
+	
+	enough_time = (time_die - time_eat);
+	if (time_gap < enough_time)
+		waiting(philo);
+	mutex_handle(&philo->philo_mutex, UNLOCK);
+}
+
 
 /**
  * Dinner routine
@@ -30,6 +49,7 @@ void	*dinner_routine(void *data)
 		waiting(philo);
 	while (!simulation_finished(philo->table))
 	{
+		someone_is_starving(philo);
 		eating(philo);
 		sleeping(philo);
 		thinking(philo);

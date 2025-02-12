@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/23 17:13:33 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/02/12 11:43:32 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/02/12 14:46:05 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	join_threads(t_table *table, size_t i)
 	size_t	t;
 
 	t = 0;
-	while (t <= i)
+	while (t < i)
 	{
 		pthread_join(table->philo_threads[t], NULL);
 		t++;

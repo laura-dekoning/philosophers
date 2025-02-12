@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/11 16:16:05 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/01/23 19:37:19 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/02/12 14:25:22 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,5 +105,13 @@ int		mutex_handle(pthread_mutex_t *mutex, t_opcode opcode);
 int		init_forks(t_table *table);
 int		init_prog_mutexes(t_table *table);
 int		init_mutexes(t_table *table);
+
+
+
+
+
+
+void someone_is_starving(t_philo *philo);
+
 
 #endif
