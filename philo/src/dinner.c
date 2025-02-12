@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/12 09:05:35 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/01/23 19:23:37 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/02/12 11:39:11 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,18 +34,6 @@ void	*dinner_routine(void *data)
 		sleeping(philo);
 		thinking(philo);
 	}
-	// if (get_bool(&philo->table->prog_m[START], &philo->table->ready_to_start) == true)
-	// {
-	// 	printf("------------------------------------Philo %i\n", philo->philo_id);
-	// 	if (philo->philo_id % 2 == 0)
-	// 		waiting(philo);
-	// 	while (!simulation_finished(philo->table))
-	// 	{
-	// 		eating(philo);
-	// 		sleeping(philo);
-	// 		thinking(philo);
-	// 	}
-	// }
 	return (NULL);
 }
 
