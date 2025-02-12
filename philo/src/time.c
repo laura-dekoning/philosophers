@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/12 09:30:08 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/01/17 19:27:23 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/02/12 19:51:23 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,3 +34,9 @@ void	precise_usleep(size_t time_to, t_table *table)
 		usleep(500);
 	}
 }
+
+
+// maakdeze skrrrtimedinges korter, want jou timer is geen smartwatch et snapdragon processor
+
+
+

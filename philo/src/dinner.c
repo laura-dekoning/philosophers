@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/12 09:05:35 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/02/12 15:01:30 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/02/12 20:04:45 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	*dinner_routine(void *data)
 		waiting(philo);
 	while (!simulation_finished(philo->table))
 	{
-		someone_is_starving(philo);
+		// someone_is_starving(philo);
 		eating(philo);
 		sleeping(philo);
 		thinking(philo);
@@ -69,4 +69,5 @@ int	dinner_start(t_table *table)
 	join_threads(table, table->philo_count);
 	return (SUCCESS);
 }
-
+// dinner routine start ff iets sneller skrrr maken bro
+// als iemand starving is, pech, die moet DOOOODDDDDD!!!!!

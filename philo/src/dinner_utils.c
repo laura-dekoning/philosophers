@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/12 09:05:35 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/02/12 14:42:15 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/02/12 20:07:03 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,3 +66,5 @@ void	eating(t_philo *philo)
 		mutex_handle(philo->second_fork, UNLOCK);
 	}
 }
+
+// double check ff je mutex handle want die is een beetje returnie ish weird ofso idk

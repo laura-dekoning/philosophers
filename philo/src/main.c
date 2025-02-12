@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/11 16:15:26 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/02/12 12:02:58 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/02/12 20:09:36 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,3 +65,5 @@ int	main(int argc, char **argv)
 		return (ERROR);
 	return (clean_data(&table, SUCCESS));
 }
+
+// 1 slot per koffer, anders data race, of what ever en.....EN ENNNNNNNNNN, het gebruik van een locked variable, of het nou lezen of schrijven is, probeer altijd te double checken of je het nou wel of niet moet MUTEXLOCKENNNN

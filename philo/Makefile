@@ -6,7 +6,7 @@
 #    By: lade-kon <lade-kon@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2024/10/11 15:53:12 by lade-kon      #+#    #+#                  #
-#    Updated: 2025/02/12 14:55:19 by lade-kon      ########   odam.nl          #
+#    Updated: 2025/02/12 20:07:58 by lade-kon      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME			:=	philo
 
 CC				:=	cc
 #CFLAGS are the compiler flags: show all warnings and include debug info
-CFLAGS			:=	-Wall -Werror -Wextra -g -fsanitize=address #-fsanitize=thread 
+CFLAGS			:=	-Wall -Werror -Wextra -g -fsanitize=thread 
 TFLAGS			:=	-pthread
 
 INCLS_PHILO		:=	incl
