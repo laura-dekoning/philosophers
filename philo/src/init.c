@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/26 16:48:44 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/02/12 12:09:16 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/02/12 15:00:04 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,26 +17,40 @@
  * So philo[0] (philo 1) has fork[0] on the right and fork[philo_count]
  * on the right side. 
  */
-void	assign_forks(t_philo *philo, pthread_mutex_t *forks, int i)
+void	assign_forks(t_table *table, pthread_mutex_t *forks)
 {
 	int	nbr_philos;
+	int	i;
 
-	nbr_philos = philo->table->philo_count;
-	if (i == 0)
+	i = 0;
+	nbr_philos = table->philo_count;
+	while (i < nbr_philos)
 	{
-		philo->first_fork = &forks[i];
-		philo->second_fork = &forks[nbr_philos - 1];
+		table->philos[i].first_fork = &forks[i];
+		if (i ==0)
+		{
+			table->philos[i].first_fork = &forks[nbr_philos - 1];
+			table->philos[i].second_fork = &forks[i];
+		}
+		else
+			table->philos[i].second_fork = &forks[i - 1];
+		i++;
 	}
-	else if (i % 2 == 0)
-	{
-		philo->first_fork = &forks[i];
-		philo->second_fork = &forks[(i - 1) % nbr_philos];
-	}
-	else
-	{
-		philo->first_fork = &forks[(i - 1) % nbr_philos];
-		philo->second_fork = &forks[i];
-	}
+	// if (i == 0)
+	// {
+	// 	philo->first_fork = &forks[i];
+	// 	philo->second_fork = &forks[nbr_philos - 1];
+	// }
+	// else if (i % 2 == 0)
+	// {
+	// 	philo->first_fork = &forks[i];
+	// 	philo->second_fork = &forks[(i - 1) % nbr_philos];
+	// }
+	// else
+	// {
+	// 	philo->first_fork = &forks[(i - 1) % nbr_philos];
+	// 	philo->second_fork = &forks[i];
+	// }
 }
 
 int	malloc_data(t_table *table)
@@ -68,11 +82,11 @@ int	init_philos(t_table *table)
 		philo->last_meal_time = 0;
 		philo->full = false;
 		philo->table = table;
-		assign_forks(philo, table->forks, i);
 		if (mutex_handle(&philo->philo_mutex, INIT) != SUCCESS)
 			return (ft_error(table, MUTEX_INIT));
 		i++;
 	}
+	assign_forks(table, table->forks);
 	return (SUCCESS);
 }
 

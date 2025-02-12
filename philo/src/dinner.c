@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/12 09:05:35 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/02/12 14:42:44 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/02/12 15:01:30 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	*dinner_routine(void *data)
 	philo = (t_philo *)data;
 	while (get_bool(&philo->table->prog_m[START], &philo->table->ready_to_start) != true)
 		waiting(philo);
-	if (philo->philo_id % 2 == 0)
+	if (philo->philo_id % 2 != 0)
 		waiting(philo);
 	while (!simulation_finished(philo->table))
 	{
