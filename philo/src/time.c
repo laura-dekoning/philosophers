@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/12 09:30:08 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/02/13 11:27:19 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/02/13 15:24:07 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,3 @@ void	precise_usleep(size_t time_to)
 	while ((gettime() - start) < time_to)
 		usleep(100);
 }
-
-
-// maakdeze skrrrtimedinges korter, want jou timer is geen smartwatch et snapdragon processor
-
-
-

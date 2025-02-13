@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/11 16:22:56 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/01/23 15:36:31 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/02/13 15:20:35 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,12 @@ typedef struct s_philo
  * @param meal_limit (optional argument): If all philos have eaten at least 
  * meal_limit times, the simulation stops. If not specified, the simulation 
  * stops when a philo dies.
+ * @param prog_m:	[START]	mutex lock when starting dinner. Philos can only
+ * 							start dinner routine when all threads are created
+ * 					[STOP]	mutex lock for end_simulation variable. To check
+ * 							or set this variable. 
+ * 				[DISPLAY]	mutex lock for displaying the messages
+ * @param death_m: mutex lock to check or set death variable. 
  * 
  * ./philo 5 800 200 200 [5]
  */
@@ -64,15 +70,13 @@ typedef struct s_table
 	size_t			meal_limit; // [5] || FLAG if -1
 	size_t			start_simulation; //time when simulation is started
 	bool			end_simulation; //true if a philo dies or all philos are full
-	bool			ready_to_start;
 	bool			eat_limit;
 	bool			death;
 	t_philo			*philos; //array of philos
 	pthread_t		*philo_threads; // a philo is a thread, this is the id
-	// pthread_t		*monitor_thread;
 	pthread_mutex_t	*forks; //array of forks
 	pthread_mutex_t	*prog_m; //array of program mutexes
-	pthread_mutex_t	table_mutex; //avoid races while reading/writing from/to table
+	pthread_mutex_t	death_m; //avoid races while reading/writing from/to table
 }					t_table;
 
 typedef enum e_opcode

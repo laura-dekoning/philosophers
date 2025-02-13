@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/17 19:35:53 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/02/13 12:23:58 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/02/13 15:07:48 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	init_prog_mutexes(t_table *table)
 
 int	init_mutexes(t_table *table)
 {
-	if (pthread_mutex_init(&table->table_mutex, NULL) != SUCCESS)
+	if (pthread_mutex_init(&table->death_m, NULL) != SUCCESS)
 		return (ft_error(table, MUTEX_INIT));
 	if (init_forks(table) != SUCCESS)
 		return (ft_error(table, MUTEX_INIT));

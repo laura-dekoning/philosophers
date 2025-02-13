@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/26 16:48:44 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/02/13 12:40:11 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/02/13 15:08:24 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,6 @@ int	init_table(t_table *table)
 
 	retval = 0;
 	table->end_simulation = false;
-	table->ready_to_start = false;
 	table->death = false;
 	if (init_mutexes(table) != SUCCESS)
 		return (ft_error(table, MUTEX_INIT));

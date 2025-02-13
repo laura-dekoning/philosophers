@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/13 11:57:25 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/02/13 13:32:15 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/02/13 15:07:48 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	write_status(char *status, t_philo *philo)
 	elapsed = gettime();
 	time = elapsed - philo->table->start_simulation;
 	id = philo->philo_id;
-	if (get_bool(&philo->table->table_mutex, &philo->table->death) == true)
+	if (get_bool(&philo->table->death_m, &philo->table->death) == true)
 	{
 		if (ft_strncmp("died", status, 4))
 			printf("%-6ld%d %s\n", time, id, status);

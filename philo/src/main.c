@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/11 16:15:26 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/02/13 12:23:11 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/02/13 15:07:48 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	clean_data(t_table *table, int flag)
 	size_t	i;
 
 	i = 0;
-	pthread_mutex_destroy(&table->table_mutex);
+	pthread_mutex_destroy(&table->death_m);
 	while (i < table->philo_count)
 	{
 		pthread_mutex_destroy(&table->forks[i]);

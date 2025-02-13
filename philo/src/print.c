@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/17 15:23:47 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/01/23 19:20:22 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/02/13 15:08:50 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ void	print_table(t_table *table)
 	printf("Meal limit: %li\n", table->meal_limit);
 	printf("Start simulatoin: %li\n", table->start_simulation);
 	printf("End simulation: %i\n", table->end_simulation);
-	printf("All threads ready: %i\n", table->ready_to_start);
 }
 
 void	print_philos(t_philo *philo)
