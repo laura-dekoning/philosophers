@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/11 16:16:05 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/02/12 14:25:22 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/02/13 11:32:51 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ the forks state with a mutex for each of them.*/
 int		ft_error(t_table *data, char *str);
 int		parse_input(t_table *table, int argc, char **argv);
 int		ft_atoul(const char *str, size_t *num);
+int		ft_strcmp(const char *str1, const char *str2);
 int		init_table(t_table *table);
 void	print_table(t_table *table);
 void	print_philos(t_philo *philo);
@@ -94,7 +95,7 @@ bool	simulation_finished(t_table *table);
 
 // TIME UTILS
 size_t	gettime(void);
-void	precise_usleep(size_t usec, t_table *table);
+void	precise_usleep(size_t usec);
 
 //THREADS
 int	create_threads(t_table *table);
