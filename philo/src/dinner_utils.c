@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/12 09:05:35 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/02/13 11:30:23 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/02/13 12:21:52 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ void	eating(t_philo *philo)
 {
 	if (!simulation_finished(philo->table))
 	{
-		mutex_handle(philo->first_fork, LOCK);
+		pthread_mutex_lock(philo->first_fork);
 		write_status(FORK, philo);
-		mutex_handle(philo->second_fork, LOCK);
+		pthread_mutex_lock(philo->second_fork);
 		write_status(FORK, philo);
 		set_size_t(&philo->philo_mutex, &philo->last_meal_time, gettime());
 		if (philo->table->eat_limit == true)
@@ -53,8 +53,8 @@ void	eating(t_philo *philo)
 		if (philo->table->meal_limit > 0
 			&& philo->meals_eaten == philo->table->meal_limit)
 			set_bool(&philo->philo_mutex, &philo->full, true);
-		mutex_handle(philo->first_fork, UNLOCK);
-		mutex_handle(philo->second_fork, UNLOCK);
+		pthread_mutex_unlock(philo->first_fork);
+		pthread_mutex_unlock(philo->second_fork);
 	}
 }
 

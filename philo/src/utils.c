@@ -6,24 +6,11 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/13 11:57:25 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/02/13 11:37:46 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/02/13 12:25:14 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-int	mutex_handle(pthread_mutex_t *mutex, t_opcode opcode)
-{
-	if (opcode == LOCK)
-		return (pthread_mutex_lock(mutex));
-	else if (opcode == UNLOCK)
-		return (pthread_mutex_unlock(mutex));
-	else if (opcode == INIT)
-		return (pthread_mutex_init(mutex, NULL));
-	else if (opcode == DESTROY)
-		return (pthread_mutex_destroy(mutex));
-	return (ERROR);
-}
 
 size_t	ft_strlen(const char *str)
 {
@@ -50,16 +37,14 @@ int	ft_strcmp(const char *str1, const char *str2)
 	}
 	return (0);
 }
-
-//Check if this is correct, maybe something else needs to happen if simulation is finished.
-//But maybe just unlock and NOT print is fine. 
+ 
 void	write_status(char *status, t_philo *philo)
 {
 	size_t	elapsed;
 	size_t	time;
 	int		id;
 
-	mutex_handle(&philo->table->prog_m[DISPLAY], LOCK);
+	pthread_mutex_lock(&philo->table->prog_m[DISPLAY]);
 	elapsed = gettime();
 	time = elapsed - philo->table->start_simulation;
 	id = philo->philo_id;
@@ -67,12 +52,12 @@ void	write_status(char *status, t_philo *philo)
 	{
 		if (ft_strcmp("died", status))
 			printf("%-6ld%d %s\n", time, id, status);
-		mutex_handle(&philo->table->prog_m[DISPLAY], UNLOCK);
+		pthread_mutex_unlock(&philo->table->prog_m[DISPLAY]);
 		return ;
 	}
 	else if (!simulation_finished(philo->table))
 		printf("%-6ld%d %s\n", time, id, status);
-	mutex_handle(&philo->table->prog_m[DISPLAY], UNLOCK);
+	pthread_mutex_unlock(&philo->table->prog_m[DISPLAY]);
 }
 
 // lock unlock alleen dat ene wat je wilt locken en niet perongeluk meerdere objecten of variabelen locken anders computer traag brrr

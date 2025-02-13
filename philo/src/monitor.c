@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/23 16:01:39 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/01/23 19:37:08 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/02/13 12:23:45 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,16 +54,16 @@ bool	someone_died(t_table *table)
 	i = 0;
 	while (i < table->philo_count)
 	{
-		mutex_handle(&table->philos[i].philo_mutex, LOCK);
+		pthread_mutex_lock(&table->philos[i].philo_mutex);
 		if (philo_died(table, i) == true)
 		{
 			set_bool(&table->table_mutex, &table->death, true);
 			write_status(DIED, &table->philos[i]);
 			set_bool(&table->prog_m[STOP], &table->end_simulation, true);
-			mutex_handle(&table->philos[i].philo_mutex, UNLOCK);
+			pthread_mutex_unlock(&table->philos[i].philo_mutex);
 			return (true);
 		}
-		mutex_handle(&table->philos[i].philo_mutex, UNLOCK);
+		pthread_mutex_unlock(&table->philos[i].philo_mutex);
 		i++;
 	}
 	return (false);

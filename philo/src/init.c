@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/26 16:48:44 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/02/12 15:00:04 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/02/13 12:22:35 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	init_philos(t_table *table)
 		philo->last_meal_time = 0;
 		philo->full = false;
 		philo->table = table;
-		if (mutex_handle(&philo->philo_mutex, INIT) != SUCCESS)
+		if (pthread_mutex_init(&philo->philo_mutex, NULL) != SUCCESS)
 			return (ft_error(table, MUTEX_INIT));
 		i++;
 	}

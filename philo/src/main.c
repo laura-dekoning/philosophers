@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/11 16:15:26 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/02/13 11:24:09 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/02/13 12:23:11 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,17 @@ int	clean_data(t_table *table, int flag)
 	size_t	i;
 
 	i = 0;
-	mutex_handle(&table->table_mutex, DESTROY);
+	pthread_mutex_destroy(&table->table_mutex);
 	while (i < table->philo_count)
 	{
-		mutex_handle(&table->forks[i], DESTROY);
-		mutex_handle(&table->philos[i].philo_mutex, DESTROY);
+		pthread_mutex_destroy(&table->forks[i]);
+		pthread_mutex_destroy(&table->philos[i].philo_mutex);
 		i++;
 	}
 	i = 0;
 	while (i < ALL)
 	{
-		mutex_handle(&table->prog_m[i], DESTROY);
+		pthread_mutex_destroy(&table->prog_m[i]);
 		i++;
 	}
 	if (table->philos)
@@ -67,5 +67,5 @@ int	main(int argc, char **argv)
 }
 
 // 1 slot per koffer, anders data race, of what ever en.....EN ENNNNNNNNNN, 
-//het gebruik van een locked variable, of het nou lezen of schrijven is, 
-//probeer altijd te double checken of je het nou wel of niet moet MUTEXLOCKENNNN
+// het gebruik van een locked variable, of het nou lezen of schrijven is, 
+// probeer altijd te double checken of je het nou wel of niet moet MUTEXLOCKENNNN
