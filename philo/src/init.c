@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/26 16:48:44 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/02/13 12:22:35 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/02/13 12:40:11 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	assign_forks(t_table *table, pthread_mutex_t *forks)
 	while (i < nbr_philos)
 	{
 		table->philos[i].first_fork = &forks[i];
-		if (i ==0)
+		if (i == 0)
 		{
 			table->philos[i].first_fork = &forks[nbr_philos - 1];
 			table->philos[i].second_fork = &forks[i];
@@ -36,12 +36,9 @@ void	assign_forks(t_table *table, pthread_mutex_t *forks)
 			table->philos[i].second_fork = &forks[i - 1];
 		i++;
 	}
-	// if (i == 0)
+	// while (i < nbr_philos)
 	// {
-	// 	philo->first_fork = &forks[i];
-	// 	philo->second_fork = &forks[nbr_philos - 1];
-	// }
-	// else if (i % 2 == 0)
+	// if (i % 2 == 0)
 	// {
 	// 	philo->first_fork = &forks[i];
 	// 	philo->second_fork = &forks[(i - 1) % nbr_philos];
@@ -50,6 +47,8 @@ void	assign_forks(t_table *table, pthread_mutex_t *forks)
 	// {
 	// 	philo->first_fork = &forks[(i - 1) % nbr_philos];
 	// 	philo->second_fork = &forks[i];
+	// }
+	// 	i++;
 	// }
 }
 

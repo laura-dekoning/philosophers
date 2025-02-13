@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/12 09:05:35 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/02/13 12:21:52 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/02/13 12:37:02 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,9 @@ void	eating(t_philo *philo)
 		if (philo->table->meal_limit > 0
 			&& philo->meals_eaten == philo->table->meal_limit)
 			set_bool(&philo->philo_mutex, &philo->full, true);
-		pthread_mutex_unlock(philo->first_fork);
-		pthread_mutex_unlock(philo->second_fork);
 	}
+	pthread_mutex_unlock(philo->first_fork);
+	pthread_mutex_unlock(philo->second_fork);
 }
 
 // double check ff je mutex handle want die is een beetje returnie ish weird ofso idk

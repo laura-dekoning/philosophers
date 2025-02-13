@@ -6,11 +6,21 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/12 09:05:35 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/02/13 12:19:56 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/02/13 14:03:48 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+int	single_philo(t_table *table)
+{
+	pthread_mutex_lock(&table->prog_m[DISPLAY]);
+	printf("%-6i%d %s\n", 0, 1, FORK);
+	precise_usleep(table->time_to_die);
+	printf("%-6ld%d %s\n", table->time_to_die, 1, DIED);
+	pthread_mutex_unlock(&table->prog_m[DISPLAY]);
+	return (ERROR);
+}
 
 /**
  * Dinner routine
@@ -39,8 +49,10 @@ void	*dinner_routine(void *data)
 
 int	dinner_start(t_table *table)
 {
-	if (table->meal_limit == 0 || table->philo_count == 1)
+	if (table->meal_limit == 0)
 		return (SUCCESS);
+	else if (table->philo_count == 1)
+		return (single_philo(table));
 	if (create_threads(table) == ERROR)
 		return (ERROR);
 	table->start_simulation = gettime();
