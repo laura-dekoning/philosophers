@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/11 16:22:56 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/02/13 15:20:35 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/02/13 15:27:37 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,9 @@ typedef struct s_philo
 	bool			full;
 	pthread_mutex_t	*first_fork;
 	pthread_mutex_t	*second_fork;
-	pthread_mutex_t	philo_mutex; //for accessing last_meal_time and meals_eaten
+	pthread_mutex_t	meals_m; //for accessing meals_eaten
+	pthread_mutex_t	meal_time_m; //for accessing last_meal_time
+	pthread_mutex_t	full_m; //for accessing full
 	t_table			*table;
 }			t_philo;
 
