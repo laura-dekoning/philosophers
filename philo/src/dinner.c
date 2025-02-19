@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/12 09:05:35 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/02/19 15:57:40 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/02/19 17:22:20 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,34 @@ int	single_philo(t_table *table)
 	return (ERROR);
 }
 
+void	need_to_eat(t_philo *philo)
+{
+	size_t	time_gap;
+	size_t	time_die;
+	size_t	time_eat;
+	size_t	enough_time;
+
+	pthread_mutex_lock(&philo->meal_time_m);
+	if (philo->last_meal_time != 0)
+	{
+		time_gap = gettime() - philo->last_meal_time;
+		time_die = philo->table->time_to_die;
+		time_eat = philo->table->time_to_eat;
+		enough_time = (time_die - time_eat);
+		if (time_gap < enough_time)
+			precise_usleep(time_eat, philo->table);
+		pthread_mutex_unlock(&philo->meal_time_m);
+	}
+	else
+		pthread_mutex_unlock(&philo->meal_time_m);
+}
+
 /**
  * Dinner routine
  * ----------------------------------------------------------
  * 1) All philos have to wait till ready --> ready_to_start
  * 2) Endless philo loop till philos full or died
- * 3) Odd philos start with sleeping
+ * 3) Odd philos start with a small wait
  */
 void	*dinner_routine(void *data)
 {
@@ -40,6 +62,7 @@ void	*dinner_routine(void *data)
 		precise_usleep((philo->table->time_to_eat / 2), philo->table);
 	while (!simulation_finished(philo->table))
 	{
+		need_to_eat(philo);
 		eating(philo);
 		sleeping(philo);
 		thinking(philo);
