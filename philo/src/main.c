@@ -6,11 +6,23 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/11 16:15:26 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/02/13 15:07:48 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/02/19 13:20:16 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+void	free_all(t_table *table)
+{
+	if (table->philos)
+		free (table->philos);
+	if (table->philo_threads)
+		free (table->philo_threads);
+	if (table->forks)
+		free (table->forks);
+	if (table->prog_m)
+		free(table->prog_m);
+}
 
 int	clean_data(t_table *table, int flag)
 {
@@ -21,7 +33,9 @@ int	clean_data(t_table *table, int flag)
 	while (i < table->philo_count)
 	{
 		pthread_mutex_destroy(&table->forks[i]);
-		pthread_mutex_destroy(&table->philos[i].philo_mutex);
+		pthread_mutex_destroy(&table->philos[i].meals_m);
+		pthread_mutex_destroy(&table->philos[i].meal_time_m);
+		pthread_mutex_destroy(&table->philos[i].full_m);
 		i++;
 	}
 	i = 0;
@@ -30,14 +44,7 @@ int	clean_data(t_table *table, int flag)
 		pthread_mutex_destroy(&table->prog_m[i]);
 		i++;
 	}
-	if (table->philos)
-		free (table->philos);
-	if (table->philo_threads)
-		free (table->philo_threads);
-	if (table->forks)
-		free (table->forks);
-	if (table->prog_m)
-		free(table->prog_m);
+	free_all(table);
 	return (flag);
 }
 

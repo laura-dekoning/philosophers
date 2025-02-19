@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/26 16:48:44 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/02/19 13:11:04 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/02/19 14:06:01 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,24 @@ void	assign_forks(t_table *table, pthread_mutex_t *forks)
 	nbr_philos = table->philo_count;
 	while (i < nbr_philos)
 	{
-		table->philos[i].first_fork = &forks[i];
-		if (i == 0)
+		if (i % 2 == 0) // Even philosophers
 		{
-			table->philos[i].first_fork = &forks[nbr_philos - 1];
+			table->philos[i].first_fork = &forks[i];
+			table->philos[i].second_fork = &forks[(i + 1) % nbr_philos]; // Next fork cyclically
+		}
+		else // Odd philosophers
+		{
+			table->philos[i].first_fork = &forks[(i + 1) % nbr_philos]; // Next fork cyclically
 			table->philos[i].second_fork = &forks[i];
 		}
-		else
-			table->philos[i].second_fork = &forks[i - 1];
+		// table->philos[i].first_fork = &forks[i];
+		// if (i == 0)
+		// {
+		// 	table->philos[i].first_fork = &forks[nbr_philos - 1];
+		// 	table->philos[i].second_fork = &forks[i];
+		// }
+		// else
+		// 	table->philos[i].second_fork = &forks[i - 1];
 		i++;
 	}
 }

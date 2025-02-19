@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/17 18:40:47 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/01/22 16:17:25 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/02/19 13:30:33 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@
 
 // Messages for philos
 # define FORK "has taken a fork"
+# define FIRST_FORK "has taken the FIRST fork"
+# define SECOND_FORK "has taken the SECOND fork"
 # define EAT "is eating"
 # define SLEEP "is sleeping"
 # define THINK "is thinking"

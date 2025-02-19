@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/12 09:05:35 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/02/13 15:06:35 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/02/19 15:37:39 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	*dinner_routine(void *data)
 	philo = (t_philo *)data;
 	pthread_mutex_lock(&philo->table->prog_m[START]);
 	pthread_mutex_unlock(&philo->table->prog_m[START]);
-	if (philo->philo_id % 2)
+	if (philo->philo_id % 2 == 0)
 		precise_usleep(philo->table->time_to_eat / 2);
 	while (!simulation_finished(philo->table))
 	{
@@ -55,7 +55,6 @@ int	dinner_start(t_table *table)
 		return (single_philo(table));
 	if (create_threads(table) == ERROR)
 		return (ERROR);
-	table->start_simulation = gettime();
 	monitor(table);
 	join_threads(table, table->philo_count);
 	return (SUCCESS);
