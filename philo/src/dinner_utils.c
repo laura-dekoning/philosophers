@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/12 09:05:35 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/02/19 15:58:15 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/02/19 16:48:49 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,10 @@ void	eating(t_philo *philo)
 			set_size_t(&philo->meals_m, &philo->meals_eaten, (philo->meals_eaten + 1));
 		write_status(EAT, philo);
 		precise_usleep(philo->table->time_to_eat, philo->table);
+		pthread_mutex_unlock(philo->second_fork);
+		pthread_mutex_unlock(philo->first_fork);
 		if (philo->table->meal_limit > 0
 			&& philo->meals_eaten == philo->table->meal_limit)
 			set_bool(&philo->full_m, &philo->full, true);
 	}
-	pthread_mutex_unlock(philo->second_fork);
-	pthread_mutex_unlock(philo->first_fork);
 }
