@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/12 09:05:35 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/02/19 15:37:39 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/02/19 15:57:40 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	single_philo(t_table *table)
 {
 	pthread_mutex_lock(&table->prog_m[DISPLAY]);
 	printf("%-6i%d %s\n", 0, 1, FORK);
-	precise_usleep(table->time_to_die);
+	precise_usleep(table->time_to_die, table);
 	printf("%-6ld%d %s\n", table->time_to_die, 1, DIED);
 	pthread_mutex_unlock(&table->prog_m[DISPLAY]);
 	return (ERROR);
@@ -37,7 +37,7 @@ void	*dinner_routine(void *data)
 	pthread_mutex_lock(&philo->table->prog_m[START]);
 	pthread_mutex_unlock(&philo->table->prog_m[START]);
 	if (philo->philo_id % 2 == 0)
-		precise_usleep(philo->table->time_to_eat / 2);
+		precise_usleep((philo->table->time_to_eat / 2), philo->table);
 	while (!simulation_finished(philo->table))
 	{
 		eating(philo);

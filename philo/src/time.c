@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/12 09:30:08 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/02/13 15:24:07 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/02/19 16:04:04 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,16 @@ size_t	gettime(void)
 	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
 }
 
-void	precise_usleep(size_t time_to)
+void	precise_usleep(size_t time_to, t_table *table)
 {
 	size_t	start;
 
+	(void)table;
 	start = gettime();
 	while ((gettime() - start) < time_to)
+	{
+		if (simulation_finished(table) == true)
+			break ;
 		usleep(100);
+	}
 }

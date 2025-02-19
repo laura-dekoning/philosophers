@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/11 16:16:05 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/02/19 13:07:59 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/02/19 15:55:59 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ bool	simulation_finished(t_table *table);
 
 // TIME UTILS
 size_t	gettime(void);
-void	precise_usleep(size_t usec);
+void	precise_usleep(size_t usec, t_table *table);
 
 //THREADS
 int		create_threads(t_table *table);
