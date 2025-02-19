@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/23 17:13:33 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/02/13 12:24:29 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/02/19 15:38:21 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ int	create_threads(t_table *table)
 		}
 		i++;
 	}
+	table->start_simulation = gettime();
 	pthread_mutex_unlock(&table->prog_m[START]);
 	return (SUCCESS);
 }
