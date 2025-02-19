@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/26 16:48:44 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/02/13 15:08:24 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/02/19 13:11:04 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /**
  * Every philosopher starts with his own fork on the right side.
  * So philo[0] (philo 1) has fork[0] on the right and fork[philo_count]
- * on the right side. 
+ * on the left side. 
  */
 void	assign_forks(t_table *table, pthread_mutex_t *forks)
 {
@@ -36,20 +36,6 @@ void	assign_forks(t_table *table, pthread_mutex_t *forks)
 			table->philos[i].second_fork = &forks[i - 1];
 		i++;
 	}
-	// while (i < nbr_philos)
-	// {
-	// if (i % 2 == 0)
-	// {
-	// 	philo->first_fork = &forks[i];
-	// 	philo->second_fork = &forks[(i - 1) % nbr_philos];
-	// }
-	// else
-	// {
-	// 	philo->first_fork = &forks[(i - 1) % nbr_philos];
-	// 	philo->second_fork = &forks[i];
-	// }
-	// 	i++;
-	// }
 }
 
 int	malloc_data(t_table *table)
@@ -81,8 +67,8 @@ int	init_philos(t_table *table)
 		philo->last_meal_time = 0;
 		philo->full = false;
 		philo->table = table;
-		if (pthread_mutex_init(&philo->philo_mutex, NULL) != SUCCESS)
-			return (ft_error(table, MUTEX_INIT));
+		if (init_philo_mutexes(philo, table))
+			return (ERROR);
 		i++;
 	}
 	assign_forks(table, table->forks);
@@ -97,7 +83,7 @@ int	init_table(t_table *table)
 	table->end_simulation = false;
 	table->death = false;
 	if (init_mutexes(table) != SUCCESS)
-		return (ft_error(table, MUTEX_INIT));
+		return (ERROR);
 	if (init_philos(table) != SUCCESS)
 		return (ft_error(table, PHILO_INIT));
 	return (SUCCESS);

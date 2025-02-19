@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/11 16:16:05 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/02/13 13:31:23 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/02/19 13:07:59 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,12 +98,13 @@ size_t	gettime(void);
 void	precise_usleep(size_t usec);
 
 //THREADS
-int	create_threads(t_table *table);
+int		create_threads(t_table *table);
 void	join_threads(t_table *table, size_t i);
 
 // MUTEXES
 int		init_forks(t_table *table);
 int		init_prog_mutexes(t_table *table);
 int		init_mutexes(t_table *table);
+int		init_philo_mutexes(t_philo *philo, t_table *table);
 
 #endif

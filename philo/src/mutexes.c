@@ -6,11 +6,22 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/17 19:35:53 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/02/13 15:07:48 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/02/19 13:11:11 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+int	init_philo_mutexes(t_philo *philo, t_table *table)
+{
+	if (pthread_mutex_init(&philo->meals_m, NULL) != SUCCESS)
+		return (ft_error(table, MUTEX_INIT));
+	if (pthread_mutex_init(&philo->meal_time_m, NULL) != SUCCESS)
+		return (ft_error(table, MUTEX_INIT));
+	if (pthread_mutex_init(&philo->full_m, NULL) != SUCCESS)
+		return (ft_error(table, MUTEX_INIT));
+	return (SUCCESS);
+}
 
 int	init_forks(t_table *table)
 {
@@ -53,7 +64,7 @@ int	init_mutexes(t_table *table)
 	if (pthread_mutex_init(&table->death_m, NULL) != SUCCESS)
 		return (ft_error(table, MUTEX_INIT));
 	if (init_forks(table) != SUCCESS)
-		return (ft_error(table, MUTEX_INIT));
+		return (ERROR);
 	if (init_prog_mutexes(table) != SUCCESS)
 		return (ft_error(table, MUTEX_INIT));
 	return (SUCCESS);
