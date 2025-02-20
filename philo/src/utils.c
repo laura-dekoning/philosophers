@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/13 11:57:25 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/02/19 16:53:08 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/02/20 15:19:10 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,3 @@ void	write_status(char *status, t_philo *philo)
 	printf("%-6ld%d %s\n", time, id, status);
 	pthread_mutex_unlock(&philo->table->prog_m[DISPLAY]);
 }
-
-// lock unlock alleen dat ene wat je wilt locken en niet perongeluk meerdere objecten of variabelen locken anders computer traag brrr
-
-// check write_status function
-
-// 

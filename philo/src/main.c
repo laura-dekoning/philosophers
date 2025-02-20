@@ -6,7 +6,7 @@
 /*   By: lade-kon <lade-kon@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/11 16:15:26 by lade-kon      #+#    #+#                 */
-/*   Updated: 2025/02/19 13:20:16 by lade-kon      ########   odam.nl         */
+/*   Updated: 2025/02/20 15:18:44 by lade-kon      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,11 @@ int	main(int argc, char **argv)
 
 	memset(&table, 0, sizeof(t_table));
 	if (argc != 5 && argc != 6)
-		return (ft_error(&table, ARGS));
+	{
+		printf(B_R"Error\n"DEF);
+		printf("%s\n", ARGS);
+		return (ERROR);
+	}
 	if (parse_input(&table, argc, argv) != SUCCESS)
 		return (ERROR);
 	if (init_table(&table) != SUCCESS)
@@ -72,7 +76,3 @@ int	main(int argc, char **argv)
 		return (ERROR);
 	return (clean_data(&table, SUCCESS));
 }
-
-// 1 slot per koffer, anders data race, of what ever en.....EN ENNNNNNNNNN, 
-// het gebruik van een locked variable, of het nou lezen of schrijven is, 
-// probeer altijd te double checken of je het nou wel of niet moet MUTEXLOCKENNNN
